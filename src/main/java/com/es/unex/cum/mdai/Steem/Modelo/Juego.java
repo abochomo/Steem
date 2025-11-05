@@ -18,7 +18,6 @@ public class Juego {
 
     private String titulo;
     private String descripcion;
-    private String sinopsis;
     private double precio;
     private Date fechaLanzamiento;
 
@@ -35,18 +34,6 @@ public class Juego {
         return precio;
     }
 
-    public Juego(int idJuego, String titulo, String descripcion, String sinopsis, double precio, Date fechaLanzamiento, Desarrollador desarrollador, Categoria categoria, boolean activo) {
-        this.idJuego = idJuego;
-        this.titulo = titulo;
-        this.descripcion = descripcion;
-        this.sinopsis = sinopsis;
-        this.precio = precio;
-        this.fechaLanzamiento = fechaLanzamiento;
-        this.desarrollador = desarrollador;
-        this.categoria = categoria;
-        this.activo = activo;
-    }
-
     public int getIdJuego() {
         return idJuego;
     }
@@ -61,14 +48,6 @@ public class Juego {
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
-    }
-
-    public String getSinopsis() {
-        return sinopsis;
-    }
-
-    public void setSinopsis(String sinopsis) {
-        this.sinopsis = sinopsis;
     }
 
     public String getDescripcion() {
