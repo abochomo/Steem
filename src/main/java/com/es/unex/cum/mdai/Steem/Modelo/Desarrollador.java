@@ -21,4 +21,9 @@ public class Desarrollador extends Usuario {
     public void setJuegosPublicados(List<Juego> juegosPublicados) {
         this.juegosPublicados = juegosPublicados;
     }
+
+    @Override
+    public String getTipoUsuario() {
+        return "Desarrollador";
+    }
 }

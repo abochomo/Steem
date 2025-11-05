@@ -30,4 +30,10 @@ public class Cliente extends Usuario{
     public void setHistorialCompras(List<Compra> historialCompras) {
         this.historialCompras = historialCompras;
     }
+
+    @Override
+    public String getTipoUsuario() {
+        return "Cliente";
+    }
+
 }
