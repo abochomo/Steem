@@ -1,16 +1,33 @@
 package com.es.unex.cum.mdai.Steem.Modelo;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Table;
 import java.util.Date;
 import java.util.List;
 
+@Entity
 public class Juego {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idJuego;
+
     private String titulo;
     private String descripcion;
     private String sinopsis;
     private double precio;
     private Date fechaLanzamiento;
+
+    @ManyToOne
+    @JoinColumn(name = "desarrollador_id")
     private Desarrollador desarrollador;
+
+    @ManyToOne
+    @JoinColumn(name = "categoria_id")
     private Categoria categoria;
     private boolean activo;
 
