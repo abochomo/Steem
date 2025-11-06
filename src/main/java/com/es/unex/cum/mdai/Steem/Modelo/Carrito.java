@@ -1,5 +1,6 @@
 package com.es.unex.cum.mdai.Steem.Modelo;
 
+
 import java.util.List;
 
 /**
@@ -8,6 +9,7 @@ import java.util.List;
  * mismos y generar el cargo correspondiente. También crea las compras asociadas a los juegos comprados. Como la clase Compra
  * solo almacena un juego, el carrito se encarga de crear una compra por cada juego que contiene y añadirlas al historial de compras.
  */
+
 public class Carrito {
     private List<Juego> juegosEnCarrito;
     private double precioTotal;

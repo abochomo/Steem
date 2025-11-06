@@ -1,12 +1,13 @@
+// java
 package com.es.unex.cum.mdai.Steem.Modelo;
 
 import jakarta.persistence.*;
-
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "cliente")
-public class Cliente extends Usuario{
+public class Cliente extends Usuario {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -14,17 +15,16 @@ public class Cliente extends Usuario{
             joinColumns = @JoinColumn(name = "cliente_id"),
             inverseJoinColumns = @JoinColumn(name = "juego_id")
     )
-    private List<Juego> biblioteca;
+    private List<Juego> biblioteca = new ArrayList<>();
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "carrito_id")
-    private Carrito carrito;
+    @Transient
+    private Carrito carrito = new Carrito();
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Compra> historialCompras;
+    private List<Compra> historialCompras = new ArrayList<>();
 
     public List<Compra> getHistorialCompras() {
-        return (List<Compra>) historialCompras;
+        return historialCompras;
     }
 
     public List<Juego> getBiblioteca() {
@@ -32,7 +32,7 @@ public class Cliente extends Usuario{
     }
 
     public void setBiblioteca(List<Juego> biblioteca) {
-        this.biblioteca = biblioteca;
+        this.biblioteca = biblioteca != null ? biblioteca : new ArrayList<>();
     }
 
     public Carrito getCarrito() {
@@ -44,12 +44,11 @@ public class Cliente extends Usuario{
     }
 
     public void setHistorialCompras(List<Compra> historialCompras) {
-        this.historialCompras = historialCompras;
+        this.historialCompras = historialCompras != null ? historialCompras : new ArrayList<>();
     }
 
     @Override
     public String getTipoUsuario() {
         return "Cliente";
     }
-
 }
