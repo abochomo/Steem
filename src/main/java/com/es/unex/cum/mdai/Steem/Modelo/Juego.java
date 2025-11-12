@@ -1,32 +1,27 @@
 package com.es.unex.cum.mdai.Steem.Modelo;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
+@Table(name = "juego")
 public class Juego {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idJuego;
-
+    private int idDesarrollador;
     private String titulo;
-    private String descripcion;
     private double precio;
-    private Date fechaLanzamiento;
-
-    @ManyToOne
-    @JoinColumn(name = "desarrollador_id")
-    private Desarrollador desarrollador;
-
     private String categoria;
-    private boolean activo;
+    private String descripcion;
+    private Date fechaPublicacion;
+
+    @OneToMany(mappedBy = "juego")
+    private Set<Biblioteca> bibliotecas = new HashSet<>();
 
     public double getPrecio() {
         return precio;
@@ -60,21 +55,6 @@ public class Juego {
         this.precio = precio;
     }
 
-    public Date getFechaLanzamiento() {
-        return fechaLanzamiento;
-    }
-
-    public void setFechaLanzamiento(Date fechaLanzamiento) {
-        this.fechaLanzamiento = fechaLanzamiento;
-    }
-
-    public Desarrollador getDesarrollador() {
-        return desarrollador;
-    }
-
-    public void setDesarrollador(Desarrollador desarrollador) {
-        this.desarrollador = desarrollador;
-    }
 
     public String getCategoria() {
         return categoria;
@@ -83,12 +63,18 @@ public class Juego {
     public void setCategoria(String categoria) {
         this.categoria = categoria;
     }
-
-    public boolean isActivo() {
-        return activo;
+    public Date getFechaPublicacion() {
+        return fechaPublicacion;
     }
-
-    public void setActivo(boolean activo) {
-        this.activo = activo;
+    public void setFechaPublicacion(Date fechaPublicacion) {
+        this.fechaPublicacion = fechaPublicacion;
+    }
+    public int getIdDesarrollador() {
+        return idDesarrollador;
+    }
+    public void setIdDesarrollador(int idDesarrollador) {
+        this.idDesarrollador = idDesarrollador;
     }
 }
+
+
