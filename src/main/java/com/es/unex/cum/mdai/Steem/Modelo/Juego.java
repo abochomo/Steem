@@ -25,9 +25,7 @@ public class Juego {
     @JoinColumn(name = "desarrollador_id")
     private Desarrollador desarrollador;
 
-    @ManyToOne
-    @JoinColumn(name = "categoria_id")
-    private Categoria categoria;
+    private String categoria;
     private boolean activo;
 
     public double getPrecio() {
@@ -78,11 +76,11 @@ public class Juego {
         this.desarrollador = desarrollador;
     }
 
-    public Categoria getCategoria() {
+    public String getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(Categoria categoria) {
+    public void setCategoria(String categoria) {
         this.categoria = categoria;
     }
 

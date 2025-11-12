@@ -13,7 +13,7 @@ public abstract class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected int idUsuario;
+    protected long idUsuario;
 
     @Column(nullable = false, unique = true)
     protected String nombreUsuario;
@@ -21,7 +21,7 @@ public abstract class Usuario {
     protected String password;
     protected Date fechaRegistro;
 
-    public int getIdUsuario() {
+    public long getIdUsuario() {
         return idUsuario;
     }
 
