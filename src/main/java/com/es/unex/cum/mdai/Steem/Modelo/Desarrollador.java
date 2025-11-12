@@ -11,6 +11,7 @@ import java.util.ArrayList;
 @Table(name = "desarrollador")
 public class Desarrollador extends Usuario {
     private String nombreEstudio;
+
     @OneToMany(mappedBy = "desarrollador", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Juego> juegosPublicados;
 

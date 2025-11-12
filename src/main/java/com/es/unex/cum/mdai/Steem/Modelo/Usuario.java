@@ -1,14 +1,13 @@
 package com.es.unex.cum.mdai.Steem.Modelo;
 
-import jakarta.persistence.MappedSuperclass;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Column;
+import jakarta.persistence.*;
+
 import java.util.Date;
 
 
-@MappedSuperclass
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@Table(name = "usuario")
 public abstract class Usuario {
 
     @Id

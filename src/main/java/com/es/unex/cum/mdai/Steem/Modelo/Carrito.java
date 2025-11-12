@@ -44,16 +44,6 @@ public class Carrito {
         precioTotal = 0.0;
     }
 
-    public void procesarCompra(Cliente cliente) {
-        for (Juego juego : juegosEnCarrito) {
-            Compra compra = new Compra();
-            compra.setCliente(cliente);
-            compra.setJuego(juego);
-            // Aquí se podría añadir lógica para generar un ID de compra, fecha, etc.
-            cliente.getHistorialCompras().add(compra);
-        }
-        vaciarCarrito();
-    }
 
 
 }

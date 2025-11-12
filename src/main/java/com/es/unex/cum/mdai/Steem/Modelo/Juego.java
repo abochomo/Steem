@@ -13,7 +13,9 @@ public class Juego {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idJuego;
-    private int idDesarrollador;
+    @ManyToOne
+    @JoinColumn(name = "idUsuario", nullable = false)
+    private Desarrollador desarrollador;
     private String titulo;
     private double precio;
     private String categoria;
@@ -69,11 +71,11 @@ public class Juego {
     public void setFechaPublicacion(Date fechaPublicacion) {
         this.fechaPublicacion = fechaPublicacion;
     }
-    public int getIdDesarrollador() {
-        return idDesarrollador;
+    public Desarrollador getDesarrollador() {
+        return desarrollador;
     }
-    public void setIdDesarrollador(int idDesarrollador) {
-        this.idDesarrollador = idDesarrollador;
+    public void setDesarrollador(Desarrollador desarrollador) {
+        this.desarrollador = desarrollador;
     }
 }
 
