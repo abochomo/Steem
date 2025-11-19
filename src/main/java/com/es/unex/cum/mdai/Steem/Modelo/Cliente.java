@@ -13,8 +13,11 @@ import java.util.HashSet;
 public class Cliente extends Usuario {
     private Date fechaNacimiento;
 
-    @OneToMany(mappedBy = "cliente")
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Biblioteca> bibliotecas = new HashSet<>();
+
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Resenha> resenhas = new HashSet<>();
 
     public Date getFechaNacimiento() {
         return fechaNacimiento;
