@@ -27,6 +27,19 @@ public class Cliente extends Usuario {
         this.fechaNacimiento = fechaNacimiento;
     }
 
+    public Set<Biblioteca> getBibliotecas() {
+        return bibliotecas;
+    }
+    public void setBibliotecas(Set<Biblioteca> bibliotecas) {
+        this.bibliotecas = bibliotecas;
+    }
+    public Set<Resenha> getResenhas() {
+        return resenhas;
+    }
+    public void setResenhas(Set<Resenha> resenhas) {
+        this.resenhas = resenhas;
+    }
+
     @Override
     public String getTipoUsuario() {
         return "Cliente";

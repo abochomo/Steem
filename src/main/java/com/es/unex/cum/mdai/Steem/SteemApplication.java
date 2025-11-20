@@ -10,4 +10,6 @@ public class SteemApplication {
 		SpringApplication.run(SteemApplication.class, args);
 	}
 
+
+
 }
