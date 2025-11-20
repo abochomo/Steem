@@ -14,7 +14,7 @@ public class Juego {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idJuego;
     @ManyToOne
-    @JoinColumn(name = "idUsuario", nullable = false)
+    @JoinColumn(name = "idUsuario", nullable = true)
     private Desarrollador desarrollador;
     private String titulo;
     private double precio;
@@ -77,6 +77,7 @@ public class Juego {
     public void setDesarrollador(Desarrollador desarrollador) {
         this.desarrollador = desarrollador;
     }
+
 }
 
 

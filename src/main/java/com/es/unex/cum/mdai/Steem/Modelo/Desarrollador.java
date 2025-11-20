@@ -11,6 +11,8 @@ import java.util.ArrayList;
 @Table(name = "desarrollador")
 public class Desarrollador extends Usuario {
     private String nombreEstudio;
+    private boolean activo=true;
+
 
     @OneToMany(mappedBy = "desarrollador", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Juego> juegosPublicados;
@@ -34,5 +36,15 @@ public class Desarrollador extends Usuario {
     @Override
     public String getTipoUsuario() {
         return "Desarrollador";
+    }
+
+    public boolean isActivo() {
+        return activo;
+    }
+    public void setActivo(boolean activo) {
+        this.activo = activo;
+    }
+    public void desactivarDesarrollador(){
+        this.activo=false;
     }
 }
