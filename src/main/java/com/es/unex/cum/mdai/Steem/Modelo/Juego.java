@@ -78,6 +78,9 @@ public class Juego {
         this.desarrollador = desarrollador;
     }
 
+    public long getId() {
+        return idJuego;
+    }
 }
 
 

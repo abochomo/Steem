@@ -17,8 +17,10 @@ public class JuegoServiceImpl implements JuegoService {
 
     @Override
     public void addJuego(Juego juego) {
-        if (juegoRepositorio.findByTitulo(juego.getTitulo()) == null) {
-            juegoRepositorio.findById(juego.getIdJuego());
+        if (juego != null) {
+            if (juegoRepositorio.getJuegoById(juego.getId()) == null) {
+                juegoRepositorio.save(juego);
+            }
         }
     }
 
@@ -32,20 +34,34 @@ public class JuegoServiceImpl implements JuegoService {
 
     @Override
     public void updateJuego(Juego juego) {
+        if (juego!=null){
+            if (juegoRepositorio.getJuegoById(juego.getId())!=null)
+            {
+                juegoRepositorio.save(juego);
+            }
+        }
     }
 
     @Override
     public void deleteJuego(Juego juego) {
-
+        if (juego!=null){
+            if (juegoRepositorio.getJuegoById(juego.getId())!=null)
+            {
+                juegoRepositorio.delete(juego);
+            }
+        }
     }
 
     @Override
     public Juego buscarJuegoPorTitulo(String titulo) {
-        return null;
+        if (titulo == null || titulo.isEmpty()) {
+            return null;
+        }
+        return juegoRepositorio.findByTitulo(titulo);
     }
 
     @Override
     public List<Juego> getAllJuegos() {
-        return List.of();
+        return juegoRepositorio.findAll();
     }
 }

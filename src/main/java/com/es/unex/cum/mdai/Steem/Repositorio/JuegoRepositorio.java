@@ -8,7 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface JuegoRepositorio extends JpaRepository<Juego, Integer> {
 
     Juego findByTitulo(String titulo);
-    Juego getJuegoById(Long id);
-
-    void findById(long idJuego);
+    Juego getJuegoById(long id);
 }
