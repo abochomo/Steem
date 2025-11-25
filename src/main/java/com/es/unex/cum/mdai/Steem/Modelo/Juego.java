@@ -12,7 +12,7 @@ import java.util.Set;
 public class Juego {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idJuego;
+    private long idJuego;
     @ManyToOne
     @JoinColumn(name = "idUsuario", nullable = true)
     private Desarrollador desarrollador;
@@ -29,7 +29,7 @@ public class Juego {
         return precio;
     }
 
-    public int getIdJuego() {
+    public long getIdJuego() {
         return idJuego;
     }
 
