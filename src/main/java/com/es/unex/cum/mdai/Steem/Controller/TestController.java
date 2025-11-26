@@ -57,4 +57,9 @@ public class TestController {
     public String verLogin() {
         return "login"; // Busca login.html
     }
+
+    @GetMapping("/registro")
+    public String verRegistro() {
+        return "registro"; // Busca registro.html en templates
+    }
 }
