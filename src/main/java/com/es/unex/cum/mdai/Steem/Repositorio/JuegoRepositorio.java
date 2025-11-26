@@ -4,9 +4,12 @@ import com.es.unex.cum.mdai.Steem.Modelo.Juego;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface JuegoRepositorio extends JpaRepository<Juego, Integer> {
 
-    Juego findByTitulo(String titulo);
-    Juego getJuegoById(long id);
+    Optional<Juego> findJuegoByTitulo(String titulo);
+
+    Juego findJuegoById(long id);
 }

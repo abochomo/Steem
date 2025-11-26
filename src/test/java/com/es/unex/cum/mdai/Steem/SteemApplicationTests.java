@@ -134,7 +134,7 @@ class SteemApplicationTests {
     @Test
     @DisplayName("Test de Búsqueda: Verificar que se puede buscar Juego por Título")
     void testBuscarJuegoPorTitulo() {
-        Optional<Juego> juegoBuscado = Optional.ofNullable(juegoRepositorio.findByTitulo("Half-Life 3"));
+        Optional<Juego> juegoBuscado = juegoRepositorio.findJuegoByTitulo("Half-Life 3");
         assertTrue(juegoBuscado.isPresent(), "El juego debería ser encontrado por su título");
         assertEquals(juego1.getIdJuego(), juegoBuscado.get().getIdJuego(), "El ID del juego encontrado debería coincidir");
     }

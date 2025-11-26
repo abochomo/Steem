@@ -11,8 +11,6 @@ public interface JuegoService {
 
     public void updateJuego(Juego juego);
 
-    public void deleteJuego(Juego juego);
-
     public Juego buscarJuegoPorTitulo(String titulo);
 
     public List<Juego> getAllJuegos();
