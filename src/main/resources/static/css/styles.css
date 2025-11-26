@@ -1,0 +1,64 @@
+body {
+    background-color: #1b2838; /* El color azul oscuro clásico de Steam */
+    color: #c7d5e0;            /* Texto gris claro */
+    font-family: Arial, sans-serif;
+}
+
+.card {
+    background-color: #16202d;
+    border: none;
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: scale(1.05); /* Efecto zoom al pasar el ratón */
+    box-shadow: 0 0 15px rgba(102, 192, 244, 0.4);
+}
+
+.btn-steam {
+    background: linear-gradient(to right, #47bfff 0%, #1a44c2 100%);
+    color: white;
+    border: none;
+}
+
+/* --- ESTILOS LOGIN --- */
+
+/* Centrar la caja de login verticalmente */
+.login-container {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Tarjeta oscura estilo Steam */
+.card-login {
+    background-color: #16202d;
+    border: 1px solid #2a475e;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Inputs oscuros */
+.form-control {
+    background-color: #323f53;
+    border: 1px solid #000;
+    color: #e1e1e1;
+}
+
+/* Efecto focus en los inputs (brillo azul) */
+.form-control:focus {
+    background-color: #3e4f66;
+    color: #fff;
+    border-color: #66c0f4;
+    box-shadow: none;
+}
+
+/* Etiquetas de texto en azul Steam */
+label {
+    color: #66c0f4;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}

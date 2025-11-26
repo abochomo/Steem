@@ -33,7 +33,7 @@ public class Juego {
         return idJuego;
     }
 
-    public void setIdJuego(int idJuego) {
+    public void setIdJuego(long idJuego) {
         this.idJuego = idJuego;
     }
 

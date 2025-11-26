@@ -22,7 +22,7 @@ public class Biblioteca {
 
     private Date fechaAdquisicion;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
     public void setId(int id) {

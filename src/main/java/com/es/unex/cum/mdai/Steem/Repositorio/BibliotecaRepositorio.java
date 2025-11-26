@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface BibliotecaRepositorio extends JpaRepository<Biblioteca, Integer> {
     public Biblioteca getBibliotecaById(Long id);
-    public Biblioteca findBibiliotecaByClienteIdAndJuegoId(Long clienteId, Long juegoId);
-    List<Biblioteca> findAllByClienteId(Long clienteId);
+    public Biblioteca findBibliotecaByClienteIdAndJuegoId(Long clienteId, Long juegoId);
+    List<Biblioteca> findAllByClienteId(Long idUsuario);
 }
