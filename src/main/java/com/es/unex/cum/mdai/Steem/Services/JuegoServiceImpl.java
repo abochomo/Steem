@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class JuegoServiceImpl implements JuegoService {
@@ -18,7 +19,7 @@ public class JuegoServiceImpl implements JuegoService {
     @Override
     public void addJuego(Juego juego) {
         if (juego != null) {
-            if (juegoRepositorio.getJuegoById(juego.getId()) == null) {
+            if (juegoRepositorio.findJuegoById(juego.getId()) == null) {
                 juegoRepositorio.save(juego);
             }
         }
@@ -29,25 +30,15 @@ public class JuegoServiceImpl implements JuegoService {
         if (id <= 0) {
             return null;
         }
-        return juegoRepositorio.getJuegoById(id);
+        return juegoRepositorio.findJuegoById(id);
     }
 
     @Override
     public void updateJuego(Juego juego) {
         if (juego!=null){
-            if (juegoRepositorio.getJuegoById(juego.getId())!=null)
+            if (juegoRepositorio.findJuegoById(juego.getId())!=null)
             {
                 juegoRepositorio.save(juego);
-            }
-        }
-    }
-
-    @Override
-    public void deleteJuego(Juego juego) {
-        if (juego!=null){
-            if (juegoRepositorio.getJuegoById(juego.getId())!=null)
-            {
-                juegoRepositorio.delete(juego);
             }
         }
     }
@@ -57,7 +48,13 @@ public class JuegoServiceImpl implements JuegoService {
         if (titulo == null || titulo.isEmpty()) {
             return null;
         }
-        return juegoRepositorio.findByTitulo(titulo);
+        Optional<Juego> juego = juegoRepositorio.findJuegoByTitulo(titulo);
+        if (!juego.isPresent()) {
+            return null;
+        }
+        else{
+            return juego.get();
+        }
     }
 
     @Override

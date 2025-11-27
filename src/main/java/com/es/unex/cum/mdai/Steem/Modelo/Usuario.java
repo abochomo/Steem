@@ -20,11 +20,19 @@ public abstract class Usuario {
     protected String password;
     protected Date fechaRegistro;
 
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private TipoUsuario tipo;
+
+    public enum TipoUsuario {
+        CLIENTE, DESARROLLADOR
+    }
+
     public long getIdUsuario() {
         return id;
     }
 
-    public void setIdUsuario(int idUsuario) {
+    public void setIdUsuario(long idUsuario) {
         this.id = idUsuario;
     }
 
