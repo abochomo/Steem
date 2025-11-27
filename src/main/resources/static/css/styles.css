@@ -4,8 +4,13 @@ body {
     font-family: Arial, sans-serif;
 }
 
+.card-title{
+    color: #66c0f4;
+}
+
 .card {
     background-color: #16202d;
+    color: black;
     border: none;
     transition: transform 0.2s;
 }

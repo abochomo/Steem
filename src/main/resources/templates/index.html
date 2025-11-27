@@ -10,7 +10,28 @@
 <div th:replace="~{fragments/nav :: barra_navegacion}"></div>
 
 <div class="container mt-4">
+
+    <!-- SECCIÓN DE BUSCADOR (NUEVO) -->
+    <div class="row mb-4">
+        <div class="col-md-6 mx-auto">
+            <form th:action="@{/}" method="get">
+                <div class="input-group">
+                    <!-- th:value="${keyword}" sirve para que el texto no se borre al buscar -->
+                    <input type="text" name="keyword" class="form-control" placeholder="Buscar por nombre..." th:value="${keyword}">
+                    <button class="btn btn-steam" type="submit">Buscar</button>
+                    <!-- Botón para limpiar filtro si hay búsqueda -->
+                    <a th:if="${keyword != null && keyword != ''}" th:href="@{/}" class="btn btn-secondary">Limpiar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <h2 class="mb-4">Juegos Destacados</h2>
+
+    <!-- Mensaje si no se encuentran juegos -->
+    <div th:if="${listaJuegos.isEmpty()}" class="alert alert-info text-center">
+        No se encontraron juegos con ese nombre.
+    </div>
 
     <div class="row">
         <div class="col-md-3 mb-4" th:each="juego : ${listaJuegos}">
@@ -19,7 +40,7 @@
                 <img th:src="@{/images/placeholder.jpg}" class="card-img-top" alt="Portada">
 
                 <div class="card-body">
-                    <h5 class="card-title text-white" th:text="${juego.titulo}">Nombre Juego</h5>
+                    <h5 class="card-title" th:text="${juego.titulo}">Nombre Juego</h5>
 
                     <p class="card-text text-muted" th:text="${juego.descripcion}">Descripción corta...</p>
 

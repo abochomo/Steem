@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Steem - Crear Cuenta</title>
+    <title>Steem - Crear Cuenta de Desarrollador</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Tu CSS personalizado -->
@@ -17,7 +17,7 @@
 <div class="container login-container">
 
     <div class="card card-login p-4">
-        <h3>CREAR CUENTA</h3>
+        <h3>CREAR CUENTA DE DESARROLLADOR</h3>
 
         <!-- Mensaje de error si falla el registro (opcional para el futuro) -->
         <div th:if="${error}" class="alert alert-danger text-center p-2" th:text="${error}">
@@ -27,6 +27,11 @@
         <!-- 3. Formulario de Registro -->
         <!-- action apunta a /registro vía POST, que tu compañero implementará luego -->
         <form th:action="@{/registro}" method="post">
+
+            <div class="mb-3">
+                <label for="nombreEstudio" class="form-label">Nombre de Estudio</label>
+                <input type="text" class="form-control" id="nombreEstudio" name="nombreEstudio" placeholder="Ej: Noentiendo" required>
+            </div>
 
             <div class="mb-3">
                 <label for="nombreUsuario" class="form-label">Nombre de Usuario</label>
@@ -50,7 +55,7 @@
 
         <div class="text-center mt-3">
             <span class="text-muted small">¿Ya tienes una cuenta?</span>
-            <a th:href="@{/login}" class="text-white small fw-bold">Inicia Sesión</a>
+            <a th:href="@{/login}">Inicia Sesión</a>
         </div>
     </div>
 </div>
