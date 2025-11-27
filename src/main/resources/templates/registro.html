@@ -26,21 +26,21 @@
 
         <!-- 3. Formulario de Registro -->
         <!-- action apunta a /registro vía POST, que tu compañero implementará luego -->
-        <form th:action="@{/registro}" method="post">
+        <form th:action="@{/registro/cliente}" th:object="${cliente}" method="post">
 
             <div class="mb-3">
                 <label for="nombreUsuario" class="form-label">Nombre de Usuario</label>
-                <input type="text" class="form-control" id="nombreUsuario" name="nombreUsuario" placeholder="Ej: Gamer123" required>
+                <input type="text" class="form-control" id="nombreUsuario" name="nombreUsuario" th:field="*{nombreUsuario}" placeholder="Ej: Gamer123" required>
             </div>
 
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" name="email" placeholder="ejemplo@correo.com" required>
+                <input type="email" class="form-control" id="email" name="email" th:field="*{email}" placeholder="ejemplo@correo.com" required>
             </div>
 
             <div class="mb-4">
                 <label for="password" class="form-label">Contraseña</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="Mínimo 8 caracteres" required>
+                <input type="password" class="form-control" id="password" name="password" th:field="*{password}" placeholder="Mínimo 8 caracteres" required>
             </div>
 
             <div class="d-grid gap-2">

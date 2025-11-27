@@ -45,7 +45,9 @@ public class UsuarioServiceImpl implements UsuarioService {
         if (usuarioRepositorio.findByEmail(usuario.getEmail()) != null) {
             throw new RuntimeException("El email ya está registrado");
         }
-        usuarioRepositorio.save(usuario);
+        if (usuario.getTipoUsuario().equalsIgnoreCase("cliente")) {
+            ClienteRepositorio clienteRepositorio;
+        }
     }
 
     @Override
