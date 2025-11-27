@@ -41,6 +41,14 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
+    public void registrarUsuario(Usuario usuario) {
+        if (usuarioRepositorio.findByEmail(usuario.getEmail()) != null) {
+            throw new RuntimeException("El email ya está registrado");
+        }
+        usuarioRepositorio.save(usuario);
+    }
+
+    @Override
     public Usuario loginUsuario(String email, String contrasena) {
         Usuario usuario = usuarioRepositorio.findByEmail(email);
         if (usuario == null) {
