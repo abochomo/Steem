@@ -20,37 +20,6 @@ public class UsuarioServiceImpl implements UsuarioService {
     private Usuario usuarioActual;
 
     @Override
-    public Usuario registrarUsuario(String email, String user, String contrasena, String tipoUsuario) {
-        if (usuarioRepositorio.findByEmail(email) != null) {
-            throw new RuntimeException("El email ya está registrado");
-        }
-
-        Usuario nuevoUsuario;
-        if ("DESARROLLADOR".equalsIgnoreCase(tipoUsuario)) {
-            nuevoUsuario = new Desarrollador();
-        } else {
-            nuevoUsuario = new Cliente();
-        }
-
-        nuevoUsuario.setEmail(email);
-        nuevoUsuario.setNombreUsuario(user);
-        nuevoUsuario.setPassword(contrasena);
-        nuevoUsuario.setFechaRegistro(new Date());
-
-        return usuarioRepositorio.save(nuevoUsuario);
-    }
-
-    @Override
-    public void registrarUsuario(Usuario usuario) {
-        if (usuarioRepositorio.findByEmail(usuario.getEmail()) != null) {
-            throw new RuntimeException("El email ya está registrado");
-        }
-        if (usuario.getTipoUsuario().equalsIgnoreCase("cliente")) {
-            ClienteRepositorio clienteRepositorio;
-        }
-    }
-
-    @Override
     public Usuario loginUsuario(String email, String contrasena) {
         Usuario usuario = usuarioRepositorio.findByEmail(email);
         if (usuario == null) {
