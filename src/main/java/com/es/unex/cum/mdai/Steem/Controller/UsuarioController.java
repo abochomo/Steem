@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.security.Principal;
+
 @Controller
 @RequestMapping("/usuario")
 public class UsuarioController {
@@ -17,13 +19,15 @@ public class UsuarioController {
     private UsuarioService usuarioService;
 
     @GetMapping("/perfil")
-    public String verPerfil(HttpSession session, Model model) {
-        Usuario sessionUser = (Usuario) session.getAttribute("usuario");
-        if (sessionUser == null) {
+    public String verPerfil(Model model, Principal principal) {
+
+        if (principal == null) {
+
             return "redirect:/login";
         }
-        Usuario usuarioAux = usuarioService.findUser(sessionUser.getIdUsuario());
-        model.addAttribute("usuario", usuarioAux);
+        String email = principal.getName();
+        Usuario usuario = usuarioService.findUserByEmail(email);
+        model.addAttribute("usuario", usuario);
         return "perfil";
     }
 }
