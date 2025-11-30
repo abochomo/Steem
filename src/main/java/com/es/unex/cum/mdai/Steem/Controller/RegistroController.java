@@ -38,6 +38,13 @@ public class RegistroController {
         clienteService.registroCliente(user);
         return "redirect:/login";
     }
+
+    @GetMapping("/desarrollador")
+    public String mostrarFormularioDesarrollador(Model model) {
+        model.addAttribute("cliente", new Cliente());
+        return "registroDesarrollador";
+    }
+
     @PostMapping("/desarrollador")
     public String registrarDesarrollador(Desarrollador user) {
         desarrolladorService.registroDesarrollador(user);
