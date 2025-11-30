@@ -1,5 +1,5 @@
 package com.es.unex.cum.mdai.Steem;
-
+/*
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -46,3 +46,4 @@ public class SecurityConfig {
         return new InMemoryUserDetailsManager(admin);
     }
 }
+ */
