@@ -45,7 +45,12 @@ public class BibliotecaServiceImpl implements BibliotecaService {
     }
 
     @Override
-    public boolean tieneJuego(long juego, long user) {
-        return false;
+    public boolean tieneJuego(long userId, long juegoId) {
+        Optional<Biblioteca> biblioteca = bibliotecaRepositorio.findBibliotecaByClienteIdAndJuegoId(userId, juegoId);
+        if (biblioteca.isPresent()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
