@@ -21,7 +21,7 @@ public class LoginController {
         return "login";
     }
 
-    @PostMapping
+    @PostMapping("/login")
     public String procesarLogin(@RequestParam String email, @RequestParam String password, HttpSession session, Model model) {
         try{
             Usuario usuarioLogueado = usuarioService.loginUsuario(email, password);
