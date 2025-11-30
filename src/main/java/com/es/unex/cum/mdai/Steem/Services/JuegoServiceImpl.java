@@ -61,4 +61,12 @@ public class JuegoServiceImpl implements JuegoService {
     public List<Juego> getAllJuegos() {
         return juegoRepositorio.findAll();
     }
+
+    @Override
+    public void guardarVariosJuegos(List<Juego> juegos) {
+        if (juegos != null && !juegos.isEmpty()) {
+            juegoRepositorio.saveAll(juegos);
+        }
+    }
+
 }

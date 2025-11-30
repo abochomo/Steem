@@ -14,4 +14,6 @@ public interface JuegoService {
     public Juego buscarJuegoPorTitulo(String titulo);
 
     public List<Juego> getAllJuegos();
+
+    public void guardarVariosJuegos(List<Juego> juegos);
 }

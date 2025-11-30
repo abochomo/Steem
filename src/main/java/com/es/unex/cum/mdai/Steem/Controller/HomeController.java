@@ -27,10 +27,12 @@ public class HomeController {
             String username = auth.getName();
             model.addAttribute("username", username);
         }
-        List<Juego> todosLosJuegos = generarJuegosMock();
 
         List<Juego> juegos = generarJuegosMock();
-        model.addAttribute("listaJuegos", juegos);
+        juegoService.guardarVariosJuegos(juegos);
+
+        List<Juego> todosLosJuegos = juegoService.getAllJuegos();
+        model.addAttribute("listaJuegos", todosLosJuegos);
         return "index";
     }
 
