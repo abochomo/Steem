@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-/*
+
 @Controller
 @RequestMapping("/login")
 public class LoginController {
@@ -23,6 +23,7 @@ public class LoginController {
         return "login";
     }
 
+    /*
     @PostMapping("")
     public String procesarLogin(@RequestParam String email, @RequestParam String password, HttpSession session, Model model) {
         try{
@@ -42,7 +43,6 @@ public class LoginController {
         session.invalidate();
         return "redirect:/";
     }
+    */
 
 }
-
- */

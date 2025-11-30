@@ -29,7 +29,7 @@
     <h2 class="mb-4">Juegos Destacados</h2>
 
     <!-- Mensaje si no se encuentran juegos -->
-    <div th:if="${listaJuegos.isEmpty()}" class="alert alert-info text-center">
+    <div th:if="${listaJuegos != null and !listaJuegos.isEmpty()}" class="alert alert-info text-center">
         No se encontraron juegos con ese nombre.
     </div>
 
