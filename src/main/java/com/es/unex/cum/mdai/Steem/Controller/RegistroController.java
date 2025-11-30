@@ -22,7 +22,8 @@ public class RegistroController {
     private DesarrolladorService desarrolladorService;
 
     @GetMapping("/")
-    public String registro() {
+    public String registro(Model model) {
+        model.addAttribute("cliente", new Cliente());
         return "registro";
     }
 
@@ -37,7 +38,7 @@ public class RegistroController {
         clienteService.registroCliente(user);
         return "redirect:/login";
     }
-    @PostMapping("/registro/desarrollador")
+    @PostMapping("/desarrollador")
     public String registrarDesarrollador(Desarrollador user) {
         desarrolladorService.registroDesarrollador(user);
         return "redirect:/login";
