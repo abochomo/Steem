@@ -15,15 +15,15 @@
     <div class="card card-login p-4">
         <h3>INICIAR SESIÓN</h3>
 
-        <div th:if="${param.error}" class="alert alert-danger text-center p-2">
-            Usuario o contraseña incorrectos
-        </div>
-
-        <div th:if="${param.logout}" class="alert alert-success text-center p-2">
-            Has cerrado sesión correctamente
-        </div>
-
         <form th:action="@{/login}" method="post">
+
+            <div th:if="${param.error}" class="alert alert-danger text-center p-2">
+                Usuario o contraseña incorrectos
+            </div>
+
+            <div th:if="${param.logout}" class="alert alert-success text-center p-2">
+                Has cerrado sesión correctamente
+            </div>
 
             <div class="mb-3">
                 <label for="email" class="form-label">Correo electrónico</label>
@@ -32,7 +32,7 @@
 
             <div class="mb-4">
                 <label for="password" class="form-label">Contraseña</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="Tu contraseña" required>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña" required>
             </div>
 
             <div class="d-grid gap-2">

@@ -4,6 +4,7 @@ import com.es.unex.cum.mdai.Steem.Modelo.Desarrollador;
 import com.es.unex.cum.mdai.Steem.Modelo.Usuario;
 import com.es.unex.cum.mdai.Steem.Repositorio.DesarrolladorRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,6 +14,9 @@ public class DesarrolladorServiceImpl implements DesarrolladorService {
     private DesarrolladorRepositorio desarrolladorRepositorio;
 
     private Desarrollador desarrolladorActual;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public void registroDesarrollador(Desarrollador dev) {
@@ -25,6 +29,7 @@ public class DesarrolladorServiceImpl implements DesarrolladorService {
         dev.setTipo(Usuario.TipoUsuario.DESARROLLADOR);
         dev.setFechaRegistro(new java.util.Date());
 
+        dev.setPassword(passwordEncoder.encode(dev.getPassword()));
         desarrolladorRepositorio.save(dev);
     }
 }

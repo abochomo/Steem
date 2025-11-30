@@ -4,6 +4,7 @@ import com.es.unex.cum.mdai.Steem.Modelo.Cliente;
 import com.es.unex.cum.mdai.Steem.Modelo.Usuario;
 import com.es.unex.cum.mdai.Steem.Repositorio.ClienteRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,6 +14,8 @@ public class ClienteServiceImpl implements ClienteService {
 
     private Cliente clienteActual;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     @Override
     public void registroCliente(Cliente cliente) {
         if (cliente.getEmail() != null && clienteRepositorio.findByEmail(cliente.getEmail()) != null) {
@@ -24,6 +27,8 @@ public class ClienteServiceImpl implements ClienteService {
         cliente.setTipo(Usuario.TipoUsuario.CLIENTE);
 
         cliente.setFechaRegistro(new java.util.Date());
+
+        cliente.setPassword(passwordEncoder.encode(cliente.getPassword()));
         clienteRepositorio.save(cliente);
     }
 }
