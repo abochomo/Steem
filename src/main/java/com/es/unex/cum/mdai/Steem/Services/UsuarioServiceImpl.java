@@ -42,8 +42,8 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public Usuario findUser(long user) {
-        return usuarioRepositorio.findById(user).orElse(null);
+    public Usuario findUser(long userID) {
+        return usuarioRepositorio.findById(userID).orElse(null);
     }
 
     @Override
@@ -64,6 +64,10 @@ public class UsuarioServiceImpl implements UsuarioService {
             throw new RuntimeException("No se puede eliminar: El usuario no existe");
         }
 
+    }
+    @Override
+    public Usuario findUserByUsername(String username) {
+        return usuarioRepositorio.findByUsername(username);
     }
 
 

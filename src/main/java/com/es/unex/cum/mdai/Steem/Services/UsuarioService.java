@@ -9,4 +9,5 @@ public interface UsuarioService {
     public Usuario findUserByEmail(String email);
     public void setUser(Usuario usuario);
     public void eliminarUsuario(long user);
+    public Usuario findUserByUsername(String username);
 }
