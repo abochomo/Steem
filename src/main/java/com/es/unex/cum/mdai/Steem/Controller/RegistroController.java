@@ -21,7 +21,7 @@ public class RegistroController {
     @Autowired
     private DesarrolladorService desarrolladorService;
 
-    @GetMapping("/")
+    @GetMapping(value = {"", "/"})
     public String registro(Model model) {
         model.addAttribute("cliente", new Cliente());
         return "registro";

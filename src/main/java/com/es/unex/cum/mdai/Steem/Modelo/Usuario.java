@@ -73,4 +73,15 @@ public abstract class Usuario {
     }
 
     public abstract String getTipoUsuario();
+
+    public TipoUsuario getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoUsuario tipo) {
+        this.tipo = tipo;
+    }
+
+    public Usuario (){
+    }
 }

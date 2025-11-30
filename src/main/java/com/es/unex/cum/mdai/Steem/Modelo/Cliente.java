@@ -40,6 +40,9 @@ public class Cliente extends Usuario {
         this.resenhas = resenhas;
     }
 
+    public Cliente () {
+    }
+
     @Override
     public String getTipoUsuario() {
         return "Cliente";

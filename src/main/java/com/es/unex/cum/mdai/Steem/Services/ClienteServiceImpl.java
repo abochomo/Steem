@@ -21,6 +21,9 @@ public class ClienteServiceImpl implements ClienteService {
         if (cliente.getNombreUsuario() == null) {
             throw new RuntimeException("El nombre de usuario no puede ser nulo");
         }
+        cliente.setTipo(Usuario.TipoUsuario.CLIENTE);
+
+        cliente.setFechaRegistro(new java.util.Date());
         clienteRepositorio.save(cliente);
     }
 }
