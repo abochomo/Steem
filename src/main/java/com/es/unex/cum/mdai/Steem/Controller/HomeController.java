@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,12 +22,11 @@ public class HomeController {
 	private JuegoService juegoService;
 
     /*
-    DESCOMENTAR PARA PODER GENERAR JUEGOS MOCK
     @Autowired
     private DesarrolladorService desarrolladorService;
     */
     @GetMapping("/")
-    public String home(Model model) {
+    public String home(@RequestParam(required = false) String keyword, Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if (auth != null && auth.isAuthenticated() && !auth.getPrincipal().equals("anonymousUser")) {
@@ -36,14 +36,27 @@ public class HomeController {
         //Descomentar para generar juegos mock
         //generarJuegosMock();
 
-        List<Juego> todosLosJuegos = juegoService.getAllJuegos();
-        model.addAttribute("listaJuegos", todosLosJuegos);
+        List<Juego> listaJuegos; // Esta es la lista que enviaremos al HTML
+
+        if (keyword != null && !keyword.isEmpty()) {
+            // CASO A: El usuario escribió algo en el buscador
+            // Vamos a la BD y pedimos SOLO los que coincidan
+            listaJuegos = juegoService.buscarJuegos(keyword);
+        } else {
+            // CASO B: El usuario acaba de entrar o borró el buscador
+            // Vamos a la BD y pedimos TODOS
+            listaJuegos = juegoService.getAllJuegos();
+        }
+
+        // Al final, sea cual sea el caso, mandamos 'listaJuegos' a la vista
+        model.addAttribute("listaJuegos", listaJuegos);
+        model.addAttribute("keyword", keyword); // Para que el input no se borre
 
         return "index";
     }
+    }
 
     /*
-    DESCOMENTAR PARA GENERAR JUEGOS MOCK
     private void generarJuegosMock() {
         List<Juego> juegos = new ArrayList<>();
 
@@ -64,5 +77,7 @@ public class HomeController {
         juegos.add(j3);
         juegoService.addJuego(j3);
     }
+
      */
-}
+
+

@@ -69,4 +69,14 @@ public class JuegoServiceImpl implements JuegoService {
         }
     }
 
+    @Override
+    public List<Juego> buscarJuegos(String keyword) {
+        if (keyword != null && !keyword.isEmpty()) {
+            // Usa el método nuevo del repositorio para buscar coincidencias parciales
+            return juegoRepositorio.findByTituloContainingIgnoreCase(keyword);
+        }
+        // Si el usuario buscó "nada" (vacío), devolvemos todos los juegos
+        return juegoRepositorio.findAll();
+    }
+
 }
