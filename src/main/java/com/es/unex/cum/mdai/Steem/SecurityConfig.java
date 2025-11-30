@@ -44,7 +44,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/", "/login", "/registro/**", "/registroDesarrollador",
                                 "/images/**", "/css/**", "/js/**", "/error").permitAll()
-                        .requestMatchers("/biblioteca").hasRole("CLIENTE")
+                        .requestMatchers("/biblioteca/**").hasRole("CLIENTE")
+                        .requestMatchers("/biblioteca/**").hasAuthority("CLIENTE")
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form

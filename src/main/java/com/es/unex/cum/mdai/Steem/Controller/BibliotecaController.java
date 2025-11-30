@@ -40,12 +40,12 @@ public class BibliotecaController {
         }
         else {
             String username = auth.getName();
-            Usuario user = usuarioService.findUserByUsername(username);
+            Usuario user = usuarioService.findUserByEmail(username);
             List<Biblioteca> biblioteca= bibliotecaService.getBiblioteca(user.getIdUsuario());
             List<Juego> juegosEnBiblioteca = biblioteca.stream()
                     .map(b -> juegoService.getJuegoById(b.getJuego().getId()))
                     .toList();
-            model.addAttribute("listaJuegos", juegosEnBiblioteca);
+            model.addAttribute("biblioteca", juegosEnBiblioteca);
         }
         return "biblioteca";
     }

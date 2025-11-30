@@ -14,7 +14,7 @@
     <h2 class="mb-4 text-white"> <i class="bi bi-collection-play"></i> Mi Biblioteca</h2>
 
     <!-- Mensaje si está vacía -->
-    <div th:if="${biblioteca.isEmpty}" class="alert alert-secondary text-center">
+    <div th:if="${biblioteca != null and !biblioteca.isEmpty()}" class="alert alert-secondary text-center">
         <h4>Tu biblioteca está vacía</h4>
         <p>¡Explora la tienda para añadir tu primer juego!</p>
         <a href="/" class="btn btn-steam">Ir a la Tienda</a>

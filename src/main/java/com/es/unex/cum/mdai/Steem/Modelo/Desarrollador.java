@@ -33,11 +33,6 @@ public class Desarrollador extends Usuario {
         this.juegosPublicados = juegosPublicados;
     }
 
-    @Override
-    public String getTipoUsuario() {
-        return "Desarrollador";
-    }
-
     public boolean isActivo() {
         return activo;
     }

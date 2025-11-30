@@ -72,7 +72,9 @@ public abstract class Usuario {
         return this.password.equals(password);
     }
 
-    public abstract String getTipoUsuario();
+    public String getTipoUsuario(){
+        return tipo.name();
+    }
 
     public TipoUsuario getTipo() {
         return tipo;
