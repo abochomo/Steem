@@ -1,23 +1,39 @@
-<nav th:fragment="barra_navegacion" class="navbar navbar-expand-lg navbar-dark bg-dark p-3">
+<nav th:fragment="barra_navegacion" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" class="navbar navbar-expand-lg navbar-dark bg-dark p-3">
     <div class="container-fluid">
         <a class="navbar-brand" href="/">STEEM</a>
 
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <img th:src="@{/images/steem-logo.png}"  alt="Logo" style="height: 30px; length: 30px; margin-top: 5px;">
+                    <img th:src="@{/images/steem-logo.png}" alt="Logo" style="height: 30px; margin-top: 5px;">
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/">Tienda</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" sec:authorize="isAuthenticated()">
                     <a class="nav-link" href="/biblioteca">Mi Biblioteca</a>
                 </li>
             </ul>
 
-            <div class="d-flex">
-                <a th:href="@{/login}" class="btn btn-outline-light btn-sm">Iniciar Sesión</a>
-                <a th:href="@{/usuario/perfil}" class="btn btn-outline-light btn-sm">Perfil</a>
+            <div class="d-flex align-items-center gap-2">
+
+                <a sec:authorize="!isAuthenticated()" th:href="@{/login}" class="btn btn-outline-light btn-sm">
+                    Iniciar Sesión
+                </a>
+                <a sec:authorize="!isAuthenticated()" th:href="@{/registro}" class="btn btn-primary btn-sm">
+                    Registrarse
+                </a>
+
+                <div sec:authorize="isAuthenticated()" class="d-flex align-items-center gap-2">
+                    <span class="text-white me-2">Hola, <span sec:authentication="name">Usuario</span></span>
+
+                    <a th:href="@{/usuario/perfil}" class="btn btn-outline-light btn-sm">Perfil</a>
+
+                    <form th:action="@{/logout}" method="post" class="m-0">
+                        <button type="submit" class="btn btn-danger btn-sm">Cerrar Sesión</button>
+                    </form>
+                </div>
+
             </div>
         </div>
     </div>
