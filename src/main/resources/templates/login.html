@@ -4,50 +4,64 @@
     <meta charset="UTF-8">
     <title>Steem - Iniciar Sesión</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
-<body>
+<body class="body-login">
 
-<div th:replace="~{fragments/nav :: barra_navegacion}"></div>
+<header>
+    <div class="logo-container">
+        <a th:href="@{/}">
+            <img th:src="@{/images/steem-logo.png}" alt="Steem Logo" class="logo-img">
+        </a>
+    </div>
+
+    <nav class="nav-links">
+        <a th:href="@{/}" class="btn-nav">Tienda</a>
+        <a th:href="@{/biblioteca}" class="btn-nav">Biblioteca</a>
+    </nav>
+
+    <div class="nav-links profile-container">
+        <a th:href="@{/registro}" class="btn-nav">Mi Perfil</a>
+    </div>
+</header>
 
 <div class="container login-container">
 
-    <div class="card card-login p-4">
-        <h3>INICIAR SESIÓN</h3>
+    <div class="card-login-steem">
+
+        <img th:src="@{/images/steem-logo.png}" alt="Logo" class="login-inner-logo">
+
+        <h3 class="login-title">Iniciar Sesión</h3>
 
         <form th:action="@{/login}" method="post">
 
-            <div th:if="${param.error}" class="alert alert-danger text-center p-2">
+            <div th:if="${param.error}" class="alert alert-danger text-center p-2 rounded-pill bg-danger border-0 text-white mb-4">
                 Usuario o contraseña incorrectos
             </div>
-
-            <div th:if="${param.logout}" class="alert alert-success text-center p-2">
+            <div th:if="${param.logout}" class="alert alert-success text-center p-2 rounded-pill bg-success border-0 text-white mb-4">
                 Has cerrado sesión correctamente
             </div>
 
-            <div class="mb-3">
-                <label for="email" class="form-label">Correo electrónico</label>
-                <input type="text" class="form-control" id="email" name="email" placeholder="Tu correo electrónico" required>
-            </div>
-
             <div class="mb-4">
-                <label for="password" class="form-label">Contraseña</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña" required>
+                <label for="email" class="label-steem">Correo electrónico</label>
+                <input type="text" class="form-control input-steem" id="email" name="email" required>
             </div>
 
-            <div class="d-grid gap-2">
-                <button type="submit" class="btn btn-steam py-2">Ingresar</button>
+            <div class="mb-5">
+                <label for="password" class="label-steem">Contraseña</label>
+                <input type="password" class="form-control input-steem" id="password" name="password" required>
+            </div>
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-login-steem">Ingresar</button>
             </div>
         </form>
 
-        <div class="text-center mt-3">
-            <a href="#" class="text-decoration-none text-muted small">¿Olvidaste tu contraseña?</a>
-            <br>
-            <span class="text-muted small">¿No tienes cuenta?</span>
-            <a th:href="@{/registro}">Únete a Steem</a>
-            <br>
-            <span class="text-muted small">¿Quieres publicar tus juegos?</span>
-            <a th:href="@{/registro/desarrollador}">Regístrate como desarrollador</a>
+        <div class="login-footer-links">
+            <a href="#">¿Olvidaste tu contraseña?</a>
+            <a th:href="@{/registro}">¿No tienes cuenta? Regístrate</a>
+            <a th:href="@{/registro/desarrollador}" style="text-decoration: underline; margin-top: 10px;">¿Quieres registrarte como desarrollador?</a>
         </div>
     </div>
 </div>

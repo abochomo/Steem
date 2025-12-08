@@ -10,4 +10,5 @@ public interface UsuarioService {
     public void setUser(Usuario usuario);
     public void eliminarUsuario(long user);
     public Usuario findUserByUsername(String username);
+    public void guardarUsuario(Usuario usuario);
 }

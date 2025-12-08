@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Steem - Editar Perfil</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
+</head>
+<body class="body-login">
+
+<header>
+    <div class="logo-container">
+        <a th:href="@{/}"><img th:src="@{/images/steem-logo.png}" alt="Logo" class="logo-img"></a>
+    </div>
+</header>
+
+<div class="container login-container">
+    <div class="card-login-steem">
+
+        <h3 class="login-title">Editar Datos</h3>
+
+        <form th:action="@{/usuario/editar}" method="post">
+
+            <div class="mb-3">
+                <label class="label-steem">Email</label>
+                <input type="text" class="form-control input-steem" th:value="${usuario.email}" disabled style="opacity: 0.6; cursor: not-allowed;">
+            </div>
+
+            <div class="mb-4">
+                <label for="nombreUsuario" class="label-steem">Nombre de Usuario</label>
+                <input type="text" class="form-control input-steem" id="nombreUsuario" name="nombreUsuario"
+                       th:value="${usuario.nombreUsuario}" required>
+            </div>
+
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-login-steem">Guardar Cambios</button>
+                <a th:href="@{/usuario/perfil}" class="btn btn-outline-light rounded-pill mt-2" style="text-align: center;">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

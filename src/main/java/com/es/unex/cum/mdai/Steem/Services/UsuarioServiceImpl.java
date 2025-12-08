@@ -70,5 +70,11 @@ public class UsuarioServiceImpl implements UsuarioService {
         return usuarioRepositorio.findByNombreUsuario(username);
     }
 
+    @Override
+    public void guardarUsuario(Usuario usuario) {
+        // Al guardar un 'Usuario' que en realidad es un 'Cliente',
+        // JPA lo maneja automáticamente.
+        usuarioRepositorio.save(usuario);
+    }
 
 }

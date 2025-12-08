@@ -3,59 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <title>Steem - Crear Cuenta de Desarrollador</title>
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Tu CSS personalizado -->
-    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
 </head>
-<body>
+<body class="body-login">
 
-<!-- 1. Menú de Navegación (Fragmento) -->
-<div th:replace="~{fragments/nav :: barra_navegacion}"></div>
+<header>
+    <div class="logo-container">
+        <a th:href="@{/}">
+            <img th:src="@{/images/steem-logo.png}" alt="Steem Logo" class="logo-img">
+        </a>
+    </div>
 
-<!-- 2. Contenedor Principal Centrado (Usa las mismas clases que Login) -->
+    <nav class="nav-links">
+        <a th:href="@{/}" class="btn-nav">Menú</a>
+        <a th:href="@{/}" class="btn-nav">Tienda</a>
+    </nav>
+
+    <div class="nav-links profile-container">
+        <a th:href="@{/login}" class="btn-nav">Iniciar Sesión</a>
+    </div>
+</header>
+
 <div class="container login-container">
 
-    <div class="card card-login p-4">
-        <h3>CREAR CUENTA DE DESARROLLADOR</h3>
+    <div class="card-login-steem">
 
-        <!-- Mensaje de error si falla el registro (opcional para el futuro) -->
-        <div th:if="${error}" class="alert alert-danger text-center p-2" th:text="${error}">
+        <img th:src="@{/images/steem-logo.png}" alt="Logo" class="login-inner-logo">
+
+        <h3 class="login-title">Registro Desarrollador</h3>
+
+        <div th:if="${error}" class="alert alert-danger text-center p-2 rounded-pill bg-danger border-0 text-white mb-4" th:text="${error}">
             Error en el registro
         </div>
 
-        <!-- 3. Formulario de Registro -->
-        <!-- action apunta a /registro vía POST, que tu compañero implementará luego -->
         <form th:action="@{/registro/desarrollador}" method="post">
 
             <div class="mb-3">
-                <label for="nombreEstudio" class="form-label">Nombre de Estudio</label>
-                <input type="text" class="form-control" id="nombreEstudio" name="nombreEstudio" placeholder="Ej: Noentiendo" required>
+                <label for="nombreEstudio" class="label-steem">Nombre de Estudio</label>
+                <input type="text" class="form-control input-steem" id="nombreEstudio" name="nombreEstudio" placeholder="Ej: Noentiendo" required>
             </div>
 
             <div class="mb-3">
-                <label for="nombreUsuario" class="form-label">Nombre de Usuario</label>
-                <input type="text" class="form-control" id="nombreUsuario" name="nombreUsuario" placeholder="Ej: Gamer123" required>
+                <label for="nombreUsuario" class="label-steem">Nombre de Usuario</label>
+                <input type="text" class="form-control input-steem" id="nombreUsuario" name="nombreUsuario" placeholder="Ej: Gamer123" required>
             </div>
 
             <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" name="email" placeholder="ejemplo@correo.com" required>
+                <label for="email" class="label-steem">Email</label>
+                <input type="email" class="form-control input-steem" id="email" name="email" placeholder="ejemplo@correo.com" required>
             </div>
 
             <div class="mb-4">
-                <label for="password" class="form-label">Contraseña</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="Mínimo 8 caracteres" required>
+                <label for="password" class="label-steem">Contraseña</label>
+                <input type="password" class="form-control input-steem" id="password" name="password" placeholder="Mínimo 8 caracteres" required>
             </div>
 
             <div class="d-grid gap-2">
-                <button type="submit" class="btn btn-steam py-2">Registrarse</button>
+                <button type="submit" class="btn btn-login-steem">Registrarse</button>
             </div>
         </form>
 
-        <div class="text-center mt-3">
-            <span class="text-muted small">¿Ya tienes una cuenta?</span>
-            <a th:href="@{/login}">Inicia Sesión</a>
+        <div class="login-footer-links">
+            <span style="opacity: 0.7;">¿Ya tienes una cuenta?</span>
+            <a th:href="@{/login}" style="display: inline; font-weight: bold;">Inicia Sesión</a>
         </div>
     </div>
 </div>

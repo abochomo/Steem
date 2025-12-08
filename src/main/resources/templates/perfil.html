@@ -1,71 +1,84 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Steem - Mi Perfil</title>
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Tu CSS personalizado -->
-    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
 </head>
-<body>
+<body class="body-login"> <header>
+    <div class="logo-container">
+        <a th:href="@{/}">
+            <img th:src="@{/images/steem-logo.png}" alt="Steem Logo" class="logo-img">
+        </a>
+    </div>
 
-<!-- Menú de Navegación -->
-<div th:replace="~{fragments/nav :: barra_navegacion}"></div>
+    <nav class="nav-links">
+        <a th:href="@{/}" class="btn-nav">Tienda</a>
+        <a th:href="@{/biblioteca}" class="btn-nav">Biblioteca</a>
+    </nav>
 
-<div class="container mt-5">
+    <div class="nav-links profile-container">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 0.8rem; font-weight: bold;">
+                <span sec:authentication="name">Usuario</span>
+            </span>
+            <form th:action="@{/logout}" method="post" style="margin: 0;">
+                <button type="submit" class="btn-profile" title="Cerrar Sesión"
+                        style="border-color: #ff4d4d; color: #ff4d4d; background: transparent; cursor: pointer;">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+</header>
+
+<div class="container mt-5 mb-5">
     <div class="row justify-content-center">
-        <div class="col-md-9">
-            <!-- Tarjeta de Perfil con estilo oscuro -->
-            <div class="card text-white" style="background-color: #16202d; border: 1px solid #2a475e;">
-                <div class="card-header border-secondary">
-                    <h3 class="mb-0">Mi Perfil</h3>
-                </div>
+        <div class="col-md-10">
 
-                <div class="card-body p-4">
-                    <div class="row align-items-center">
+            <div class="steem-card">
 
-                        <!-- Columna Izquierda: Foto y Rol -->
-                        <div class="col-md-4 text-center border-end border-secondary">
-                            <!-- Placeholder de imagen circular -->
-                            <img th:src="@{/images/placeholder_avatar.jpg}"
-                                 onerror="this.src='https://via.placeholder.com/150'"
-                                 class="rounded-circle img-thumbnail bg-secondary border-0 mb-3"
-                                 alt="Avatar" style="width: 150px; height: 150px; object-fit: cover;">
+                <div class="row align-items-center">
 
-                            <div>
-                                <!-- Badge que muestra si es Cliente o Admin -->
-                                <span class="badge bg-primary fs-6" th:text="${usuario.tipoUsuario}">Tipo Usuario</span>
-                            </div>
-                        </div>
+                    <div class="col-md-4 text-center border-end border-secondary p-3">
+                        <img th:src="@{/images/placeholder_avatar.jpg}"
+                             class="rounded-circle mb-3"
+                             style="width: 150px; height: 150px; object-fit: cover; border: 4px solid #2ecc71;"
+                             alt="Avatar">
 
-                        <!-- Columna Derecha: Datos del Usuario -->
-                        <div class="col-md-8 ps-md-4 mt-3 mt-md-0">
-                            <h2 class="text-info" th:text="${usuario.nombreUsuario}">NombreUsuario</h2>
-                            <p class="text-muted mb-4" th:text="${usuario.email}">email@ejemplo.com</p>
-
-                            <div class="mb-3">
-                                <strong class="text-light">Fecha de Registro:</strong>
-                                <!-- Formateamos la fecha para que se lea bien -->
-                                <span class="ms-2 text-secondary" th:text="${#dates.format(usuario.fechaRegistro, 'dd/MM/yyyy')}">01/01/2024</span>
-                            </div>
-
-                            <hr class="border-secondary my-4">
-
-                            <!-- Botones de Acción -->
-                            <div class="d-flex gap-2">
-                                <a href="#" class="btn btn-steam">
-                                    <i class="bi bi-pencil"></i> Editar Datos
-                                </a>
-                                <!-- El botón solicitado -->
-                                <a href="#" class="btn btn-outline-danger">
-                                    Cambiar Contraseña
-                                </a>
-                            </div>
+                        <div>
+                            <span class="badge bg-success rounded-pill px-3 py-2"
+                                  th:text="${usuario.tipoUsuario}">Tipo Usuario</span>
                         </div>
                     </div>
+
+                    <div class="col-md-8 ps-md-5 mt-3 mt-md-0">
+                        <h2 class="text-white text-uppercase fw-bold" th:text="${usuario.nombreUsuario}">USUARIO</h2>
+                        <p class="text-secondary mb-4" th:text="${usuario.email}">email@ejemplo.com</p>
+
+                        <div class="mb-4 p-3" style="background: rgba(255,255,255,0.05); border-radius: 15px;">
+                            <strong class="text-white">MIEMBRO DESDE:</strong>
+                            <span class="ms-2" style="color: #2ecc71;"
+                                  th:text="${#dates.format(usuario.fechaRegistro, 'dd/MM/yyyy')}">01/01/2024</span>
+                        </div>
+
+                        <div class="d-flex gap-3 flex-wrap">
+                            <a th:href="@{/usuario/editar}" class="btn-action py-2 px-4" style="font-size: 0.9rem;">
+                                <i class="fas fa-pencil-alt"></i> Editar Datos
+                            </a>
+
+                            <a th:href="@{/usuario/cambiar-password}" class="btn-danger-steem">
+                                Cambiar Contraseña
+                            </a>
+                        </div>
+                    </div>
+
                 </div>
             </div>
+
         </div>
     </div>
 </div>
