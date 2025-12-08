@@ -1,59 +1,344 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link th:href="@{/css/style.css}" rel="stylesheet">
-    <title>Steem - Tienda</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steem Store</title>
+    <!-- Fuente Montserrat -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Iconos FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        /* --- ESTILOS (Mantenemos el diseño "Steem") --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(180deg, #051a10 0%, #000000 40%, #062e1a 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        a { text-decoration: none; color: white; }
+
+        /* --- HEADER --- */
+        header {
+            width: 100%;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            /* Eliminamos estilos de texto antiguos ya que ahora es imagen */
+        }
+
+        /* Nuevo estilo para la imagen del logo */
+        .logo-img {
+            width: 240px;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .nav-links { display: flex; gap: 20px; flex-wrap: wrap; align-items: center; }
+
+        .btn-nav {
+            border: 2px solid white;
+            border-radius: 50px;
+            padding: 10px 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .btn-nav:hover { background-color: white; color: black; }
+
+        .profile-container { margin-left: auto; }
+
+        /* Nuevo estilo para el botón de perfil (Icono redondo) */
+        .btn-profile {
+            border: 2px solid white;
+            border-radius: 50%; /* Lo hace perfectamente redondo */
+            width: 45px;
+            height: 45px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-profile:hover {
+            background-color: white;
+            color: black;
+        }
+
+        @media (max-width: 768px) {
+            .profile-container { margin-left: 0; }
+            header { justify-content: center; }
+        }
+
+        /* --- MAIN --- */
+        main {
+            width: 100%;
+            max-width: 1200px;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        /* --- BUSCADOR --- */
+        .search-container {
+            display: flex;
+            gap: 15px;
+            width: 100%;
+            max-width: 800px;
+            justify-content: center;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .search-input {
+            flex: 1;
+            background: transparent;
+            border: 2px solid white;
+            border-radius: 50px;
+            padding: 15px 25px;
+            color: white;
+            font-size: 1rem;
+            min-width: 250px;
+        }
+
+        .search-input::placeholder { color: #ccc; }
+        .search-input:focus { outline: none; border-color: #2ecc71; box-shadow: 0 0 10px rgba(46, 204, 113, 0.3); }
+
+        .btn-action {
+            background-color: #1e6b42;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 15px 40px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: background 0.3s;
+            white-space: nowrap;
+        }
+
+        .btn-action:hover { background-color: #2ecc71; }
+
+        .btn-clear {
+            background-color: transparent;
+            border: 1px solid #666;
+            color: #ccc;
+            padding: 15px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+        .btn-clear:hover { border-color: white; color: white; }
+
+        /* --- MENSAJES --- */
+        .status-message {
+            width: 100%;
+            max-width: 800px;
+            border: 2px solid white;
+            border-radius: 50px;
+            padding: 15px;
+            text-align: center;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .suggestions-title {
+            margin-top: 20px;
+            font-size: 1rem;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #ccc;
+        }
+
+        /* --- GRID DE JUEGOS --- */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .game-card {
+            border: 2px solid white;
+            border-radius: 30px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            background-color: rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s;
+            position: relative;
+        }
+
+        .game-card:hover { transform: translateY(-5px); border-color: #2ecc71; }
+
+        .game-image {
+            width: 100%;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            border-radius: 20px;
+            background-color: #6c757d;
+        }
+
+        .game-info { display: flex; flex-direction: column; gap: 5px; }
+
+        .game-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            /* Limitar título largo */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .game-desc {
+            font-size: 0.8rem;
+            color: #aaa;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .game-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        .game-price { font-size: 1.1rem; font-weight: 400; }
+
+        .btn-buy {
+            background-color: #1e6b42;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 8px 25px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: background 0.3s;
+            display: inline-block;
+        }
+
+        .btn-buy:hover { background-color: #2ecc71; }
+
+    </style>
 </head>
 <body>
 
-<div th:replace="~{fragments/nav :: barra_navegacion}"></div>
-
-<div class="container mt-4">
-
-    <!-- SECCIÓN DE BUSCADOR (NUEVO) -->
-    <div class="row mb-4">
-        <div class="col-md-6 mx-auto">
-            <form th:action="@{/}" method="get">
-                <div class="input-group">
-                    <!-- th:value="${keyword}" sirve para que el texto no se borre al buscar -->
-                    <input type="text" name="keyword" class="form-control" placeholder="Buscar por nombre..." th:value="${keyword}">
-                    <button class="btn btn-steam" type="submit">Buscar</button>
-                    <!-- Botón para limpiar filtro si hay búsqueda -->
-                    <a th:if="${keyword != null && keyword != ''}" th:href="@{/}" class="btn btn-secondary">Limpiar</a>
-                </div>
-            </form>
-        </div>
+<!-- CABECERA -->
+<header>
+    <div class="logo-container">
+        <!--
+          CAMBIO: Logo imagen.
+          En Spring Boot, @{/images/...} busca en src/main/resources/static/images/
+        -->
+        <img th:src="@{/images/steem-logo.png}" alt="Steem Logo" class="logo-img">
     </div>
 
-    <h2 class="mb-4">Juegos Destacados</h2>
+    <nav class="nav-links">
+        <a href="#" class="btn-nav">Menú</a>
+        <a href="#" class="btn-nav">Tienda</a>
+        <a href="#" class="btn-nav">Biblioteca</a>
+    </nav>
 
-    <!-- Mensaje si no se encuentran juegos -->
-    <div th:if="${listaJuegos != null and !listaJuegos.isEmpty()}" class="alert alert-info text-center">
-        No se encontraron juegos con ese nombre.
+    <div class="nav-links profile-container">
+        <!-- CAMBIO: Botón de perfil ahora es un icono de usuario -->
+        <a href="#" class="btn-profile" title="Mi Perfil">
+            <i class="fas fa-user"></i>
+        </a>
+    </div>
+</header>
+
+<!-- CONTENIDO PRINCIPAL -->
+<main>
+
+    <!-- FORMULARIO DE BÚSQUEDA -->
+    <form th:action="@{/}" method="get" class="search-container">
+        <!-- th:value mantiene el texto escrito tras buscar -->
+        <input type="text" name="keyword" class="search-input"
+               placeholder="Buscar por nombre..."
+               th:value="${keyword}">
+
+        <button type="submit" class="btn-action">Buscar</button>
+
+        <!-- Botón Limpiar: Solo aparece si hay una búsqueda activa -->
+        <a th:if="${keyword != null && keyword != ''}" th:href="@{/}" class="btn-clear">
+            <i class="fas fa-times"></i> Limpiar
+        </a>
+    </form>
+
+    <!-- MENSAJE NO ENCONTRADO -->
+    <!-- Lógica corregida: Se muestra si la lista es nula O está vacía -->
+    <div th:if="${listaJuegos == null or listaJuegos.isEmpty()}" class="status-message">
+        No se encontraron juegos con ese nombre
     </div>
 
-    <div class="row">
-        <div class="col-md-3 mb-4" th:each="juego : ${listaJuegos}">
+    <h2 th:if="${listaJuegos != null and !listaJuegos.isEmpty()}" class="suggestions-title">
+        Resultados de la tienda
+    </h2>
 
-            <div class="card h-100">
-                <img th:src="@{/images/placeholder.jpg}" class="card-img-top" alt="Portada">
+    <!-- GRID DE JUEGOS -->
+    <div class="cards-grid">
 
-                <div class="card-body">
-                    <h5 class="card-title" th:text="${juego.titulo}">Nombre Juego</h5>
+        <!-- BUCLE THYMELEAF: Se repite por cada 'juego' en 'listaJuegos' -->
+        <div class="game-card" th:each="juego : ${listaJuegos}">
 
-                    <p class="card-text text-muted" th:text="${juego.descripcion}">Descripción corta...</p>
+            <!-- Imagen -->
+            <img th:src="@{/images/placeholder.jpg}" alt="Portada" class="game-image">
 
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="badge bg-secondary" th:text="${juego.precio} + ' €'">59.99 €</span>
+            <div class="game-info">
+                <h3 class="game-title" th:text="${juego.titulo}">Título Juego</h3>
+                <!-- Añadí la descripción aunque sea pequeña -->
+                <p class="game-desc" th:text="${juego.descripcion}">Descripción...</p>
+            </div>
 
-                        <a th:href="@{/comprar/{id}(id=${juego.idJuego})}" class="btn btn-steam btn-sm">Comprar</a>
-                    </div>
-                </div>
+            <div class="game-footer">
+                <span class="game-price" th:text="${juego.precio} + ' €'">0.00 €</span>
+
+                <!-- Enlace de compra -->
+                <a th:href="@{/comprar/{id}(id=${juego.idJuego})}" class="btn-buy">
+                    Comprar
+                </a>
             </div>
         </div>
+
     </div>
-</div>
+</main>
 
 </body>
 </html>
