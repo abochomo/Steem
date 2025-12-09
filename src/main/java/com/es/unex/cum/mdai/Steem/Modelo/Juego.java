@@ -1,6 +1,7 @@
 package com.es.unex.cum.mdai.Steem.Modelo;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -15,6 +16,7 @@ public class Juego {
     private long idJuego;
     @ManyToOne
     @JoinColumn(name = "idUsuario", nullable = true)
+    @JsonIgnore
     private Desarrollador desarrollador;
     private String titulo;
     private double precio;
@@ -23,6 +25,7 @@ public class Juego {
     private Date fechaPublicacion;
 
     @OneToMany(mappedBy = "juego")
+    @JsonIgnore
     private Set<Biblioteca> bibliotecas = new HashSet<>();
 
     public double getPrecio() {

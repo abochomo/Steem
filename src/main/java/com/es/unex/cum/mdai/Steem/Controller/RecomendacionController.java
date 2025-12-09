@@ -25,45 +25,60 @@ public class RecomendacionController {
     @PostMapping("/recomendar")
     public ResponseEntity<?> recomendarJuego(@RequestParam String preferencias) {
 
-        // 1. Obtener lista de juegos
+        // 1. Obtener juegos
         List<Juego> todosLosJuegos = juegoService.getAllJuegos();
         if (todosLosJuegos.isEmpty()) {
-            return ResponseEntity.badRequest().body("No hay juegos en el catálogo para analizar.");
+            return ResponseEntity.badRequest().body("El catálogo está vacío.");
         }
 
-        // 2. Consultar a la IA
+        // 2. Llamar a la IA
+        System.out.println("Enviando petición a la IA con preferencias: " + preferencias);
         String respuestaIA = openAIService.obtenerRecomendacion(preferencias, todosLosJuegos);
 
-        if (respuestaIA == null) {
-            System.err.println("Error: La respuesta de OpenAIService fue NULL.");
-            return ResponseEntity.status(503).body("La IA no respondió (posible sobrecarga o error de conexión).");
+        // 3. Verificación básica
+        if (respuestaIA == null || respuestaIA.trim().isEmpty()) {
+            return ResponseEntity.status(503).body("La IA no devolvió respuesta.");
         }
 
-        System.out.println("Respuesta cruda de la IA: " + respuestaIA); // LOG PARA DEPURAR
+        // DEBUG
+        System.out.println("========================================");
+        System.out.println("RESPUESTA CRUDA DE LA IA:\n" + respuestaIA);
+        System.out.println("========================================");
 
         try {
-            // 3. LIMPIEZA INTELIGENTE (NUEVO)
-            // Buscamos cualquier secuencia de dígitos en la respuesta usando Regex
-            // Esto ignorará etiquetas <think>, texto extra, puntos, etc.
-            Pattern pattern = Pattern.compile("\\d+");
-            Matcher matcher = pattern.matcher(respuestaIA);
+            // 4. LIMPIEZA
+            String respuestaLimpia = respuestaIA.replaceAll("<think>[\\s\\S]*?</think>", "").trim();
+            System.out.println("Respuesta limpia: " + respuestaLimpia);
 
-            Long idJuego = null;
+            // 5. BUSCAR EL NÚMERO (CORREGIDO)
+            // "-?" permite detectar el signo negativo si existe.
+            Pattern pattern = Pattern.compile("-?\\d+");
+            Matcher matcher = pattern.matcher(respuestaLimpia);
 
-            // Si encuentra números, cogemos el último que aparezca (suele ser la conclusión tras el <think>)
-            // O el primero si prefieres, pero en DeepSeek la respuesta final suele estar al final.
+            Long idEncontrado = null;
             while (matcher.find()) {
-                idJuego = Long.parseLong(matcher.group());
+                idEncontrado = Long.parseLong(matcher.group());
             }
 
-            if (idJuego == null) {
-                return ResponseEntity.status(500).body("La IA no devolvió ningún ID válido. Dijo: " + respuestaIA);
+            // Si la IA dijo texto pero no números, asumimos que no encontró nada (-1)
+            if (idEncontrado == null) {
+                System.err.println("No encontré números, asumiendo -1 (No encontrado).");
+                idEncontrado = -1L;
             }
 
-            // Variable final efectiva para usar en lambda
-            Long finalIdJuego = idJuego;
+            // 6. MANEJO DEL CASO "NO ENCONTRADO" (-1)
+            if (idEncontrado == -1) {
+                Juego juegoNoEncontrado = new Juego();
+                juegoNoEncontrado.setIdJuego(-1);
+                juegoNoEncontrado.setTitulo("Sin resultados");
+                juegoNoEncontrado.setDescripcion("Lo siento, no he encontrado ningún juego que coincida con tus gustos.");
+                juegoNoEncontrado.setPrecio(0.0);
 
-            // 4. Buscar el juego en BD
+                return ResponseEntity.ok(juegoNoEncontrado);
+            }
+
+            // 7. BUSCAR EN BD (Si es un ID normal)
+            Long finalIdJuego = idEncontrado;
             Optional<Juego> juegoOpt = todosLosJuegos.stream()
                     .filter(j -> j.getIdJuego() == finalIdJuego)
                     .findFirst();
@@ -71,12 +86,12 @@ public class RecomendacionController {
             if (juegoOpt.isPresent()) {
                 return ResponseEntity.ok(juegoOpt.get());
             } else {
-                return ResponseEntity.status(404).body("La IA recomendó el ID " + finalIdJuego + " pero no existe en la BD.");
+                return ResponseEntity.status(404).body("La IA recomendó el ID " + finalIdJuego + " pero no existe.");
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(500).body("Error procesando la respuesta: " + e.getMessage());
+            return ResponseEntity.status(500).body("Error interno: " + e.getMessage());
         }
     }
 }

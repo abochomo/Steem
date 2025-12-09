@@ -137,13 +137,18 @@
         const loading = document.getElementById('loadingAi');
         const resultado = document.getElementById('resultadoAi');
 
+        // Elementos de la tarjeta
+        const titulo = document.getElementById('aiTitulo');
+        const desc = document.getElementById('aiDesc');
+        const precio = document.getElementById('aiPrecio');
+        const link = document.getElementById('aiLink');
+        const img = document.getElementById('aiImg');
+
         if(!input) return;
 
-        // Mostrar carga / Ocultar resultado anterior
         loading.style.display = 'block';
         resultado.style.display = 'none';
 
-        // Petición al Controller
         fetch('/api/ai/recomendar?preferencias=' + encodeURIComponent(input), {
             method: 'POST'
         })
@@ -152,14 +157,33 @@
                 return response.json();
             })
             .then(juego => {
-                // Rellenar datos
-                document.getElementById('aiTitulo').innerText = juego.titulo;
-                document.getElementById('aiDesc').innerText = juego.descripcion;
-                document.getElementById('aiPrecio').innerText = juego.precio + ' €';
+                // LÓGICA VISUAL
+                if (juego.idJuego === -1) {
+                    // CASO: NO ENCONTRADO
+                    titulo.innerText = "Vaya...";
+                    titulo.style.color = "#ff6b6b"; // Título en rojo suave
+                    desc.innerText = juego.descripcion;
 
-                // Actualizar enlace (ajusta la ruta según tus imágenes)
-                // document.getElementById('aiImg').src = '/images/' + juego.imagen;
-                document.getElementById('aiLink').href = '/comprar/' + juego.idJuego;
+                    // Ocultamos precio y botón de comprar
+                    precio.style.display = 'none';
+                    link.style.display = 'none';
+                    img.style.display = 'none';
+
+                    // Opcional: Cambiar imagen a algo genérico si quieres
+                    // img.src = '/images/error.jpg';
+                } else {
+                    // CASO: JUEGO ENCONTRADO
+                    titulo.innerText = juego.titulo;
+                    titulo.style.color = "#ffffff"; // Reset color
+                    desc.innerText = juego.descripcion;
+
+                    precio.innerText = juego.precio + ' €';
+                    precio.style.display = 'block';
+
+                    link.href = '/comprar/' + juego.idJuego;
+                    link.style.display = 'inline-block';
+                    link.innerText = "Ver Juego";
+                }
 
                 loading.style.display = 'none';
                 resultado.style.display = 'block';
@@ -167,7 +191,7 @@
             .catch(error => {
                 console.error(error);
                 loading.style.display = 'none';
-                alert('La IA está descansando. Inténtalo de nuevo.');
+                alert('Hubo un error consultando a la IA. Inténtalo de nuevo.');
             });
     }
 </script>

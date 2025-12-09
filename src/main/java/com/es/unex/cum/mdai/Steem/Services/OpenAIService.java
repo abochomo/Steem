@@ -39,7 +39,8 @@ public class OpenAIService {
                 "Tienes la siguiente lista de juegos disponibles en stock:\n" + listaJuegosTexto + "\n\n" +
                 "INSTRUCCIONES:\n" +
                 "1. Basado en el gusto del usuario, selecciona EL MEJOR juego de la lista.\n" +
-                "2. Tu respuesta debe ser SOLO el ID del juego seleccionado. Nada más. Solo el número.";
+                "2. Tu respuesta debe ser SOLO el ID del juego seleccionado. Nada más. Solo el número. \n" +
+                "3. Si no hay ningún juego que coincida con los gustos del usuario, responde: -1\n";
 
         // 3. Construimos el cuerpo de la petición JSON
         Map<String, Object> body = new HashMap<>();

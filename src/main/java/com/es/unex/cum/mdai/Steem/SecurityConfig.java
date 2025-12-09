@@ -5,12 +5,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -24,24 +21,20 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        /*
         http
+                // -------------------------------------------------------------
+                // 1. NUEVO: Ignorar protección CSRF solo para la API de la IA
+                // Esto soluciona el error 403 Forbidden en el botón "Magic"
+                // -------------------------------------------------------------
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"))
+
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/login","/registro/**","/registroDesarrollador","/images/**", "/css/**", "/js/**", "/error").permitAll()
-                        .anyRequest().authenticated()
-                )
-                .formLogin((form) -> form
-                        .loginPage("/login").usernameParameter("email")
-                        .defaultSuccessUrl("/", true)
-                        .permitAll()
-                )
-                .logout((logout) -> logout
-                        .logoutSuccessUrl("/login?logout")
-                        .permitAll()
-                );
-         */
-        http
-                .authorizeHttpRequests((requests) -> requests
+                        // -----------------------------------------------------
+                        // 2. NUEVO: Permitir acceso público a la API
+                        // -----------------------------------------------------
+                        .requestMatchers("/api/**").permitAll()
+
+                        // --- TU CONFIGURACIÓN ORIGINAL ABAJO ---
                         .requestMatchers("/", "/login", "/registro/**", "/registroDesarrollador",
                                 "/images/**", "/css/**", "/js/**", "/error").permitAll()
                         .requestMatchers("/biblioteca/**").hasRole("CLIENTE")
