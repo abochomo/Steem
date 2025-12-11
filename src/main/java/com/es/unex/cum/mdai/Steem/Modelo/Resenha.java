@@ -85,4 +85,7 @@ public class Resenha {
     public void setRecomendado(Boolean recomendado) {
         this.recomendado = recomendado;
     }
+
+    public void setCalificacion(int i) {
+    }
 }

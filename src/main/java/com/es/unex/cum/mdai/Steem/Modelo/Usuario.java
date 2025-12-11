@@ -80,6 +80,10 @@ public abstract class Usuario {
         return tipo;
     }
 
+    public void setTipoUsuario(TipoUsuario tipo) {
+        this.tipo = tipo;
+    }
+
     public void setTipo(TipoUsuario tipo) {
         this.tipo = tipo;
     }

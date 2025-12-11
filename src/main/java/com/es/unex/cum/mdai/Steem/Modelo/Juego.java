@@ -23,6 +23,7 @@ public class Juego {
     private String categoria;
     private String descripcion;
     private Date fechaPublicacion;
+    private String imagenUrl;
 
     @OneToMany(mappedBy = "juego")
     @JsonIgnore

@@ -72,7 +72,7 @@ public class RecomendacionController {
                 juegoNoEncontrado.setIdJuego(-1);
                 juegoNoEncontrado.setTitulo("Sin resultados");
                 juegoNoEncontrado.setDescripcion("Lo siento, no he encontrado ningún juego que coincida con tus gustos.");
-                juegoNoEncontrado.setPrecio(0.0);
+                juegoNoEncontrado.setPrecio(0.0F);
 
                 return ResponseEntity.ok(juegoNoEncontrado);
             }
