@@ -19,7 +19,7 @@ public class Juego {
     @JsonIgnore
     private Desarrollador desarrollador;
     private String titulo;
-    private double precio;
+    private float precio;
     private String categoria;
     private String descripcion;
     private Date fechaPublicacion;
@@ -28,7 +28,7 @@ public class Juego {
     @JsonIgnore
     private Set<Biblioteca> bibliotecas = new HashSet<>();
 
-    public double getPrecio() {
+    public float getPrecio() {
         return precio;
     }
 
@@ -56,7 +56,7 @@ public class Juego {
         this.descripcion = descripcion;
     }
 
-    public void setPrecio(double precio) {
+    public void setPrecio(float precio) {
         this.precio = precio;
     }
 

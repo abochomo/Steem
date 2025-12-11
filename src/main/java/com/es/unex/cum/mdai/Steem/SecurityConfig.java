@@ -37,8 +37,7 @@ public class SecurityConfig {
                         // --- TU CONFIGURACIÓN ORIGINAL ABAJO ---
                         .requestMatchers("/", "/login", "/registro/**", "/registroDesarrollador",
                                 "/images/**", "/css/**", "/js/**", "/error").permitAll()
-                        .requestMatchers("/biblioteca/**").hasRole("CLIENTE")
-                        .requestMatchers("/biblioteca/**").hasAuthority("CLIENTE")
+                        .requestMatchers("/biblioteca/**", "/comprar/**").hasRole("CLIENTE")
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form

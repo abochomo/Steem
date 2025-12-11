@@ -7,4 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public interface ClienteService {
     public void registroCliente(Cliente cliente);
+    public void cargarSaldo(float cantidad);
+    public void descontarSaldo(float cantidad);
 }

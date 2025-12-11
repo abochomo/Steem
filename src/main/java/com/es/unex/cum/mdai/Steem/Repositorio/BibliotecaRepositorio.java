@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface BibliotecaRepositorio extends JpaRepository<Biblioteca, Integer> {
+public interface BibliotecaRepositorio extends JpaRepository<Biblioteca, Long> {
     Optional<Biblioteca> findBibliotecaByClienteIdAndJuegoId(Long clienteId, Long juegoId);
     Optional<List<Biblioteca>> findAllByClienteId(Long idUsuario);
 }

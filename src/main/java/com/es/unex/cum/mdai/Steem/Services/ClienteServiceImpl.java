@@ -31,4 +31,22 @@ public class ClienteServiceImpl implements ClienteService {
         cliente.setPassword(passwordEncoder.encode(cliente.getPassword()));
         clienteRepositorio.save(cliente);
     }
+
+    @Override
+    public void cargarSaldo(float cantidad) {
+        if (this.clienteActual == null) {
+            throw new RuntimeException("No hay ningún cliente logueado para cargar saldo");
+        }
+        this.clienteActual.setSaldo(this.clienteActual.getSaldo() + cantidad);
+        clienteRepositorio.save(this.clienteActual);
+    }
+
+    @Override
+    public void descontarSaldo(float cantidad) {
+        if (this.clienteActual == null) {
+            throw new RuntimeException("No hay ningún cliente logueado para cargar saldo");
+        }
+        this.clienteActual.setSaldo(this.clienteActual.getSaldo() - cantidad);
+        clienteRepositorio.save(this.clienteActual);
+    }
 }

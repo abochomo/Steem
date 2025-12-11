@@ -13,6 +13,8 @@ import java.util.HashSet;
 public class Cliente extends Usuario {
     private Date fechaNacimiento;
 
+    private float saldo;
+
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Biblioteca> bibliotecas = new HashSet<>();
 
@@ -41,6 +43,18 @@ public class Cliente extends Usuario {
     }
 
     public Cliente () {
+    }
+
+    public float getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(float saldo) {
+        this.saldo = saldo;
+    }
+
+    public void restarSaldo(float cantidad) {
+        this.saldo -= cantidad;
     }
 
 }

@@ -8,6 +8,5 @@ public interface BibliotecaService {
     public void comprarJuego(long user, long juego);
     public void reembolsarJuego(long user, long juego);
     public List<Biblioteca> getBiblioteca(long user);
-    public void setBiblioteca(Biblioteca biblioteca);
     public boolean tieneJuego(long juego, long user);
 }
