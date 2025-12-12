@@ -85,6 +85,13 @@ public class Juego {
     public long getId() {
         return idJuego;
     }
+
+    public String getImagenUrl() {
+        return imagenUrl;
+    }
+    public void setImagenUrl(String imagenUrl) {
+        this.imagenUrl = imagenUrl;
+    }
 }
 
 

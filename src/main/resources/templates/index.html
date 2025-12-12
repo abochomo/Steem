@@ -74,7 +74,7 @@
     <div class="cards-grid">
         <div class="game-card" th:each="juego : ${listaJuegos}">
 
-            <a th:href="@{/comprar/{id}(id=${juego.idJuego})}" style="text-decoration: none; display: block;">
+            <a th:href="@{/juego/{id}(id=${juego.idJuego})}" style="text-decoration: none; display: block;">
                 <img th:if="${juego.imagenUrl != null && !juego.imagenUrl.isEmpty()}"
                      th:src="@{${juego.imagenUrl}}" alt="Portada" class="game-image">
 
@@ -83,7 +83,7 @@
             </a>
 
             <div class="game-info">
-                <a th:href="@{/comprar/{id}(id=${juego.idJuego})}" style="text-decoration: none;">
+                <a th:href="@{/juego/{id}(id=${juego.idJuego})}" style="text-decoration: none;">
                     <h3 class="game-title" th:text="${juego.titulo}">Título Juego</h3>
                 </a>
                 <p class="game-desc" th:text="${juego.descripcion}">Descripción...</p>
@@ -91,14 +91,14 @@
 
             <div class="game-footer">
                 <span class="game-price" th:text="${juego.precio} + ' €'">0.00 €</span>
-                <a th:href="@{/comprar/{id}(id=${juego.idJuego})}" class="btn-buy">
-                    Comprar
+                <a th:href="@{/juego/{id}(id=${juego.idJuego})}" class="btn-buy">
+                    Ver detalles
                 </a>
             </div>
         </div>
     </div>
 
-    <div class="steem-card mt-5 mb-5" style="border-color: #a29bfe; box-shadow: 0 0 20px rgba(162, 155, 254, 0.2);">
+    <div class="ai-container" style="border-color: #a29bfe; box-shadow: 0 0 20px rgba(162, 155, 254, 0.2);">
         <div class="text-center">
             <h2 class="card-title" style="color: #a29bfe;">
                 <i class="fas fa-robot"></i> Steem AI
@@ -107,7 +107,7 @@
         </div>
 
         <div class="d-flex gap-2 mt-4 justify-content-center">
-            <input type="text" id="aiInput" class="form-control input-steem"
+            <input type="text" id="ai-input" class="form-control input-steem"
                    placeholder="Ej: Me gustan los juegos de disparos frenéticos o RPGs con historia..."
                    style="max-width: 500px;">
             <button onclick="pedirRecomendacion()" class="btn-action" style="background-color: #6c5ce7;">
@@ -142,7 +142,7 @@
 
 <script>
     function pedirRecomendacion() {
-        const input = document.getElementById('aiInput').value;
+        const input = document.getElementById('ai-input').value;
         const loading = document.getElementById('loadingAi');
         const resultado = document.getElementById('resultadoAi');
 

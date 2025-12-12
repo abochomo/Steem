@@ -59,7 +59,7 @@ public class HomeController {
 
         return "index";
     }
-    @GetMapping("/comprar/{id}")
+    @GetMapping("/juego/{id}")
     public String verDetalleJuego(@PathVariable("id") Long id, Model model) {
 
         // Buscamos el juego.

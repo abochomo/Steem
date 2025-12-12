@@ -37,15 +37,26 @@ public class BibliotecaController {
 
         if (auth == null || !auth.isAuthenticated() || auth.getPrincipal().equals("anonymousUser")) {
             return "redirect:/login";
-        }
-        else {
+        } else {
             String username = auth.getName();
             Usuario user = usuarioService.findUserByEmail(username);
-            List<Biblioteca> biblioteca= bibliotecaService.getBiblioteca(user.getIdUsuario());
-            List<Juego> juegosEnBiblioteca = biblioteca.stream()
-                    .map(b -> juegoService.getJuegoById(b.getJuego().getId()))
-                    .toList();
-            model.addAttribute("biblioteca", juegosEnBiblioteca);
+
+            // --- DEBUG: IMPRIMIR EN CONSOLA ---
+            System.out.println("Usuario logueado: " + user.getNombreUsuario());
+            System.out.println("ID Usuario: " + user.getIdUsuario());
+
+            List<Biblioteca> biblioteca = bibliotecaService.getBiblioteca(user.getIdUsuario());
+
+            // --- DEBUG: VERIFICAR LISTA ---
+            if (biblioteca == null) {
+                System.out.println("ERROR: La lista es NULL");
+            } else {
+                System.out.println("Tamaño de la biblioteca: " + biblioteca.size());
+                // Imprimir títulos para asegurar
+                biblioteca.forEach(b -> System.out.println(" - Juego: " + b.getJuego().getTitulo()));
+            }
+
+            model.addAttribute("biblioteca", biblioteca);
         }
         return "biblioteca";
     }

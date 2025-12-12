@@ -56,9 +56,9 @@
                 Descripción del juego...
             </p>
 
-            <div class="mt-3 text-end">
-                <small class="text-muted">Publicado: <span th:text="${#dates.format(juego.fechaPublicacion, 'dd/MM/yyyy')}">Fecha</span></small>
-            </div>
+            <h4 class="box-text" th:text="${juego.desarrollador.getNombreEstudio()}">
+                Estudio Desarrollador...
+            </h4>
         </div>
 
         <div class="reviews-box">
@@ -101,6 +101,31 @@
 
     </div>
 </div>
+
+</div> <script>
+    // Buscamos el botón por su clase
+    const wishBtn = document.querySelector('.btn-heart');
+
+    if (wishBtn) {
+        wishBtn.addEventListener('click', function() {
+            // 1. Alternar la clase 'active' (Cambia el color a rosado)
+            this.classList.toggle('active');
+
+            // 2. Cambiar el icono de borde a relleno
+            const icon = this.querySelector('i');
+
+            if (this.classList.contains('active')) {
+                // Si está activo -> Corazón Lleno (Solid)
+                icon.classList.remove('far'); // FontAwesome Regular
+                icon.classList.add('fas');    // FontAwesome Solid
+            } else {
+                // Si se desactiva -> Corazón Vacío (Regular)
+                icon.classList.remove('fas');
+                icon.classList.add('far');
+            }
+        });
+    }
+</script>
 
 </body>
 </html>

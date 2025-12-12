@@ -578,15 +578,23 @@ main {
     color: #2ecc71;
     font-size: 1.5rem;
     cursor: pointer;
-    transition: 0.3s;
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .btn-heart:hover {
     background-color: #2ecc71;
     color: white;
+}
+
+.btn-heart.active {
+    background-color: #ff4757; /* Color rosado intenso */
+    border-color: #ff4757;
+    color: white;
+    box-shadow: 0 0 15px rgba(255, 71, 87, 0.6); /* Resplandor rosado */
+    transform: scale(1.1); /* Efecto de "latido" al activar */
 }
 
 .btn-add-cart {
@@ -670,6 +678,12 @@ main {
     background-color: #1e6b42;
     border-radius: 50%;
     flex-shrink: 0;
+    display: flex;             /* Activa el modo flexible */
+    justify-content: center;   /* Centra horizontalmente */
+    align-items: center;       /* Centra verticalmente */
+    color: white;              /* Color de la letra */
+    font-weight: bold;         /* Letra en negrita */
+    font-size: 1.5rem;         /* Tamaño de la letra */
 }
 
 .review-content {
@@ -683,6 +697,78 @@ main {
     margin: 0;
     font-size: 0.9rem;
     color: #ddd;
+}
+
+.ai-container {
+    background-color: rgba(11, 15, 20, 0.95); /* Fondo oscuro ligeramente translúcido */
+    border-radius: 30px; /* Bordes mucho más redondeados */
+    padding: 40px 50px; /* MUCHO más espacio interno (antes 20px) */
+    margin-bottom: 60px; /* Más separación con el footer */
+    border: 2px solid #6c5ce7; /* Borde púrpura más notable */
+    /* Sombra suave y resplandor púrpura alrededor de toda la caja */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 30px rgba(108, 92, 231, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Título de la IA más grande y con color */
+.ai-container h3 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #a29bfe; /* Título en púrpura claro */
+    margin-bottom: 15px;
+}
+
+/* Texto descriptivo más legible */
+.ai-container p {
+    font-size: 1.2rem;
+    color: #dfe6e9;
+    margin-bottom: 30px; /* Más espacio antes del input */
+}
+
+/* Input de texto más grande y cómodo */
+.ai-input {
+    background: rgba(23, 26, 33, 0.9) !important;
+    border: 2px solid #6c5ce7 !important;
+    color: white !important;
+    font-size: 1.3rem !important; /* Texto más grande al escribir */
+    padding: 15px 25px !important; /* Campo más alto */
+    border-radius: 20px 0 0 20px !important; /* Esquinas redondeadas a la izquierda */
+    flex: 1;
+    width: 100% !important;
+}
+
+.ai-input::placeholder {
+    color: #b2bec3 !important;
+}
+
+.ai-input:focus {
+    box-shadow: 0 0 15px rgba(108, 92, 231, 0.5) !important;
+    background: rgba(23, 26, 33, 1) !important;
+}
+
+/* Botón MAGIC más grande y llamativo */
+.btn-ai {
+    background: linear-gradient(135deg, #6c5ce7, #00d2d3); /* Degradado más vibrante (púrpura a turquesa) */
+    border: none;
+    color: white;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    font-size: 1.3rem !important; /* Texto del botón más grande */
+    padding: 15px 40px !important; /* Botón más ancho y alto */
+    border-radius: 0 20px 20px 0 !important; /* Esquinas redondeadas a la derecha */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Efecto hover explosivo para el botón */
+.btn-ai:hover {
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 0 10px 25px rgba(108, 92, 231, 0.8); /* Resplandor intenso */
+    filter: brightness(1.2);
 }
 
 

@@ -63,7 +63,8 @@ public class BibliotecaServiceImpl implements BibliotecaService {
 
     @Override
     public List<Biblioteca> getBiblioteca(long user) {
-        return List.of();
+        // CORRECCIÓN: Llamamos al repositorio buscando por el ID del cliente
+        return bibliotecaRepositorio.findByCliente_Id(user);
     }
 
     @Override
