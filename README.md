@@ -39,3 +39,6 @@ Al igual que la biblioteca, esta tabla depende directamente del usuario, y en ca
 La funcionalidad de login permite a los usuarios autenticarse en la plataforma utilizando su email y contraseña. Al iniciar sesión, se verifica el tipo de usuario (cliente o desarrollador) para redirigirlo a la interfaz correspondiente.
 
 Esta funcionalidad utiliza la funcionalidad integrada de Spring Security para gestionar la autenticación y autorización de usuarios a las distintas páginas de la aplicación.
+
+### IA
+La aplicación integra una funcionalidad de inteligencia artificial que permite a los usuarios preguntarle a la IA sobre recomendaciones de juegos, y obtener el juego más adecuado según sus preferencias.

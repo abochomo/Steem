@@ -73,10 +73,19 @@
 
     <div class="cards-grid">
         <div class="game-card" th:each="juego : ${listaJuegos}">
-            <img th:src="@{/images/placeholder.jpg}" alt="Portada" class="game-image">
+
+            <a th:href="@{/comprar/{id}(id=${juego.idJuego})}" style="text-decoration: none; display: block;">
+                <img th:if="${juego.imagenUrl != null && !juego.imagenUrl.isEmpty()}"
+                     th:src="@{${juego.imagenUrl}}" alt="Portada" class="game-image">
+
+                <img th:if="${juego.imagenUrl == null || juego.imagenUrl.isEmpty()}"
+                     th:src="@{/images/placeholder.jpg}" alt="Portada" class="game-image">
+            </a>
 
             <div class="game-info">
-                <h3 class="game-title" th:text="${juego.titulo}">Título Juego</h3>
+                <a th:href="@{/comprar/{id}(id=${juego.idJuego})}" style="text-decoration: none;">
+                    <h3 class="game-title" th:text="${juego.titulo}">Título Juego</h3>
+                </a>
                 <p class="game-desc" th:text="${juego.descripcion}">Descripción...</p>
             </div>
 

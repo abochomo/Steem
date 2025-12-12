@@ -1,6 +1,8 @@
 package com.es.unex.cum.mdai.Steem.Controller;
 
 import com.es.unex.cum.mdai.Steem.Modelo.Juego;
+import com.es.unex.cum.mdai.Steem.Modelo.Resenha;
+import com.es.unex.cum.mdai.Steem.Repositorio.ResenhaRepositorio;
 import com.es.unex.cum.mdai.Steem.Services.JuegoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -8,15 +10,21 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class HomeController {
 
 	@Autowired
 	private JuegoService juegoService;
+
+    @Autowired
+    private ResenhaRepositorio resenhaRepositorio;
 
     /*
     @Autowired
@@ -51,7 +59,27 @@ public class HomeController {
 
         return "index";
     }
+    @GetMapping("/comprar/{id}")
+    public String verDetalleJuego(@PathVariable("id") Long id, Model model) {
+
+        // Buscamos el juego.
+        // Nota: Asumo que tienes un método findById en tu servicio.
+        // Si no, puedes filtrar la lista getAllJuegos() como hicimos en la IA.
+        Optional<Juego> juegoOpt = juegoService.getAllJuegos().stream()
+                .filter(j -> j.getIdJuego() == id)
+                .findFirst();
+
+        if (juegoOpt.isPresent()) {
+            model.addAttribute("juego", juegoOpt.get());
+            List<Resenha> listaResenas = resenhaRepositorio.findByJuegoId(id);
+            // Las pasamos a la vista HTML
+            model.addAttribute("listaResenas", listaResenas);
+            return "detalles_juego"; // Nombre del nuevo HTML
+        } else {
+            return "redirect:/"; // Si no existe, vuelve al inicio
+        }
     }
+}
 
     /*
     private void generarJuegosMock() {
