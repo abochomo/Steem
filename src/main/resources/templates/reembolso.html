@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmar Reembolso - Steem</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
+</head>
+<body class="body-login">
+
+<a th:href="@{/}" class="logo-floating"
+   style="position: absolute; top: 30px; left: 40px; z-index: 1000; transition: transform 0.3s;">
+    <img th:src="@{/images/steem-logo.png}" alt="Steem Logo"
+         style="height: 60px; filter: drop-shadow(0 2px 10px rgba(0,0,0,0.5));">
+</a>
+
+<div class="login-container">
+
+    <div class="card-login-steem text-center" style="max-width: 700px; position: relative;">
+
+        <h2 class="section-title" style="border-bottom-color: #e74c3c;">
+            <i class="fas fa-exclamation-triangle"></i> Zona de Reembolso
+        </h2>
+
+        <div class="mt-4">
+            <img th:if="${juego.imagenUrl != null}" th:src="@{${juego.imagenUrl}}"
+                 class="img-fluid mb-4"
+                 style="border-radius: 20px; border: 2px solid #555; max-height: 250px; object-fit: cover; width: 100%;">
+
+            <h3 class="text-white fw-bold text-uppercase mb-4" th:text="${juego.titulo}">TITULO JUEGO</h3>
+
+            <div class="steem-alert mb-4">
+                <h5 class="fw-bold mb-3" style="color: #e74c3c;">
+                    <i class="fas fa-info-circle"></i> ATENCIÓN
+                </h5>
+                <ul class="text-start" style="color: #ddd; list-style-type: none; padding: 0;">
+                    <li class="mb-2"><i class="fas fa-times text-danger me-2"></i> Se eliminará de tu biblioteca inmediatamente.</li>
+                    <li class="mb-2"><i class="fas fa-history text-secondary me-2"></i> Perderás el progreso no guardado en la nube.</li>
+                    <li><i class="fas fa-shopping-cart text-success me-2"></i> Tendrás que comprarlo de nuevo para jugar.</li>
+                </ul>
+            </div>
+
+            <form th:action="@{/reembolsar/confirmar/{id}(id=${juego.id})}" method="post">
+
+                <div class="steem-check-container mb-4">
+                    <input class="form-check-input" type="checkbox" id="checkConfirmacion"
+                           style="background-color: #323f53; border-color: #666; transform: scale(1.3);">
+                    <label class="form-check-label ms-3 text-white" for="checkConfirmacion" style="font-size: 0.95rem; cursor: pointer;">
+                        Entiendo que es una acción permanente y deseo devolver el producto.
+                    </label>
+                </div>
+
+                <div class="d-flex justify-content-between gap-3">
+                    <a th:href="@{/biblioteca}" class="btn-outline-steem w-50 text-center text-decoration-none">
+                        CANCELAR
+                    </a>
+
+                    <button type="submit" id="btnReembolsar" class="btn-danger-solid w-50" disabled>
+                        <i class="fas fa-trash-alt me-2"></i> CONFIRMAR
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Lógica del checkbox
+    const checkbox = document.getElementById('checkConfirmacion');
+    const boton = document.getElementById('btnReembolsar');
+
+    checkbox.addEventListener('change', function() {
+        if (this.checked) {
+            boton.disabled = false;
+        } else {
+            boton.disabled = true;
+        }
+    });
+
+    // Pequeño efecto hover para el logo (opcional, ya que usé estilos inline arriba)
+    const logo = document.querySelector('.logo-floating');
+    logo.addEventListener('mouseenter', () => logo.style.transform = 'scale(1.1)');
+    logo.addEventListener('mouseleave', () => logo.style.transform = 'scale(1)');
+</script>
+
+</body>
+</html>

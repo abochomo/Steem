@@ -56,5 +56,8 @@ public class Cliente extends Usuario {
     public void restarSaldo(float cantidad) {
         this.saldo -= cantidad;
     }
+    public void sumarSaldo(float cantidad) {
+        this.saldo += cantidad;
+    }
 
 }

@@ -8,7 +8,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link th:href="@{/css/styles.css}" rel="stylesheet">
 </head>
-<body class="body-login"> <header>
+<body class="body-login">
+
+<header>
     <div class="logo-container">
         <a th:href="@{/}">
             <img th:src="@{/images/steem-logo.png}" alt="Steem Logo" class="logo-img">
@@ -48,13 +50,15 @@
                 <div class="row align-items-center">
 
                     <div class="col-md-4 text-center border-end border-secondary p-3">
-                        <img th:src="@{/images/placeholder_avatar.jpg}"
-                             class="rounded-circle mb-3"
-                             style="width: 150px; height: 150px; object-fit: cover; border: 4px solid #2ecc71;"
-                             alt="Avatar">
+
+                        <div class="mx-auto mb-3 rounded-circle d-flex align-items-center justify-content-center"
+                             style="width: 150px; height: 150px; border: 4px solid #2ecc71; background-color: rgba(255,255,255,0.05);">
+                            <i class="fas fa-user fa-5x" style="color: #66c0f4;"></i>
+                        </div>
 
                         <div>
-                            <span class="badge bg-success rounded-pill px-3 py-2"
+                            <span class="badge rounded-pill px-3 py-2"
+                                  th:classappend="${usuario.tipo.name() == 'DESARROLLADOR'} ? 'bg-warning text-dark' : 'bg-success'"
                                   th:text="${usuario.tipoUsuario}">Tipo Usuario</span>
                         </div>
                     </div>
@@ -63,13 +67,54 @@
                         <h2 class="text-white text-uppercase fw-bold" th:text="${usuario.nombreUsuario}">USUARIO</h2>
                         <p class="text-secondary mb-4" th:text="${usuario.email}">email@ejemplo.com</p>
 
-                        <div class="mb-4 p-3" style="background: rgba(255,255,255,0.05); border-radius: 15px;">
-                            <strong class="text-white">MIEMBRO DESDE:</strong>
-                            <span class="ms-2" style="color: #2ecc71;"
-                                  th:text="${#dates.format(usuario.fechaRegistro, 'dd/MM/yyyy')}">01/01/2024</span>
+                        <div class="mb-3 p-3" style="background: rgba(255,255,255,0.05); border-radius: 15px;">
+                            <div class="row">
+                                <div class="col-md-6 mb-2">
+                                    <small class="text-secondary d-block text-uppercase">Miembro desde</small>
+                                    <span class="text-white fw-bold">
+                                        <i class="fas fa-calendar-alt me-2 text-success"></i>
+                                        <span th:text="${#dates.format(usuario.fechaRegistro, 'dd/MM/yyyy')}">01/01/2024</span>
+                                    </span>
+                                </div>
+
+                                <div class="col-md-6 mb-2" th:if="${usuario.tipo.name() == 'CLIENTE'}">
+                                    <small class="text-secondary d-block text-uppercase">Cartera Steem</small>
+                                    <span class="fw-bold" style="color: #66c0f4; font-size: 1.2rem;">
+                                        <i class="fas fa-wallet me-2"></i>
+                                        <span th:text="${usuario.saldo} + ' €'">0.0 €</span>
+                                    </span>
+                                </div>
+
+                                <div class="col-md-6 mb-2" th:if="${usuario.tipo.name() == 'DESARROLLADOR'}">
+                                    <small class="text-secondary d-block text-uppercase">Estudio</small>
+                                    <span class="text-white fw-bold">
+                                        <i class="fas fa-building me-2 text-warning"></i>
+                                        <span th:text="${usuario.nombreEstudio != null} ? ${usuario.nombreEstudio} : 'Indie'">Estudio</span>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3 pt-3 border-top border-secondary" th:if="${usuario.tipo.name() == 'CLIENTE'}">
+                                <div class="col-12">
+                                    <small class="text-secondary d-block text-uppercase">Fecha de Nacimiento</small>
+                                    <span class="text-white">
+                                        <span th:text="${usuario.fechaNacimiento != null} ? ${#dates.format(usuario.fechaNacimiento, 'dd/MM/yyyy')} : 'No especificada'">--/--/----</span>
+                                        <i th:if="${usuario.fechaNacimiento == null}" class="fas fa-exclamation-circle text-warning ms-2" title="Completa tu perfil"></i>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3 pt-3 border-top border-secondary" th:if="${usuario.tipo.name() == 'DESARROLLADOR'}">
+                                <div class="col-12">
+                                    <small class="text-secondary d-block text-uppercase">Estado de la cuenta</small>
+                                    <span th:if="${usuario.activo}" class="text-success fw-bold"><i class="fas fa-check-circle"></i> Verificada y Activa</span>
+                                    <span th:unless="${usuario.activo}" class="text-danger fw-bold"><i class="fas fa-ban"></i> Inactiva</span>
+                                </div>
+                            </div>
+
                         </div>
 
-                        <div class="d-flex gap-3 flex-wrap">
+                        <div class="d-flex gap-3 flex-wrap mt-4">
                             <a th:href="@{/usuario/editar}" class="btn-action py-2 px-4" style="font-size: 0.9rem;">
                                 <i class="fas fa-pencil-alt"></i> Editar Datos
                             </a>

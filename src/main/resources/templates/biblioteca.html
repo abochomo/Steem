@@ -45,7 +45,11 @@
         <div class="library-item" th:each="item : ${biblioteca}">
 
             <div class="lib-img-container">
-                <img th:src="@{/images/placeholder.jpg}" class="lib-img" alt="Portada">
+                <img th:if="${item.juego.imagenUrl != null && !item.juego.imagenUrl.isEmpty()}"
+                     th:src="@{${item.juego.imagenUrl}}" alt="Portada" class="game-image">
+
+                <img th:if="${item.juego.imagenUrl == null || item.juego.imagenUrl.isEmpty()}"
+                     th:src="@{/images/placeholder.jpg}" alt="Portada" class="game-image">
             </div>
 
             <div class="lib-content">
@@ -66,7 +70,9 @@
                     <a href="#" class="btn-outline-steem">
                         <i class="fas fa-star"></i> Reseña
                     </a>
-                    <a href="#" class="btn-danger-steem" title="Solicitar Reembolso">
+                    <a th:href="@{/reembolsar/{id}(id=${item.juego.id})}"
+                       class="btn-danger-steem"
+                       title="Solicitar Reembolso">
                         <i class="fas fa-undo"></i>
                     </a>
                 </div>

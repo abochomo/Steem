@@ -4,6 +4,7 @@ import com.es.unex.cum.mdai.Steem.Modelo.Biblioteca;
 import com.es.unex.cum.mdai.Steem.Modelo.Cliente;
 import com.es.unex.cum.mdai.Steem.Modelo.Juego;
 import com.es.unex.cum.mdai.Steem.Repositorio.BibliotecaRepositorio;
+import com.es.unex.cum.mdai.Steem.Repositorio.ClienteRepositorio;
 import com.es.unex.cum.mdai.Steem.Repositorio.JuegoRepositorio;
 import com.es.unex.cum.mdai.Steem.Repositorio.UsuarioRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +26,15 @@ public class BibliotecaServiceImpl implements BibliotecaService {
     @Autowired
     private JuegoRepositorio juegoRepositorio;
 
+    @Autowired
+    private ClienteRepositorio clienteRepositorio;
+
     private Biblioteca bibliotecaActual;
 
     @Override
     @Transactional
     public void comprarJuego(long userId, long juegoId) {
-        Cliente cliente = (Cliente) usuarioRepositorio.findById(userId).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        Cliente cliente = clienteRepositorio.findById(userId).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
         Juego juegoComprado = juegoRepositorio.findById(juegoId).orElseThrow(() -> new RuntimeException("Juego no encontrado"));
 
         if (cliente == null || juegoComprado == null) {
@@ -57,8 +61,18 @@ public class BibliotecaServiceImpl implements BibliotecaService {
     }
 
     @Override
-    public void reembolsarJuego(long user, long juego) {
+    public void reembolsarJuego(long userId, long juegoId) {
+        Cliente cliente = clienteRepositorio.findById(userId).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        Juego juegoReembolsado = juegoRepositorio.findById(juegoId).orElseThrow(() -> new RuntimeException("Juego no encontrado"));
+        Optional<Biblioteca> entradaBiblioteca = bibliotecaRepositorio.findBibliotecaByClienteIdAndJuegoId(userId, juegoId);
 
+        if (cliente == null || juegoReembolsado == null || !entradaBiblioteca.isPresent()) {
+            throw new RuntimeException("Usuario, juego o entrada de biblioteca no encontrado");
+        }
+        Biblioteca biblioteca = entradaBiblioteca.get();
+        cliente.sumarSaldo(juegoReembolsado.getPrecio());
+        usuarioRepositorio.save(cliente);
+        bibliotecaRepositorio.delete(biblioteca);
     }
 
     @Override

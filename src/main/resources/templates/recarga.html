@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Recargar Saldo - Steem</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
+</head>
+<body class="body-login">
+
+<a th:href="@{/}" class="logo-floating"
+   style="position: absolute; top: 30px; left: 40px; z-index: 1000; transition: transform 0.3s;">
+    <img th:src="@{/images/steem-logo.png}" alt="Steem Logo"
+         style="height: 60px; filter: drop-shadow(0 2px 10px rgba(0,0,0,0.5));">
+</a>
+
+<div class="login-container">
+    <div class="card-login-steem" style="max-width: 800px; padding: 0;">
+
+        <div class="row g-0">
+            <div class="col-md-5 p-4 border-end border-secondary" style="background: rgba(0,0,0,0.2);">
+                <h4 class="text-white mb-4 fw-bold"><i class="fas fa-coins text-warning me-2"></i> Importe</h4>
+
+                <div class="d-grid gap-3">
+                    <label class="amount-option">
+                        <input type="radio" name="cantidadSeleccionada" value="5" checked>
+                        <div class="option-content">
+                            <span class="fw-bold">5.00 €</span>
+                        </div>
+                    </label>
+
+                    <label class="amount-option">
+                        <input type="radio" name="cantidadSeleccionada" value="10">
+                        <div class="option-content">
+                            <span class="fw-bold">10.00 €</span>
+                            <span class="badge bg-success ms-2">Popular</span>
+                        </div>
+                    </label>
+
+                    <label class="amount-option">
+                        <input type="radio" name="cantidadSeleccionada" value="20">
+                        <div class="option-content">
+                            <span class="fw-bold">20.00 €</span>
+                        </div>
+                    </label>
+
+                    <label class="amount-option">
+                        <input type="radio" name="cantidadSeleccionada" value="50">
+                        <div class="option-content">
+                            <span class="fw-bold">50.00 €</span>
+                            <span class="badge bg-warning text-dark ms-2">+ Bonus</span>
+                        </div>
+                    </label>
+                </div>
+
+                <div class="mt-4 text-center">
+                    <small class="text-secondary">El saldo se añadirá a tu cartera inmediatamente.</small>
+                </div>
+            </div>
+
+            <div class="col-md-7 p-4">
+                <h4 class="text-white mb-4 fw-bold"><i class="far fa-credit-card text-info me-2"></i> Pago Seguro</h4>
+
+                <form id="paymentForm" method="post">
+
+                    <div class="mb-3">
+                        <label class="text-secondary small mb-1">TITULAR DE LA TARJETA</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-dark border-secondary text-secondary"><i class="fas fa-user"></i></span>
+                            <input type="text" class="form-control bg-dark text-white border-secondary" id="cardName" placeholder="Como aparece en la tarjeta" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="text-secondary small mb-1">NÚMERO DE TARJETA</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-dark border-secondary text-secondary"><i class="fas fa-credit-card"></i></span>
+                            <input type="text" class="form-control bg-dark text-white border-secondary" id="cardNumber" placeholder="0000 0000 0000 0000" maxlength="19" required>
+                            <span class="input-group-text bg-dark border-secondary text-success" id="cardIcon" style="display:none;"><i class="fas fa-check"></i></span>
+                        </div>
+                        <div id="cardError" class="text-danger small mt-1" style="display:none;">Número inválido</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6 mb-3">
+                            <label class="text-secondary small mb-1">CADUCIDAD</label>
+                            <input type="text" class="form-control bg-dark text-white border-secondary text-center" id="cardExpiry" placeholder="MM / YY" maxlength="5" required>
+                            <div id="expiryError" class="text-danger small mt-1" style="display:none;">Expirada</div>
+                        </div>
+
+                        <div class="col-6 mb-3">
+                            <label class="text-secondary small mb-1">CVV / CVC</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control bg-dark text-white border-secondary text-center" id="cardCvv" placeholder="123" maxlength="3" required>
+                                <span class="input-group-text bg-dark border-secondary text-secondary" title="3 dígitos traseros"><i class="fas fa-question-circle"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="border-secondary my-4">
+
+                    <button type="submit" class="btn-ai w-100" id="btnPay">
+                        <i class="fas fa-lock me-2"></i> PAGAR Y RECARGAR
+                    </button>
+
+                    <div class="text-center mt-3">
+                        <i class="fab fa-cc-visa fa-2x text-secondary mx-1"></i>
+                        <i class="fab fa-cc-mastercard fa-2x text-secondary mx-1"></i>
+                        <i class="fab fa-cc-amex fa-2x text-secondary mx-1"></i>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const form = document.getElementById('paymentForm');
+        const cardNumber = document.getElementById('cardNumber');
+        const cardExpiry = document.getElementById('cardExpiry');
+        const cardCvv = document.getElementById('cardCvv');
+        const cardName = document.getElementById('cardName');
+        const radios = document.getElementsByName('cantidadSeleccionada');
+
+        // 1. Formato visual automático para el número de tarjeta (Espacios cada 4 dígitos)
+        cardNumber.addEventListener('input', function (e) {
+            let value = e.target.value.replace(/\D/g, ''); // Solo números
+            let formattedValue = '';
+            for (let i = 0; i < value.length; i++) {
+                if (i > 0 && i % 4 === 0) formattedValue += ' ';
+                formattedValue += value[i];
+            }
+            e.target.value = formattedValue;
+
+            // Validación visual simple de longitud
+            if(value.length === 16) {
+                document.getElementById('cardIcon').style.display = 'block';
+                document.getElementById('cardError').style.display = 'none';
+            } else {
+                document.getElementById('cardIcon').style.display = 'none';
+            }
+        });
+
+        // 2. Formato automático para fecha (Añade la barra /)
+        cardExpiry.addEventListener('input', function (e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length >= 2) {
+                e.target.value = value.substring(0, 2) + ' / ' + value.substring(2, 4);
+            } else {
+                e.target.value = value;
+            }
+        });
+
+        // 3. Solo números en CVV
+        cardCvv.addEventListener('input', function (e) {
+            e.target.value = e.target.value.replace(/\D/g, '');
+        });
+
+        // 4. Lógica de Envío
+        form.addEventListener('submit', function(e) {
+            e.preventDefault(); // Detener envío estándar
+
+            // Validaciones básicas
+            const rawCardNum = cardNumber.value.replace(/\s/g, '');
+
+            // A) Validar Tarjeta (Longitud 16)
+            if (rawCardNum.length !== 16) {
+                document.getElementById('cardError').style.display = 'block';
+                document.getElementById('cardError').innerText = "El número debe tener 16 dígitos.";
+                return;
+            }
+
+            // B) Validar Fecha (Básico: Mes 01-12, Año >= Actual)
+            const expiryParts = cardExpiry.value.split(' / ');
+            if (expiryParts.length === 2) {
+                const mes = parseInt(expiryParts[0]);
+                const anio = parseInt("20" + expiryParts[1]); // Asumimos siglo 21
+                const fechaActual = new Date();
+                const anioActual = fechaActual.getFullYear();
+                const mesActual = fechaActual.getMonth() + 1;
+
+                if (mes < 1 || mes > 12 || anio < anioActual || (anio === anioActual && mes < mesActual)) {
+                    document.getElementById('expiryError').style.display = 'block';
+                    return;
+                }
+            } else {
+                document.getElementById('expiryError').style.display = 'block';
+                return;
+            }
+
+            // C) Obtener cantidad seleccionada
+            let cantidad = 0;
+            for (const radio of radios) {
+                if (radio.checked) {
+                    cantidad = radio.value;
+                    break;
+                }
+            }
+
+            // D) Construir URL y enviar
+            // Simulamos un pequeño delay para efecto de "Procesando"
+            const btn = document.getElementById('btnPay');
+            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> PROCESANDO...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                // Aquí cambiamos la acción del formulario dinámicamente
+                form.action = '/cargarSaldo/' + cantidad;
+                form.submit();
+            }, 1500);
+        });
+    });
+</script>
+
+</body>
+</html>
