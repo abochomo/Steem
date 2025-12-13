@@ -22,6 +22,11 @@ public class BaseDatosSeeder implements org.springframework.boot.CommandLineRunn
     private PasswordEncoder passwordEncoder;
 
     private void cargarDatosIniciales() {
+
+        if (juegoRepositorio.count() > 0) {
+            System.out.println("--> Base de datos ya inicializada. Saltando Seeder.");
+            return;
+        }
         Cliente cliente = new Cliente();
         cliente.setNombreUsuario("JuanPerez");
         cliente.setEmail("juan@gmail.com");

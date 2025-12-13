@@ -20,7 +20,11 @@
     <nav class="nav-links">
         <a th:href="@{/}" class="btn-nav">Tienda</a>
 
-        <a th:href="@{/biblioteca}" class="btn-nav" sec:authorize="isAuthenticated()">Biblioteca</a>
+        <a th:href="@{/biblioteca}" class="btn-nav" sec:authorize="isAuthenticated()">
+            <span sec:authorize="hasRole('DESARROLLADOR')">Dashboard</span>
+
+            <span sec:authorize="hasRole('CLIENTE')">Biblioteca</span>
+        </a>
     </nav>
 
     <div class="nav-links profile-container">

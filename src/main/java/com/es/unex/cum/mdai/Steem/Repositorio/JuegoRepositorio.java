@@ -15,4 +15,6 @@ public interface JuegoRepositorio extends JpaRepository<Juego, Long> {
     Juego findJuegoById(long id);
 
     List<Juego> findByTituloContainingIgnoreCase(String titulo);
+
+    List<Juego> findByDesarrollador_Id(Long idUsuario);
 }

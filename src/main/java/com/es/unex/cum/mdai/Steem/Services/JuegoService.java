@@ -18,4 +18,6 @@ public interface JuegoService {
     public void guardarVariosJuegos(List<Juego> juegos);
 
     public List<Juego> buscarJuegos(String keyword);
+
+    List<Juego> getJuegosByDesarrollador(Long idDesarrollador);
 }

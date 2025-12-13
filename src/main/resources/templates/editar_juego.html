@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Juego - Steem Dev</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body class="body-login">
+
+<div class="container" style="display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 40px 20px;">
+
+    <div class="card-login-steem" style="max-width: 1000px; padding: 40px;">
+
+        <div class="text-center" style="margin-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px;">
+            <h2 class="login-title" style="margin-bottom: 5px;"
+                th:text="${juego.idJuego == 0 ? 'Publicar Nuevo Juego' : 'Panel de Edición'}">
+                Panel
+            </h2>
+
+            <p th:if="${juego.idJuego != 0}" style="color: #aaa; font-size: 0.9rem;">
+                <i class="fas fa-pen"></i> Editando:
+                <span th:text="${juego.titulo}" style="color: #2ecc71; font-weight: bold;"></span>
+            </p>
+
+            <p th:if="${juego.idJuego == 0}" style="color: #aaa; font-size: 0.9rem;">
+                Rellena los datos para subir tu juego a la tienda.
+            </p>
+        </div>
+
+        <form th:action="@{/dashboard/guardar}" th:object="${juego}" method="post">
+            <input type="hidden" th:field="*{idJuego}" />
+
+            <div class="edit-container">
+
+                <div class="form-section">
+
+                    <div style="margin-bottom: 25px;">
+                        <label class="label-steem"><i class="fas fa-gamepad"></i> Título del Juego</label>
+                        <input type="text" th:field="*{titulo}" id="inputTitulo" class="form-control input-steem" required>
+                    </div>
+
+                    <div style="margin-bottom: 25px;">
+                        <label class="label-steem"><i class="fas fa-align-left"></i> Descripción</label>
+                        <textarea th:field="*{descripcion}" class="form-control input-steem" rows="6" required style="border-radius: 20px !important; resize: none;"></textarea>
+                    </div>
+
+                    <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                        <div style="flex: 1; min-width: 100px;">
+                            <label class="label-steem"><i class="fas fa-tag"></i> Precio (€)</label>
+                            <input type="number" step="0.01" th:field="*{precio}" id="inputPrecio" class="form-control input-steem" required>
+                        </div>
+
+                        <div style="flex: 2; min-width: 100px;">
+                            <label class="label-steem"><i class="fas fa-image"></i> URL de Portada</label>
+                            <input type="text" th:field="*{imagenUrl}" id="inputUrl" class="form-control input-steem" placeholder="https://...">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="preview-section">
+                    <label class="label-steem" style="text-align: center; display: block; margin-bottom: 10px;">Vista Previa</label>
+                    <div class="preview-card">
+
+                        <img th:src="@{${juego.imagenUrl != null && juego.imagenUrl != '' ? juego.imagenUrl : '/images/placeholder.jpg'}}"
+                             id="imgPreview"
+                             class="preview-image"
+                             onerror="this.onerror=null; this.src='/images/placeholder.jpg';">
+
+                        <div class="preview-title" id="txtPreviewTitulo" th:text="*{titulo}">Título</div>
+                        <div class="preview-price" id="txtPreviewPrecio" th:text="|*{precio}|">0.00 €</div>
+
+                        <div class="preview-label-helper">
+                            <i class="fas fa-eye"></i> Así se verá en la tienda
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div style="display: flex; gap: 15px; margin-top: 40px; justify-content: flex-end; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+                <a th:href="@{/biblioteca}" class="btn-action" style="background-color: transparent; border: 1px solid #aaa; color: #aaa; padding: 12px 30px; text-decoration: none;">
+                    Cancelar
+                </a>
+                <button type="submit" class="btn-login-steem" style="margin: 0; min-width: 200px;">
+                    <i class="fas fa-save"></i> Guardar Cambios
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<script>
+    // Referencias a los elementos del DOM
+    const inputUrl = document.getElementById('inputUrl');
+    const inputTitulo = document.getElementById('inputTitulo');
+    const inputPrecio = document.getElementById('inputPrecio');
+
+    const imgPreview = document.getElementById('imgPreview');
+    const txtTitulo = document.getElementById('txtPreviewTitulo');
+    const txtPrecio = document.getElementById('txtPreviewPrecio');
+
+    // 1. Escuchar cambios en la URL de la imagen
+    inputUrl.addEventListener('input', function() {
+        const url = this.value.trim();
+        if (url) {
+            imgPreview.src = url;
+        } else {
+            // Si borra el input, ponemos el placeholder
+            imgPreview.src = '/images/placeholder.jpg';
+        }
+    });
+
+    // 2. Escuchar cambios en el título
+    inputTitulo.addEventListener('input', function() {
+        // Si el usuario borra todo, ponemos "Sin Título" temporalmente
+        txtTitulo.innerText = this.value ? this.value : 'Sin Título';
+    });
+
+    // 3. Escuchar cambios en el precio
+    inputPrecio.addEventListener('input', function() {
+        txtPrecio.innerText = (this.value ? this.value : '0') + ' €';
+    });
+</script>
+
+</body>
+</html>

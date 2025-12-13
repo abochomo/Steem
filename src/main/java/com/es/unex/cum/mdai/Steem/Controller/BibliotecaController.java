@@ -40,6 +40,16 @@ public class BibliotecaController {
         } else {
             String username = auth.getName();
             Usuario user = usuarioService.findUserByEmail(username);
+            if (user.getTipo() == Usuario.TipoUsuario.DESARROLLADOR) {
+
+                // Buscamos los juegos creados por este estudio
+                List<Juego> juegosPublicados = juegoService.getJuegosByDesarrollador(user.getIdUsuario());
+
+                model.addAttribute("usuario", user);
+                model.addAttribute("juegosPublicados", juegosPublicados);
+
+                return "dashboard"; // Retorna la nueva vista
+            }
 
             // --- DEBUG: IMPRIMIR EN CONSOLA ---
             System.out.println("Usuario logueado: " + user.getNombreUsuario());

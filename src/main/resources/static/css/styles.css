@@ -771,6 +771,101 @@ main {
     filter: brightness(1.2);
 }
 
+.dashboard-header {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #2ecc71;
+    padding-bottom: 20px;
+}
+.btn-create {
+    background-color: #0984e3;
+    color: white;
+    border-radius: 50px;
+    padding: 10px 25px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: none;
+    transition: 0.3s;
+    cursor: pointer;
+}
+.btn-create:hover {
+    background-color: #74b9ff;
+    transform: scale(1.05);
+}
+.stat-badge {
+    background-color: rgba(255,255,255,0.1);
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    color: #aaa;
+}
+
+.edit-container {
+    display: grid;
+    grid-template-columns: 1fr 350px; /* Formulario ancho | Preview fijo */
+    gap: 40px;
+    width: 100%;
+}
+
+.preview-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.preview-card {
+    background-color: rgba(0, 0, 0, 0.4);
+    border: 2px solid #2ecc71;
+    border-radius: 20px;
+    padding: 20px;
+    text-align: center;
+    position: sticky;
+    top: 20px;
+    height: fit-content;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 0 30px rgba(46, 204, 113, 0.1);
+}
+
+.preview-image {
+    width: 100%;
+    aspect-ratio: 1/1; /* Cuadrada */
+    object-fit: cover;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    margin-bottom: 15px;
+    background-color: #2d3436;
+}
+
+.preview-title {
+    font-weight: 700;
+    margin-bottom: 5px;
+    color: white;
+    text-transform: uppercase;
+    word-wrap: break-word; /* Evita que títulos largos rompan la caja */
+}
+
+.preview-price {
+    font-size: 1.2rem;
+    color: #2ecc71;
+    font-weight: bold;
+}
+
+.preview-label-helper {
+    margin-top: 15px;
+    font-size: 0.8rem;
+    color: #aaa;
+}
+
+#inputUrl{
+    width: 180px;
+}
+
+#inputPrecio{
+    width: 180px;
+}
 
 
 /* Responsive para móviles */

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Desarrollador - Steem</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+
+</head>
+<body>
+
+<header>
+    <div class="logo-container">
+        <a th:href="@{/}">
+            <img th:src="@{/images/steem-logo.png}" alt="Steem Logo" class="logo-img">
+        </a>
+    </div>
+    <nav class="nav-links">
+        <a th:href="@{/}" class="btn-nav">Tienda</a>
+        <a th:href="@{/biblioteca}" class="btn-nav" style="background-color: white; color: black;">Dashboard</a>
+    </nav>
+    <div class="nav-links profile-container">
+        <div sec:authorize="isAuthenticated()" style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 0.8rem; font-weight: bold;">
+                Dev: <span sec:authentication="name">Estudio</span>
+            </span>
+            <a th:href="@{/usuario/perfil}" class="btn-profile" title="Perfil de Estudio">
+                <i class="fas fa-building"></i>
+            </a>
+            <form th:action="@{/logout}" method="post" style="margin: 0;">
+                <button type="submit" class="btn-profile" title="Cerrar Sesión" style="border-color: #ff4d4d; color: #ff4d4d;">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+</header>
+
+<main>
+    <div class="dashboard-header">
+        <div>
+            <h2 style="text-transform: uppercase; font-weight: 800;">Panel de Estudio</h2>
+            <p style="color: #ccc;">Gestiona tus juegos publicados</p>
+        </div>
+
+        <a th:href="@{/dashboard/nuevo}" class="btn-create">
+            <i class="fas fa-plus-circle"></i> Publicar Nuevo Juego
+        </a>
+    </div>
+
+    <div th:if="${juegosPublicados == null or juegosPublicados.isEmpty()}" class="status-message">
+        Aún no has publicado ningún juego en Steem Store.
+    </div>
+
+    <div class="cards-grid">
+        <div class="game-card" th:each="juego : ${juegosPublicados}" style="border-color: #0984e3;">
+
+            <img th:if="${juego.imagenUrl != null && !juego.imagenUrl.isEmpty()}"
+                 th:src="@{${juego.imagenUrl}}" class="game-image">
+            <img th:if="${juego.imagenUrl == null || juego.imagenUrl.isEmpty()}"
+                 th:src="@{/images/placeholder.jpg}" class="game-image">
+
+            <div class="game-info">
+                <h3 class="game-title" th:text="${juego.titulo}">Título</h3>
+                <p class="game-desc" th:text="${juego.descripcion}">Desc</p>
+                <div style="margin-top: 10px;">
+                    <span class="stat-badge"><i class="fas fa-tag"></i> <span th:text="${juego.precio} + ' €'"></span></span>
+                </div>
+            </div>
+
+            <div class="game-footer">
+                <a th:href="@{/juego/{id}(id=${juego.idJuego})}" class="btn-buy" style="background-color: #636e72; font-size: 0.8rem;">
+                    Ver en Tienda
+                </a>
+                <a th:href="@{/dashboard/editar/{id}(id=${juego.idJuego})}" class="btn-buy" style="background-color: #0984e3; text-decoration: none;">
+                    <i class="fas fa-edit"></i> Editar
+                </a>
+            </div>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

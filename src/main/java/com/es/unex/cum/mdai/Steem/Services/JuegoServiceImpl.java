@@ -79,4 +79,10 @@ public class JuegoServiceImpl implements JuegoService {
         return juegoRepositorio.findAll();
     }
 
+    @Override
+    public List<Juego> getJuegosByDesarrollador(Long idDesarrollador) {
+        // ACTUALIZACIÓN: Llamamos al nuevo nombre del método
+        return juegoRepositorio.findByDesarrollador_Id(idDesarrollador);
+    }
+
 }
