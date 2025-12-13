@@ -65,6 +65,7 @@ public class BaseDatosSeeder implements org.springframework.boot.CommandLineRunn
         juego.setTitulo("Elden Ring");
         juego.setDescripcion("Un juego de rol y acción épico. ¿Tu rol? LA VICTIMA. Prepárate para sufrir como nunca antes en brutales peleas contra todo tipo de enemigos.");
         juego.setPrecio(59.99F);
+        juego.setImagenUrl("/images/game-covers/elden_ring.jpg");
         juego.setDesarrollador(desarrollador);
 
         juegoRepositorio.save(juego);
@@ -72,30 +73,35 @@ public class BaseDatosSeeder implements org.springframework.boot.CommandLineRunn
         juego2.setTitulo("Hollow Knight");
         juego2.setDescripcion("Un juego de acción y aventura en un mundo subterráneo lleno de insectos y héroes olvidados. Explora, lucha y descubre los secretos de Hallownest.");
         juego2.setPrecio(14.99F);
+        juego2.setImagenUrl("/images/game-covers/hollow_knight.png");
         juego2.setDesarrollador(desarrollador2);
         juegoRepositorio.save(juego2);
         Juego juego3 = new Juego();
         juego3.setTitulo("Super Mario Odyssey");
         juego3.setDescripcion("Un juego de plataformas donde controlas a Mario en su misión para rescatar a la princesa Peach del malvado Bowser.");
         juego3.setPrecio(49.99F);
+        juego3.setImagenUrl("/images/game-covers/super_mario_odyssey.jpg");
         juego3.setDesarrollador(desarrollador2);
         juegoRepositorio.save(juego3);
         Juego juego4 = new Juego();
         juego4.setTitulo("Call of Duty: Black Ops Cold War 3");
         juego4.setDescripcion("Un juego de disparos en primera persona que te sumerge en intensas misiones militares alrededor del mundo.");
         juego4.setPrecio(69.99F);
+        juego4.setImagenUrl("/images/game-covers/cod_black_ops_cold_war.png");
         juego4.setDesarrollador(desarrollador);
         juegoRepositorio.save(juego4);
         Juego juego5 = new Juego();
         juego5.setTitulo("The Witcher 3: Wildly Hunted");
         juego5.setDescripcion("Un juego de rol de mundo abierto donde juegas como Geralt de Rivia, un cazador de monstruos en un mundo lleno de peligros y decisiones morales.");
         juego5.setPrecio(39.99F);
+        juego5.setImagenUrl("/images/game-covers/witcher3.jpg");
         juego5.setDesarrollador(desarrollador);
         juegoRepositorio.save(juego5);
         Juego juego6 = new Juego();
         juego6.setTitulo("Cyberpunk 2077");
         juego6.setDescripcion("Un juego de rol y acción en un futuro distópico donde exploras la ciudad de Night City y te enfrentas a corporaciones corruptas y tecnología avanzada.");
         juego6.setPrecio(59.99F);
+        juego6.setImagenUrl("/images/game-covers/cyberpunk2077.jpg");
         juego6.setDesarrollador(desarrollador2);
         juegoRepositorio.save(juego6);
 
