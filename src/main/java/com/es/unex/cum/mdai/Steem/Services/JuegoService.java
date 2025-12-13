@@ -20,4 +20,6 @@ public interface JuegoService {
     public List<Juego> buscarJuegos(String keyword);
 
     List<Juego> getJuegosByDesarrollador(Long idDesarrollador);
+
+
 }

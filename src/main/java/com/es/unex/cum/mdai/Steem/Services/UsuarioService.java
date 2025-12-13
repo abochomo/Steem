@@ -1,5 +1,6 @@
 package com.es.unex.cum.mdai.Steem.Services;
 
+import com.es.unex.cum.mdai.Steem.Modelo.Cliente;
 import com.es.unex.cum.mdai.Steem.Modelo.Usuario;
 
 public interface UsuarioService {

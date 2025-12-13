@@ -38,9 +38,14 @@
                 <i class="far fa-heart"></i>
             </button>
 
-            <a href="#" class="btn-add-cart">
-                AÑADIR AL CARRITO:<span th:text="${juego.precio} + ' €'">0.00 €</span>
+            <a th:href="@{/carrito/add/{id}(id=${juego.id})}" class="btn-add-cart" style="margin-right: 5px;">
+                <i class="fas fa-cart-plus"></i> CARRITO: <span th:text="' ' + ${juego.precio} + ' €'">0.00 €</span>
             </a>
+
+            <a th:href="@{/comprar/{id}(id=${juego.id})}" class="btn-add-cart">
+                <i class="fas fa-bolt"></i> COMPRAR
+            </a>
+
         </div>
     </div>
 
