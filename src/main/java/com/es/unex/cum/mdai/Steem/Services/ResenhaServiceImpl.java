@@ -43,4 +43,19 @@ public class ResenhaServiceImpl implements ResenhaService {
         // 4. Guardamos
         resenhaRepositorio.save(resenha);
     }
+
+    @Override
+    public void borrarResenha(Long idResenha, String emailUsuario) {
+        // 1. Buscamos la reseña
+        Resenha resenha = resenhaRepositorio.findById(idResenha)
+                .orElseThrow(() -> new RuntimeException("Reseña no encontrada"));
+
+        // 2. SEGURIDAD: Verificamos que quien quiere borrar es el dueño
+        if (!resenha.getCliente().getEmail().equals(emailUsuario)) {
+            throw new RuntimeException("No tienes permiso para borrar esta reseña");
+        }
+
+        // 3. Borramos
+        resenhaRepositorio.delete(resenha);
+    }
 }

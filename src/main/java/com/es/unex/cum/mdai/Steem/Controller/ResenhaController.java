@@ -84,4 +84,30 @@ public class ResenhaController {
 
         return "redirect:/juego/" + idJuego;
     }
+
+    @GetMapping("/eliminar/{id}")
+    public String eliminarResenha(@PathVariable("id") Long idResenha) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+
+        // Necesitamos el ID del juego para redirigir al usuario allí después de borrar
+        // Lo recuperamos antes de borrar la reseña
+        Long idJuego = null;
+        try {
+            // Nota: Podríamos hacer esto más limpio en el servicio, pero para no cambiar la firma
+            // recuperamos la reseña un momento solo para saber el juego
+            Optional<Resenha> r = resenhaRepositorio.findById(idResenha);
+            if (r.isPresent()) {
+                idJuego = r.get().getJuego().getIdJuego();
+            }
+
+            resenhaService.borrarResenha(idResenha, email);
+
+        } catch (Exception e) {
+            return "redirect:/biblioteca?error=" + e.getMessage();
+        }
+
+        // Si todo va bien, volvemos a la página del juego
+        return "redirect:/juego/" + idJuego;
+    }
 }

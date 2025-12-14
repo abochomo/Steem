@@ -206,7 +206,11 @@
                     titulo.innerText = juego.titulo;
                     titulo.style.color = "#ffffff"; // Reset color
                     desc.innerText = juego.descripcion;
-
+                    if (juego.imagenUrl && juego.imagenUrl !== "") {
+                        img.src = juego.imagenUrl;
+                    } else {
+                        img.src = '/images/placeholder.jpg';
+                    }
                     precio.innerText = juego.precio + ' €';
                     precio.style.display = 'block';
 
