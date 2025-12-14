@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Resumen de Compra - Steem</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
+</head>
+<body class="body-login">
+
+<a th:href="@{/}" class="logo-floating"
+   style="position: absolute; top: 30px; left: 40px; z-index: 1000;">
+    <img th:src="@{/images/steem-logo.png}" alt="Steem Logo" style="height: 50px;">
+</a>
+
+<div class="login-container">
+
+    <div class="card-login-steem" style="max-width: 600px; padding: 0; overflow: hidden;">
+
+        <div class="p-4 border-bottom border-secondary bg-dark bg-opacity-50 text-center">
+            <h3 class="text-white fw-bold mb-0">RESUMEN DEL PEDIDO</h3>
+            <small class="text-secondary">Por favor, revisa los detalles antes de confirmar</small>
+        </div>
+
+        <div class="p-4">
+
+            <div class="d-flex align-items-center mb-4 p-3 rounded" style="background: rgba(255,255,255,0.05);">
+                <img th:src="${juego.imagenUrl}" class="rounded"
+                     style="width: 80px; height: 100px; object-fit: cover; border: 1px solid #555;"
+                     onerror="this.src='https://via.placeholder.com/80x100'">
+
+                <div class="ms-3 flex-grow-1">
+                    <h5 class="text-white fw-bold mb-1" th:text="${juego.titulo}">Juego</h5>
+                    <span class="badge bg-info text-dark">Juego Digital</span>
+                </div>
+
+                <div class="text-end">
+                    <span class="d-block text-secondary small">Precio</span>
+                    <span class="text-white fw-bold fs-5" th:text="${juego.precio} + ' €'">0.0 €</span>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="text-secondary"><i class="fas fa-wallet me-2"></i>Tu Saldo Actual:</span>
+                    <span class="text-white" th:text="${cliente.saldo} + ' €'">0.0 €</span>
+                </div>
+
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="text-secondary"><i class="fas fa-minus me-2 text-danger"></i>Costo de la transacción:</span>
+                    <span class="text-danger fw-bold" th:text="'- ' + ${juego.precio} + ' €'">- 0.0 €</span>
+                </div>
+
+                <hr class="border-secondary">
+
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                    <span class="text-white fw-bold">SALDO RESTANTE:</span>
+
+                    <span class="fs-4 fw-bold"
+                          th:classappend="${tieneSaldoSuficiente} ? 'text-success' : 'text-danger'"
+                          th:text="${#numbers.formatDecimal(saldoRestante, 1, 2)} + ' €'">
+                        0.0 €
+                    </span>
+                </div>
+
+                <div th:if="${!tieneSaldoSuficiente}" class="alert alert-danger mt-3 mb-0 d-flex align-items-center">
+                    <i class="fas fa-exclamation-triangle me-3 fa-2x"></i>
+                    <div>
+                        <strong>Saldo Insuficiente</strong><br>
+                        <small>Necesitas recargar tu cartera para completar esta compra.</small>
+                    </div>
+                </div>
+            </div>
+
+            <form th:if="${tieneSaldoSuficiente}" th:action="@{/comprar/{id}(id=${juego.id})}" method="post">
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn-action">
+                        <i class="fas fa-check-circle me-2"></i> CONFIRMAR Y PAGAR
+                    </button>
+                    <a th:href="@{/}" class="btn btn-outline-secondary border-0">Cancelar</a>
+                </div>
+            </form>
+
+            <div th:if="${!tieneSaldoSuficiente}" class="d-grid gap-2">
+                <a th:href="@{/cliente/cargarSaldo}" class="btn btn-warning fw-bold py-3">
+                    <i class="fas fa-coins me-2"></i> IR A RECARGAR SALDO
+                </a>
+                <a th:href="@{/}" class="btn btn-outline-secondary border-0 text-white">Volver a la tienda</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

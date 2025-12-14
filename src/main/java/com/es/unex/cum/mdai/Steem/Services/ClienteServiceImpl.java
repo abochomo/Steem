@@ -49,4 +49,16 @@ public class ClienteServiceImpl implements ClienteService {
         this.clienteActual.setSaldo(this.clienteActual.getSaldo() - cantidad);
         clienteRepositorio.save(this.clienteActual);
     }
+
+    @Override
+    public Cliente findClienteById(long id) {
+        clienteActual = clienteRepositorio.findById(id).orElse(null);
+        return clienteActual;
+    }
+
+    @Override
+    public Cliente findClienteByEmail(String email) {
+        clienteActual = clienteRepositorio.findByEmail(email);
+        return clienteActual;
+    }
 }

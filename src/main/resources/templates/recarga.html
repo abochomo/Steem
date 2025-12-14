@@ -25,14 +25,14 @@
 
                 <div class="d-grid gap-3">
                     <label class="amount-option">
-                        <input type="radio" name="cantidadSeleccionada" value="5" checked>
+                        <input type="radio" name="cantidadSeleccionada" value="5" checked onchange="toggleCustomAmount()">
                         <div class="option-content">
                             <span class="fw-bold">5.00 €</span>
                         </div>
                     </label>
 
                     <label class="amount-option">
-                        <input type="radio" name="cantidadSeleccionada" value="10">
+                        <input type="radio" name="cantidadSeleccionada" value="10" onchange="toggleCustomAmount()">
                         <div class="option-content">
                             <span class="fw-bold">10.00 €</span>
                             <span class="badge bg-success ms-2">Popular</span>
@@ -40,17 +40,27 @@
                     </label>
 
                     <label class="amount-option">
-                        <input type="radio" name="cantidadSeleccionada" value="20">
+                        <input type="radio" name="cantidadSeleccionada" value="20" onchange="toggleCustomAmount()">
                         <div class="option-content">
                             <span class="fw-bold">20.00 €</span>
                         </div>
                     </label>
 
                     <label class="amount-option">
-                        <input type="radio" name="cantidadSeleccionada" value="50">
+                        <input type="radio" name="cantidadSeleccionada" value="50" onchange="toggleCustomAmount()">
                         <div class="option-content">
                             <span class="fw-bold">50.00 €</span>
-                            <span class="badge bg-warning text-dark ms-2">+ Bonus</span>
+                        </div>
+                    </label>
+
+                    <label class="amount-option">
+                        <input type="radio" name="cantidadSeleccionada" value="custom" id="radioCustom" onchange="toggleCustomAmount()">
+                        <div class="option-content d-flex align-items-center">
+                            <span class="fw-bold me-2">Otro:</span>
+                            <input type="number" id="customAmountInput" class="form-control bg-dark text-white border-secondary p-1"
+                                   style="width: 100px; text-align: right; height: 30px;"
+                                   placeholder="0.00" step="0.01" min="1" disabled>
+                            <span class="ms-2 fw-bold">€</span>
                         </div>
                     </label>
                 </div>
@@ -63,7 +73,7 @@
             <div class="col-md-7 p-4">
                 <h4 class="text-white mb-4 fw-bold"><i class="far fa-credit-card text-info me-2"></i> Pago Seguro</h4>
 
-                <form id="paymentForm" method="post">
+                <form id="paymentForm" method="post" th:action="@{/cliente/cargarSaldo}">
 
                     <div class="mb-3">
                         <label class="text-secondary small mb-1">TITULAR DE LA TARJETA</label>
@@ -86,7 +96,7 @@
                     <div class="row">
                         <div class="col-6 mb-3">
                             <label class="text-secondary small mb-1">CADUCIDAD</label>
-                            <input type="text" class="form-control bg-dark text-white border-secondary text-center" id="cardExpiry" placeholder="MM / YY" maxlength="5" required>
+                            <input type="text" class="form-control bg-dark text-white border-secondary text-center" id="cardExpiry" placeholder="MM / YY" maxlength="7" required>
                             <div id="expiryError" class="text-danger small mt-1" style="display:none;">Expirada</div>
                         </div>
 
@@ -99,9 +109,11 @@
                         </div>
                     </div>
 
+                    <input type="hidden" name="cantidad" id="inputCantidadFinal">
+
                     <hr class="border-secondary my-4">
 
-                    <button type="submit" class="btn-ai w-100" id="btnPay">
+                    <button type="submit" class="btn-action" id="btnPay">
                         <i class="fas fa-lock me-2"></i> PAGAR Y RECARGAR
                     </button>
 
@@ -118,17 +130,35 @@
 </div>
 
 <script>
+    // Función para habilitar/deshabilitar el input personalizado
+    // Debe estar fuera del DOMContentLoaded para que el HTML la encuentre
+    function toggleCustomAmount() {
+        const radioCustom = document.getElementById('radioCustom');
+        const customInput = document.getElementById('customAmountInput');
+
+        if (radioCustom.checked) {
+            customInput.disabled = false;
+            customInput.focus();
+        } else {
+            customInput.disabled = true;
+            customInput.value = '';
+        }
+    }
+
     document.addEventListener("DOMContentLoaded", function() {
         const form = document.getElementById('paymentForm');
         const cardNumber = document.getElementById('cardNumber');
         const cardExpiry = document.getElementById('cardExpiry');
         const cardCvv = document.getElementById('cardCvv');
-        const cardName = document.getElementById('cardName');
         const radios = document.getElementsByName('cantidadSeleccionada');
+        const customInput = document.getElementById('customAmountInput');
 
-        // 1. Formato visual automático para el número de tarjeta (Espacios cada 4 dígitos)
+        // Referencia al input oculto de seguridad
+        const hiddenInput = document.getElementById('inputCantidadFinal');
+
+        // 1. Formato visual: Número de tarjeta (Espacios cada 4)
         cardNumber.addEventListener('input', function (e) {
-            let value = e.target.value.replace(/\D/g, ''); // Solo números
+            let value = e.target.value.replace(/\D/g, '');
             let formattedValue = '';
             for (let i = 0; i < value.length; i++) {
                 if (i > 0 && i % 4 === 0) formattedValue += ' ';
@@ -136,7 +166,7 @@
             }
             e.target.value = formattedValue;
 
-            // Validación visual simple de longitud
+            // Icono de check visual
             if(value.length === 16) {
                 document.getElementById('cardIcon').style.display = 'block';
                 document.getElementById('cardError').style.display = 'none';
@@ -145,71 +175,88 @@
             }
         });
 
-        // 2. Formato automático para fecha (Añade la barra /)
+        // 2. Formato visual: Fecha (Añade barra /)
         cardExpiry.addEventListener('input', function (e) {
             let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 4) value = value.substring(0, 4); // Limite MMYY
+
             if (value.length >= 2) {
-                e.target.value = value.substring(0, 2) + ' / ' + value.substring(2, 4);
+                e.target.value = value.substring(0, 2) + ' / ' + value.substring(2);
             } else {
                 e.target.value = value;
             }
         });
 
-        // 3. Solo números en CVV
+        // 3. Formato visual: Solo números en CVV
         cardCvv.addEventListener('input', function (e) {
             e.target.value = e.target.value.replace(/\D/g, '');
         });
 
-        // 4. Lógica de Envío
+        // 4. LÓGICA DE ENVÍO SEGURO
         form.addEventListener('submit', function(e) {
-            e.preventDefault(); // Detener envío estándar
+            e.preventDefault(); // Detenemos el envío para validar y preparar datos
 
-            // Validaciones básicas
+            // --- VALIDACIONES DE TARJETA ---
             const rawCardNum = cardNumber.value.replace(/\s/g, '');
-
-            // A) Validar Tarjeta (Longitud 16)
             if (rawCardNum.length !== 16) {
                 document.getElementById('cardError').style.display = 'block';
                 document.getElementById('cardError').innerText = "El número debe tener 16 dígitos.";
                 return;
             }
 
-            // B) Validar Fecha (Básico: Mes 01-12, Año >= Actual)
             const expiryParts = cardExpiry.value.split(' / ');
-            if (expiryParts.length === 2) {
+            if (expiryParts.length === 2 && expiryParts[1].length === 2) {
                 const mes = parseInt(expiryParts[0]);
-                const anio = parseInt("20" + expiryParts[1]); // Asumimos siglo 21
+                const anio = parseInt("20" + expiryParts[1]);
                 const fechaActual = new Date();
-                const anioActual = fechaActual.getFullYear();
-                const mesActual = fechaActual.getMonth() + 1;
 
-                if (mes < 1 || mes > 12 || anio < anioActual || (anio === anioActual && mes < mesActual)) {
+                // Validación simple de fecha futura
+                if (mes < 1 || mes > 12 || anio < fechaActual.getFullYear() ||
+                    (anio === fechaActual.getFullYear() && mes < (fechaActual.getMonth() + 1))) {
                     document.getElementById('expiryError').style.display = 'block';
                     return;
+                } else {
+                    document.getElementById('expiryError').style.display = 'none';
                 }
             } else {
                 document.getElementById('expiryError').style.display = 'block';
                 return;
             }
 
-            // C) Obtener cantidad seleccionada
+            // --- OBTENCIÓN DE LA CANTIDAD ---
             let cantidad = 0;
+            let esCustom = false;
+
             for (const radio of radios) {
                 if (radio.checked) {
-                    cantidad = radio.value;
+                    if (radio.value === 'custom') {
+                        cantidad = customInput.value;
+                    } else {
+                        cantidad = radio.value;
+                    }
                     break;
                 }
             }
 
-            // D) Construir URL y enviar
-            // Simulamos un pequeño delay para efecto de "Procesando"
+            // Validar que la cantidad sea un número positivo
+            if (!cantidad || parseFloat(cantidad) <= 0) {
+                alert("Por favor, introduce una cantidad válida mayor a 0.");
+                return;
+            }
+
+            // --- PASO CLAVE DE SEGURIDAD ---
+            // Asignamos el valor al input oculto en lugar de a la URL
+            hiddenInput.value = cantidad;
+
+            // Efecto visual de carga
             const btn = document.getElementById('btnPay');
             btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> PROCESANDO...';
             btn.disabled = true;
 
             setTimeout(() => {
-                // Aquí cambiamos la acción del formulario dinámicamente
-                form.action = '/cargarSaldo/' + cantidad;
+                // Enviamos el formulario.
+                // IMPORTANTE: NO modificamos form.action.
+                // Se usará el th:action="@{/cliente/cargarSaldo}" del HTML.
                 form.submit();
             }, 1500);
         });

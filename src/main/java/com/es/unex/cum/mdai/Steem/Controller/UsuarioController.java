@@ -1,5 +1,6 @@
 package com.es.unex.cum.mdai.Steem.Controller;
 
+import com.es.unex.cum.mdai.Steem.Modelo.Cliente;
 import org.springframework.ui.Model;
 import com.es.unex.cum.mdai.Steem.Modelo.Usuario;
 import com.es.unex.cum.mdai.Steem.Services.UsuarioService;

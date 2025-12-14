@@ -54,24 +54,43 @@ public class CompraController {
     }
 
     @GetMapping("/{idJuego}")
-    public String mostrarCompraJuego(@PathVariable int idJuego, Model model, RedirectAttributes redirectAttributes) {
+    public String mostrarResumenCompra(@PathVariable int idJuego, Model model, RedirectAttributes redirectAttributes) {
+        // 1. Obtener usuario autenticado
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = auth.getName();
-        long idUsuario = usuarioService.findUserByEmail(email).getIdUsuario();
-        Usuario user = usuarioService.findUser(idUsuario);
+        Usuario user = usuarioService.findUserByEmail(auth.getName());
+
+        // Seguridad: Solo clientes pueden comprar
+        if (!(user instanceof Cliente)) {
+            redirectAttributes.addFlashAttribute("error", "Debes ser cliente para comprar juegos.");
+            return "redirect:/";
+        }
+        Cliente cliente = (Cliente) user;
+
+        // 2. Obtener Juego
         Juego juego = juegoService.getJuegoById(idJuego);
-        if (juego == null){
-            redirectAttributes.addFlashAttribute("error", "El juego no existe.");
+        if (juego == null) {
+            return "redirect:/";
+        }
+
+        // 3. Verificar si ya lo tiene (para no venderlo 2 veces)
+        if (bibliotecaService.tieneJuego(cliente.getIdUsuario(), idJuego)) {
+            redirectAttributes.addFlashAttribute("info", "Ya tienes este juego en tu biblioteca.");
             return "redirect:/biblioteca";
         }
-        boolean yaEnBiblioteca = bibliotecaService.tieneJuego(idUsuario, idJuego);
-        if (yaEnBiblioteca) {
-            redirectAttributes.addFlashAttribute("info", "El juego ya está en tu biblioteca.");
-            return "redirect:/biblioteca";
-        }
-        redirectAttributes.addFlashAttribute("info", "Has comprado " + juego.getTitulo() + " correctamente.");
-        bibliotecaService.comprarJuego(idUsuario, idJuego);
-        return "redirect:/biblioteca";
+
+        // 4. Calcular Saldos
+        double saldoActual = cliente.getSaldo();
+        double precioJuego = juego.getPrecio();
+        double saldoRestante = saldoActual - precioJuego;
+        boolean tieneSaldoSuficiente = saldoRestante >= 0;
+
+        // 5. Pasar datos a la vista
+        model.addAttribute("juego", juego);
+        model.addAttribute("cliente", cliente);
+        model.addAttribute("saldoRestante", saldoRestante);
+        model.addAttribute("tieneSaldoSuficiente", tieneSaldoSuficiente);
+
+        return "resumen_compra"; // Nombre del nuevo HTML
     }
 
     @PostMapping("/carrito")

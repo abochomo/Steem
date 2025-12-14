@@ -79,10 +79,17 @@
 
                                 <div class="col-md-6 mb-2" th:if="${usuario.tipo.name() == 'CLIENTE'}">
                                     <small class="text-secondary d-block text-uppercase">Cartera Steem</small>
-                                    <span class="fw-bold" style="color: #66c0f4; font-size: 1.2rem;">
-                                        <i class="fas fa-wallet me-2"></i>
-                                        <span th:text="${usuario.saldo} + ' €'">0.0 €</span>
-                                    </span>
+
+                                    <div class="d-flex align-items-center">
+                                        <span class="fw-bold me-3" style="color: #66c0f4; font-size: 1.2rem;">
+                                            <i class="fas fa-wallet me-2"></i>
+                                            <span th:text="${usuario.saldo} + ' €'">0.0 €</span>
+                                        </span>
+                                        <a th:href="@{/cliente/cargarSaldo}" class="btn btn-sm btn-success text-white border-0 shadow-sm"
+                                           style="font-size: 0.75rem; padding: 4px 10px; background-color: #2ecc71;">
+                                            <i class="fas fa-plus"></i> Recargar
+                                        </a>
+                                    </div>
                                 </div>
 
                                 <div class="col-md-6 mb-2" th:if="${usuario.tipo.name() == 'DESARROLLADOR'}">

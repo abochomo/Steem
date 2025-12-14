@@ -1001,3 +1001,19 @@ main {
 .input-group-text {
     border-color: #6c757d !important;
 }
+
+/* =========================================
+   OCULTAR FLECHAS INPUT NUMBER
+   ========================================= */
+
+/* Para Chrome, Safari, Edge, Opera */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Para Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
