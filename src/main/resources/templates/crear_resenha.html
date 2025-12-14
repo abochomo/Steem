@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Escribir Reseña - Steem</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <style>
+        /* Estilos específicos para la selección de Like/Dislike */
+        .vote-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .vote-option {
+            display: none; /* Ocultamos el radio button real */
+        }
+
+        .vote-label {
+            background-color: rgba(255,255,255,0.05);
+            border: 2px solid #555;
+            border-radius: 15px;
+            padding: 20px 40px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            width: 200px;
+            color: #aaa;
+        }
+
+        .vote-label i {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        /* Cuando se selecciona RECOMENDADO */
+        #voteTrue:checked + .vote-label {
+            background-color: rgba(46, 204, 113, 0.2);
+            border-color: #2ecc71;
+            color: #2ecc71;
+            box-shadow: 0 0 15px rgba(46, 204, 113, 0.3);
+            transform: scale(1.05);
+        }
+
+        /* Cuando se selecciona NO RECOMENDADO */
+        #voteFalse:checked + .vote-label {
+            background-color: rgba(231, 76, 60, 0.2);
+            border-color: #e74c3c;
+            color: #e74c3c;
+            box-shadow: 0 0 15px rgba(231, 76, 60, 0.3);
+            transform: scale(1.05);
+        }
+
+        .vote-label:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+    </style>
+</head>
+<body class="body-login">
+
+<div class="container" style="display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 40px 20px;">
+
+    <div class="card-login-steem" style="max-width: 800px; padding: 40px;">
+
+        <div class="text-center" style="margin-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px;">
+            <h2 class="login-title">Publicar Análisis</h2>
+            <p style="color: #aaa;">
+                Sobre: <span th:text="${juego.titulo}" style="color: #66c0f4; font-weight: bold;">Juego</span>
+            </p>
+        </div>
+
+        <form th:action="@{/resenha/guardar}" th:object="${resenha}" method="post">
+
+            <input type="hidden" th:field="*{id}" />
+
+            <input type="hidden" name="idJuego" th:value="${juego.idJuego}" />
+
+            <div class="text-center mb-3" style="color: white; font-weight: bold;">
+                <span th:if="${resenha.id == 0}">¿Recomendarías este juego?</span>
+                <span th:if="${resenha.id != 0}">Editando tu veredicto</span>
+            </div>
+
+            <div class="vote-container">
+                <input type="radio" id="voteTrue" th:field="*{recomendado}" value="true" class="vote-option" required>
+                <label for="voteTrue" class="vote-label">
+                    <i class="fas fa-thumbs-up"></i>
+                    Sí, me gusta
+                </label>
+
+                <input type="radio" id="voteFalse" th:field="*{recomendado}" value="false" class="vote-option">
+                <label for="voteFalse" class="vote-label">
+                    <i class="fas fa-thumbs-down"></i>
+                    No, gracias
+                </label>
+            </div>
+
+            <div style="margin-bottom: 25px;">
+                <label class="label-steem">Cuéntanos tu experiencia</label>
+                <textarea th:field="*{texto}" class="form-control input-steem" rows="8"
+                          placeholder="Escribe aquí qué te ha parecido el juego, sus puntos fuertes y débiles..."
+                          required
+                          style="border-radius: 20px !important; resize: none; width: 100%;"></textarea>
+            </div>
+
+            <div style="display: flex; gap: 15px; margin-top: 30px; justify-content: flex-end;">
+                <a th:href="@{/biblioteca}" class="btn-action" style="background-color: transparent; border: 1px solid #aaa; color: #aaa; padding: 10px 30px; text-decoration: none;">
+                    Cancelar
+                </a>
+                <button type="submit" class="btn-login-steem" style="margin: 0;">
+                    Publicar Reseña
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

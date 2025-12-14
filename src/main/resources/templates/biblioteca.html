@@ -67,7 +67,7 @@
                     <a href="#" class="btn-play">
                         <i class="fas fa-play"></i> JUGAR
                     </a>
-                    <a href="#" class="btn-outline-steem">
+                    <a th:href="@{/resenha/nueva/{id}(id=${item.juego.id})}" class="btn-outline-steem">
                         <i class="fas fa-star"></i> Reseña
                     </a>
                     <a th:href="@{/reembolsar/{id}(id=${item.juego.id})}"

@@ -5,11 +5,13 @@ import com.es.unex.cum.mdai.Steem.Modelo.Juego;
 import com.es.unex.cum.mdai.Steem.Modelo.Usuario;
 import com.es.unex.cum.mdai.Steem.Services.JuegoService;
 import com.es.unex.cum.mdai.Steem.Services.UsuarioService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -58,7 +60,15 @@ public class JuegoGestionController {
 
     // --- 3. PROCESAR EL GUARDADO (SIRVE PARA AMBOS) ---
     @PostMapping("/guardar")
-    public String guardarCambios(@ModelAttribute("juego") Juego juegoForm) {
+    public String guardarCambios(@Valid @ModelAttribute("juego") Juego juegoForm,
+                                 BindingResult result,
+                                 Model model) {
+
+        if (result.hasErrors()) {
+            // Thymeleaf necesita saber si es edición o creación para poner el título correcto
+            // Como el ID viene en el objeto 'juegoForm', la vista ya lo sabe
+            return "editar_juego";
+        }
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String emailUsuario = auth.getName();
 

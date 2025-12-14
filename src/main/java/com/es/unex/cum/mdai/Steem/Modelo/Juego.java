@@ -2,6 +2,7 @@ package com.es.unex.cum.mdai.Steem.Modelo;
 
 import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.validation.constraints.*;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -18,9 +19,16 @@ public class Juego {
     @JoinColumn(name = "idUsuario", nullable = true)
     @JsonIgnore
     private Desarrollador desarrollador;
+    @NotBlank(message = "El título no puede estar vacío ni contener solo espacios")
+    @Size(min = 3, max = 50, message = "El título debe tener entre 3 y 50 caracteres")
     private String titulo;
+    @NotNull(message = "El precio es obligatorio")
+    @Min(value = 0, message = "El precio no puede ser negativo")
+    @Max(value = 999, message = "El precio no puede superar los 999€")
     private float precio;
     private String categoria;
+    @NotBlank(message = "La descripción es obligatoria")
+    @Size(min = 10, max = 300, message = "La descripción debe tener entre 10 y 300 caracteres")
     private String descripcion;
     private Date fechaPublicacion;
     private String imagenUrl;

@@ -39,18 +39,32 @@
 
                     <div style="margin-bottom: 25px;">
                         <label class="label-steem"><i class="fas fa-gamepad"></i> Título del Juego</label>
-                        <input type="text" th:field="*{titulo}" id="inputTitulo" class="form-control input-steem" required>
+                        <input type="text" th:field="*{titulo}" id="inputTitulo"
+                               class="form-control input-steem"
+                               th:classappend="${#fields.hasErrors('titulo')} ? 'input-error' : ''">
+
+                        <div class="error-msg" th:if="${#fields.hasErrors('titulo')}" th:errors="*{titulo}">Error Título</div>
                     </div>
 
                     <div style="margin-bottom: 25px;">
                         <label class="label-steem"><i class="fas fa-align-left"></i> Descripción</label><br>
-                        <textarea th:field="*{descripcion}" class="form-control input-steem" rows="6" required style="border-radius: 20px !important; resize: none;"></textarea>
+                        <textarea th:field="*{descripcion}"
+                                  class="form-control input-steem"
+                                  rows="6"
+                                  style="border-radius: 20px !important; resize: none; width: 100%"
+                                  th:classappend="${#fields.hasErrors('descripcion')} ? 'input-error' : ''"></textarea>
+
+                        <div class="error-msg" th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}">Error Descripción</div>
                     </div>
 
                     <div style="display: flex; gap: 20px; flex-wrap: wrap;">
                         <div style="flex: 1; min-width: 100px;">
                             <label class="label-steem"><i class="fas fa-tag"></i> Precio (€)</label>
-                            <input type="number" step="0.01" th:field="*{precio}" id="inputPrecio" class="form-control input-steem" required>
+                            <input type="number" step="0.01" th:field="*{precio}" id="inputPrecio"
+                                   class="form-control input-steem"
+                                   th:classappend="${#fields.hasErrors('precio')} ? 'input-error' : ''">
+
+                            <div class="error-msg" th:if="${#fields.hasErrors('precio')}" th:errors="*{precio}">Error Precio</div>
                         </div>
 
                         <div style="flex: 2; min-width: 100px;">

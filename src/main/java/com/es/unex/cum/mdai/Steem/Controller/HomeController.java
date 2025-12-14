@@ -1,9 +1,12 @@
 package com.es.unex.cum.mdai.Steem.Controller;
 
+import com.es.unex.cum.mdai.Steem.Modelo.Desarrollador;
 import com.es.unex.cum.mdai.Steem.Modelo.Juego;
 import com.es.unex.cum.mdai.Steem.Modelo.Resenha;
+import com.es.unex.cum.mdai.Steem.Modelo.Usuario;
 import com.es.unex.cum.mdai.Steem.Repositorio.ResenhaRepositorio;
 import com.es.unex.cum.mdai.Steem.Services.JuegoService;
+import com.es.unex.cum.mdai.Steem.Services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,6 +29,9 @@ public class HomeController {
     @Autowired
     private ResenhaRepositorio resenhaRepositorio;
 
+    @Autowired
+    private UsuarioService usuarioService;
+
     /*
     @Autowired
     private DesarrolladorService desarrolladorService;
@@ -33,6 +39,26 @@ public class HomeController {
     @GetMapping("/")
     public String home(@RequestParam(required = false) String keyword, Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (auth != null && auth.isAuthenticated() && !auth.getPrincipal().equals("anonymousUser")) {
+            // 1. MANTENEMOS EL EMAIL (lo que pediste)
+            String email = auth.getName();
+            model.addAttribute("username", email);
+
+            // 2. BUSCAMOS EL NOMBRE PARA MOSTRAR (Estudio o Usuario)
+            Usuario user = usuarioService.findUserByEmail(email);
+            if (user != null) {
+                if (user instanceof Desarrollador) {
+                    // Si es desarrollador, preferimos el Nombre del Estudio
+                    String nombreEstudio = ((Desarrollador) user).getNombreEstudio();
+                    // Si por error fuera null, usamos el nombre de usuario
+                    model.addAttribute("nombreMostrar", nombreEstudio != null ? nombreEstudio : user.getNombreUsuario());
+                } else {
+                    // Si es cliente, su nombre de usuario normal
+                    model.addAttribute("nombreMostrar", user.getNombreUsuario());
+                }
+            }
+        }
 
         if (auth != null && auth.isAuthenticated() && !auth.getPrincipal().equals("anonymousUser")) {
             String username = auth.getName();

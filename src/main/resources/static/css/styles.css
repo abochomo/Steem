@@ -867,6 +867,36 @@ main {
     width: 180px;
 }
 
+.dev-home-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh; /* Que ocupe buena parte de la pantalla */
+    text-align: center;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.dev-welcome-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: white;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+}
+
+.dev-welcome-title span {
+    color: #0984e3; /* Azul "Dashboard" */
+    display: block; /* Pone el nombre en una línea nueva si quieres, o quítalo para inline */
+}
+
+.dev-subtitle {
+    font-size: 1.5rem;
+    color: #b2bec3;
+    font-weight: 400;
+}
+
 
 /* Responsive para móviles */
 @media (max-width: 768px) {

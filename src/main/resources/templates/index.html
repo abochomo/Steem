@@ -35,7 +35,7 @@
 
         <div sec:authorize="isAuthenticated()" style="display: flex; align-items: center; gap: 10px;">
             <span style="font-size: 0.8rem; font-weight: bold;">
-                Hola, <span sec:authentication="name">Usuario</span>
+                Hola, <span th:text="${nombreMostrar}">Usuario</span>
             </span>
 
             <a th:href="@{/usuario/perfil}" class="btn-profile" title="Mi Perfil">
@@ -55,93 +55,110 @@
 
 <main>
 
-    <form th:action="@{/}" method="get" class="search-container">
-        <input type="text" name="keyword" class="search-input"
-               placeholder="Buscar por nombre..."
-               th:value="${keyword}">
+    <div sec:authorize="hasRole('DESARROLLADOR')" class="dev-home-container">
+        <h1 class="dev-welcome-title">
+            Bienvenido <br>
+            <span th:text="${nombreMostrar}">Nombre Estudio</span>
+        </h1>
+        <p class="dev-subtitle">¿Qué vamos a hacer hoy?</p>
 
-        <button type="submit" class="btn-action">Buscar</button>
-
-        <a th:if="${keyword != null && keyword != ''}" th:href="@{/}" class="btn-clear">
-            <i class="fas fa-times"></i> Limpiar
+        <a th:href="@{/biblioteca}" class="btn-action" style="background-color: #0984e3; margin-top: 30px;">
+            Ir al Dashboard
         </a>
-    </form>
-
-    <div th:if="${listaJuegos == null or listaJuegos.isEmpty()}" class="status-message">
-        No se encontraron juegos con ese nombre
     </div>
 
-    <h2 th:if="${listaJuegos != null and !listaJuegos.isEmpty()}" class="suggestions-title">
-        Resultados de la tienda
-    </h2>
 
-    <div class="cards-grid">
-        <div class="game-card" th:each="juego : ${listaJuegos}">
+    <div sec:authorize="!hasRole('DESARROLLADOR')" style="width: 100%; display: flex; flex-direction: column; align-items: center; gap: 30px;">
 
-            <a th:href="@{/juego/{id}(id=${juego.idJuego})}" style="text-decoration: none; display: block;">
-                <img th:if="${juego.imagenUrl != null && !juego.imagenUrl.isEmpty()}"
-                     th:src="@{${juego.imagenUrl}}" alt="Portada" class="game-image">
+        <form th:action="@{/}" method="get" class="search-container">
+            <input type="text" name="keyword" class="search-input"
+                   placeholder="Buscar por nombre..."
+                   th:value="${keyword}">
 
-                <img th:if="${juego.imagenUrl == null || juego.imagenUrl.isEmpty()}"
-                     th:src="@{/images/placeholder.jpg}" alt="Portada" class="game-image">
+            <button type="submit" class="btn-action">Buscar</button>
+
+            <a th:if="${keyword != null && keyword != ''}" th:href="@{/}" class="btn-clear">
+                <i class="fas fa-times"></i> Limpiar
             </a>
+        </form>
 
-            <div class="game-info">
-                <a th:href="@{/juego/{id}(id=${juego.idJuego})}" style="text-decoration: none;">
-                    <h3 class="game-title" th:text="${juego.titulo}">Título Juego</h3>
+        <div th:if="${listaJuegos == null or listaJuegos.isEmpty()}" class="status-message">
+            No se encontraron juegos con ese nombre
+        </div>
+
+        <h2 th:if="${listaJuegos != null and !listaJuegos.isEmpty()}" class="suggestions-title">
+            Resultados de la tienda
+        </h2>
+
+        <div class="cards-grid">
+            <div class="game-card" th:each="juego : ${listaJuegos}">
+
+                <a th:href="@{/juego/{id}(id=${juego.idJuego})}" style="text-decoration: none; display: block;">
+                    <img th:if="${juego.imagenUrl != null && !juego.imagenUrl.isEmpty()}"
+                         th:src="@{${juego.imagenUrl}}" alt="Portada" class="game-image">
+
+                    <img th:if="${juego.imagenUrl == null || juego.imagenUrl.isEmpty()}"
+                         th:src="@{/images/placeholder.jpg}" alt="Portada" class="game-image">
                 </a>
-                <p class="game-desc" th:text="${juego.descripcion}">Descripción...</p>
-            </div>
 
-            <div class="game-footer">
-                <span class="game-price" th:text="${juego.precio} + ' €'">0.00 €</span>
-                <a th:href="@{/juego/{id}(id=${juego.idJuego})}" class="btn-buy">
-                    Ver detalles
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <div class="ai-container" style="border-color: #a29bfe; box-shadow: 0 0 20px rgba(162, 155, 254, 0.2);">
-        <div class="text-center">
-            <h2 class="card-title" style="color: #a29bfe;">
-                <i class="fas fa-robot"></i> Steem AI
-            </h2>
-            <p class="text-secondary">Dime qué te gusta y nuestra IA buscará en el catálogo por ti.</p>
-        </div>
-
-        <div class="d-flex gap-2 mt-4 justify-content-center">
-            <input type="text" id="ai-input" class="form-control input-steem"
-                   placeholder="Ej: Me gustan los juegos de disparos frenéticos o RPGs con historia..."
-                   style="max-width: 500px;">
-            <button onclick="pedirRecomendacion()" class="btn-action" style="background-color: #6c5ce7;">
-                <i class="fas fa-magic"></i> Magic
-            </button>
-        </div>
-
-        <div id="loadingAi" class="text-center mt-4" style="display: none;">
-            <i class="fas fa-spinner fa-spin fa-2x text-white"></i>
-            <p class="text-secondary mt-2">Analizando catálogo...</p>
-        </div>
-
-        <div id="resultadoAi" class="mt-4" style="display: none; animation: fadeIn 0.5s;">
-            <div class="alert alert-info text-center" style="background: rgba(108, 92, 231, 0.2); border: 1px solid #6c5ce7; color: white;">
-                ¡He encontrado esto para ti!
-            </div>
-
-            <div class="game-card" style="max-width: 350px; margin: 0 auto; border-color: #a29bfe;">
-                <img id="aiImg" th:src="@{/images/placeholder.jpg}" class="game-image">
                 <div class="game-info">
-                    <h3 id="aiTitulo" class="game-title">Titulo</h3>
-                    <p id="aiDesc" class="game-desc">Desc</p>
+                    <a th:href="@{/juego/{id}(id=${juego.idJuego})}" style="text-decoration: none;">
+                        <h3 class="game-title" th:text="${juego.titulo}">Título Juego</h3>
+                    </a>
+                    <p class="game-desc" th:text="${juego.descripcion}">Descripción...</p>
                 </div>
+
                 <div class="game-footer">
-                    <span id="aiPrecio" class="game-price">0.00 €</span>
-                    <a id="aiLink" href="#" class="btn-buy" style="background-color: #6c5ce7;">Ver Juego</a>
+                    <span class="game-price" th:text="${juego.precio} + ' €'">0.00 €</span>
+                    <a th:href="@{/juego/{id}(id=${juego.idJuego})}" class="btn-buy">
+                        Ver detalles
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="ai-container" style="border-color: #a29bfe; box-shadow: 0 0 20px rgba(162, 155, 254, 0.2);">
+            <div class="text-center">
+                <h2 class="card-title" style="color: #a29bfe;">
+                    <i class="fas fa-robot"></i> Steem AI
+                </h2>
+                <p class="text-secondary">Dime qué te gusta y nuestra IA buscará en el catálogo por ti.</p>
+            </div>
+
+            <div class="d-flex gap-2 mt-4 justify-content-center" style="display: flex; gap: 10px;">
+                <input type="text" id="ai-input" class="form-control input-steem"
+                       placeholder="Ej: Me gustan los juegos de disparos frenéticos..."
+                       style="max-width: 500px;">
+                <button onclick="pedirRecomendacion()" class="btn-action" style="background-color: #6c5ce7;">
+                    <i class="fas fa-magic"></i> Magic
+                </button>
+            </div>
+
+            <div id="loadingAi" class="text-center mt-4" style="display: none;">
+                <i class="fas fa-spinner fa-spin fa-2x text-white"></i>
+                <p class="text-secondary mt-2">Analizando catálogo...</p>
+            </div>
+
+            <div id="resultadoAi" class="mt-4" style="display: none; animation: fadeIn 0.5s;">
+                <div class="alert alert-info text-center" style="background: rgba(108, 92, 231, 0.2); border: 1px solid #6c5ce7; color: white; padding: 10px; border-radius: 10px; margin-bottom: 20px;">
+                    ¡He encontrado esto para ti!
+                </div>
+
+                <div class="game-card" style="max-width: 350px; margin: 0 auto; border-color: #a29bfe;">
+                    <img id="aiImg" th:src="@{/images/placeholder.jpg}" class="game-image">
+                    <div class="game-info">
+                        <h3 id="aiTitulo" class="game-title">Titulo</h3>
+                        <p id="aiDesc" class="game-desc">Desc</p>
+                    </div>
+                    <div class="game-footer">
+                        <span id="aiPrecio" class="game-price">0.00 €</span>
+                        <a id="aiLink" href="#" class="btn-buy" style="background-color: #6c5ce7;">Ver Juego</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
 </main>
 
 <script>
