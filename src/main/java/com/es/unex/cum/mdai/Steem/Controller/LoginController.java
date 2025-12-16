@@ -27,9 +27,9 @@ public class LoginController {
     @PostMapping("")
     public String procesarLogin(@RequestParam String email, @RequestParam String password, HttpSession session, Model model) {
         try{
-            Usuario usuarioLogueado = usuarioService.loginUsuario(email, password);
+            Usuario usuarioLogueado = clienteService.loginUsuario(email, password);
             session.setAttribute("usuario", usuarioLogueado);
-            usuarioService.setUser(usuarioLogueado);
+            clienteService.setUser(usuarioLogueado);
             return "redirect:/";
         }
         catch (RuntimeException e){

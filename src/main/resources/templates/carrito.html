@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Tu Carrito - Steem</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
+</head>
+<body class="body-login">
+
+<header>
+    <div class="logo-container">
+        <a th:href="@{/}"><img th:src="@{/images/steem-logo.png}" alt="Logo" class="logo-img"></a>
+    </div>
+    <nav class="nav-links">
+        <a th:href="@{/}" class="btn-nav">Seguir comprando</a>
+    </nav>
+</header>
+
+<div class="container mt-5">
+    <h2 class="text-white mb-4 fw-bold">TU CARRITO DE COMPRA</h2>
+
+    <form th:action="@{/carrito/comprar}" method="post" id="formCarrito">
+
+        <div class="row">
+            <div class="col-lg-8">
+
+                <div th:if="${carrito == null or carrito.isEmpty()}" class="alert alert-secondary bg-dark text-white border-secondary">
+                    Tu carrito está vacío. <a th:href="@{/}" class="text-info">Ir a la tienda</a>.
+                </div>
+
+                <div class="card mb-3 border-secondary bg-dark" th:each="juego : ${carrito}"
+                     style="background: rgba(30, 30, 40, 0.8) !important;">
+                    <div class="row g-0 align-items-center p-3">
+
+                        <div class="col-1 text-center">
+                            <div class="form-check">
+                                <input class="form-check-input game-checkbox" type="checkbox"
+                                       name="idJuegos"
+                                       th:value="${juego.id}"
+                                       th:data-precio="${juego.precio}"
+                                       checked
+                                       style="transform: scale(1.5); cursor: pointer;">
+                            </div>
+                        </div>
+
+                        <div class="col-2">
+                            <img th:src="${juego.imagenUrl}" class="img-fluid rounded"
+                                 style="height: 60px; object-fit: cover;"
+                                 onerror="this.src='https://via.placeholder.com/100x60'">
+                        </div>
+
+                        <div class="col-6 ps-3">
+                            <h5 class="text-white mb-0 fw-bold" th:text="${juego.titulo}">Título del Juego</h5>
+                            <span class="badge bg-secondary mt-1">Digital</span>
+                        </div>
+
+                        <div class="col-3 text-end">
+                            <span class="fs-5 text-white fw-bold" th:text="${juego.precio} + ' €'">0.00 €</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-lg-4" th:if="${carrito != null and !carrito.isEmpty()}">
+                <div class="p-4 rounded border border-secondary sticky-top" style="background: rgba(0,0,0,0.4); top: 100px;">
+                    <h4 class="text-white mb-3">Resumen estimado</h4>
+
+                    <div class="d-flex justify-content-between mb-2 text-secondary">
+                        <span id="items-count">0 artículos</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center border-top border-secondary pt-3 mt-3">
+                        <span class="text-white h5">TOTAL A PAGAR</span>
+                        <span class="text-success h3 fw-bold" id="total-amount">0.00 €</span>
+                    </div>
+
+                    <p class="text-muted small mt-2">Impuestos incluidos si aplica.</p>
+
+                    <button type="submit" class="btn-action w-100 py-3 mt-3 shadow-lg" id="btnComprar">
+                        COMPRAR SELECCIONADOS
+                    </button>
+
+                    <div class="text-center mt-3">
+                        <img th:src="@{/images/payment-icons.png}" alt="Pagos" style="max-width: 150px; opacity: 0.5;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const checkboxes = document.querySelectorAll('.game-checkbox');
+        const totalDisplay = document.getElementById('total-amount');
+        const countDisplay = document.getElementById('items-count');
+        const btnComprar = document.getElementById('btnComprar');
+
+        function calcularTotal() {
+            let total = 0;
+            let count = 0;
+
+            checkboxes.forEach(chk => {
+                if (chk.checked) {
+                    // Obtenemos el precio desde el atributo data-precio (parseamos a float)
+                    let precio = parseFloat(chk.getAttribute('data-precio'));
+                    if (!isNaN(precio)) {
+                        total += precio;
+                    }
+                    count++;
+                }
+            });
+
+            // Actualizar el DOM
+            totalDisplay.innerText = total.toFixed(2) + ' €';
+            countDisplay.innerText = count + (count === 1 ? ' artículo seleccionado' : ' artículos seleccionados');
+
+            // Deshabilitar botón si no hay nada seleccionado
+            if (count === 0) {
+                btnComprar.disabled = true;
+                btnComprar.classList.add('opacity-50');
+                btnComprar.innerText = "SELECCIONA UN JUEGO";
+            } else {
+                btnComprar.disabled = false;
+                btnComprar.classList.remove('opacity-50');
+                btnComprar.innerText = "COMPRAR SELECCIONADOS";
+            }
+        }
+
+        // Añadir Listener a cada checkbox
+        checkboxes.forEach(chk => {
+            chk.addEventListener('change', calcularTotal);
+        });
+
+        // Calcular al cargar la página por primera vez
+        calcularTotal();
+    });
+</script>
+
+</body>
+</html>
