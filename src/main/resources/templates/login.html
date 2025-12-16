@@ -43,6 +43,10 @@
                 Has cerrado sesión correctamente
             </div>
 
+            <div th:if="${param.eliminado}" class="alert alert-success text-center p-2 rounded-pill bg-success border-0 text-white mb-4">
+                <i class="fas fa-check-circle me-2"></i> Tu cuenta ha sido eliminada correctamente
+            </div>
+
             <div class="mb-4">
                 <label for="email" class="label-steem">Correo electrónico</label>
                 <input type="text" class="form-control input-steem" id="email" name="email" required>

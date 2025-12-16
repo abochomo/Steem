@@ -35,6 +35,18 @@ Un cliente puede hacer una reseña de un juego que ha comprado, modificarla desp
 
 Al igual que la biblioteca, esta tabla depende directamente del usuario, y en caso de que un usuario sea eliminado, todas sus reseñas también se eliminan.
 
+### Valores predeterminados
+
+Al iniciar la aplicación por primera vez, se crean automáticamente ciertos valores predeterminados en la base de datos para facilitar las pruebas y el uso inicial de la plataforma. Estos valores incluyen:
+- **Usuarios**: Se crean varios usuarios de prueba, tanto clientes como desarrolladores, con credenciales predefinidas. Algunos ejemplos de estos usuarios son:
+  - **Cliente**: email: juan@gmail.com, contraseña: juan
+  - **Cliente**: email: maria@gmail.com, contraseña: maria
+  - **Desarrollador**: email:fernandodev@gmail.com, contraseña:fernando
+  - **Desarrollador**: email:anagames@gmail.com, contraseña:ana
+- **Juegos**: Se añaden varios juegos de ejemplo a la base de datos, asociados a los desarrolladores creados.
+- **Bibliotecas**: Se asignan juegos a las bibliotecas de los clientes de prueba para simular compras previas.
+- **Reseñas**: Se crean reseñas de ejemplo para algunos juegos, realizadas por los clientes de prueba.
+
 ## Implementación
 
 ### Login
@@ -58,11 +70,35 @@ La contraseña se almacena de forma segura utilizando técnicas de hashing para 
 
 La funcionalidad de modificación de perfil permite a los usuarios actualizar su información personal, como el nombre de usuario y la contraseña. Los usuarios pueden acceder a esta funcionalidad desde su perfil y realizar los cambios necesarios.
 
+### Eliminación de cuenta
+La funcionalidad de eliminación de cuenta permite a los usuarios borrar su cuenta de la plataforma. Al eliminar la cuenta, se eliminan todos los datos asociados al usuario, incluyendo su biblioteca de juegos y reseñas.
+
+En el caso de los desarrolladores, como los juegos no se pueden eliminar, estos permanecen en la base de datos aunque el desarrollador haya eliminado su cuenta. De esta manera los juegos quedan "huérfanos" pero accesibles para los clientes que los hayan comprado. Y disponibles para nuevas compras.
 ## Cliente
 
 ### Compra de juegos
 
+#### Compra directa
 La funcionalidad de compra de juegos permite a los clientes adquirir juegos disponibles en la plataforma. Cuando un cliente selecciona un juego para comprar, se verifica que tenga fondos suficientes y se procesa la transacción. Si la compra es exitosa, se añade el juego a la biblioteca del cliente y se actualizan sus fondos.
+
+La lógica de la compra además tiene seguridad transaccional, lo que significa que si ocurre algún error durante el proceso de compra, la transacción se revierte y no se realizan cambios en la base de datos.
+De esta manera se garantiza que el usuario no pierda dinero ni se añadan juegos a su biblioteca de forma incorrecta.
+
+En el caso de que un usuario no tenga fondos suficientes, se le redirige inmediatamente a la página de saldo de usuario para que pueda añadir fondos a su cuenta.
+
+#### Carrito de compra
+
+La funcionalidad de carrito de compra permite a los clientes añadir múltiples juegos a un carrito virtual antes de proceder a la compra. Los usuarios pueden revisar los juegos en su carrito, y realizar la compra de todos los juegos en el carrito de una sola vez. Esta función además provee de la capacidad de seleccionar o deseleccionar juegos antes de la compra final.
+
+En caso de que un usuario no tenga fondos suficientes para completar la compra del carrito, se le notifica y se le redirige a la página de saldo de usuario para que pueda añadir fondos a su cuenta.
+
+La funcionalidad de carrito de compra no se almacena en la base de datos, sino que se mantiene en la sesión del usuario hasta que se complete la compra o se cierre la sesión.
+
+De igual manera que en la compra directa, la lógica de la compra del carrito tiene seguridad transaccional para garantizar la integridad de los datos.
+
+### Reembolso de juegos
+
+De la misma manera que un usuario puede adquirir juegos para su biblioteca, puede reembolsarlos. La funcionalidad de reembolso de juegos permite a los clientes devolver un juego que han comprado dentro de un período de tiempo específico (por ejemplo, 14 días) y recibir un reembolso completo.
 
 ### Saldo de usuario
 

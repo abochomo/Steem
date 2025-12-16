@@ -107,28 +107,4 @@ public class HomeController {
     }
 }
 
-    /*
-    private void generarJuegosMock() {
-        List<Juego> juegos = new ArrayList<>();
-
-        Desarrollador devNintendo = new Desarrollador();
-        devNintendo.setNombreEstudio("Nintendo");
-        devNintendo.setNombreUsuario("Nintendo");
-        devNintendo.setEmail("devNintendo@nintendo.a");
-        devNintendo.setPassword("Nintendo");
-        desarrolladorService.registroDesarrollador(devNintendo);
-
-        Juego j1 = new Juego(); j1.setTitulo("Super Mario Fake"); j1.setDescripcion("Plataformas."); j1.setPrecio(59.99); j1.setDesarrollador(devNintendo);
-        juegos.add(j1);
-        juegoService.addJuego(j1);
-        Juego j2 = new Juego();j2.setTitulo("Call of Duty: Mock Ops"); j2.setDescripcion("Disparos."); j2.setPrecio(69.99); j2.setDesarrollador(devNintendo);
-        juegos.add(j2);
-        juegoService.addJuego(j2);
-        Juego j3 = new Juego();j3.setTitulo("Elden Ring (Demo)"); j3.setDescripcion("RPG."); j3.setPrecio(49.99); j3.setDesarrollador(devNintendo);
-        juegos.add(j3);
-        juegoService.addJuego(j3);
-    }
-
-     */
-
 
