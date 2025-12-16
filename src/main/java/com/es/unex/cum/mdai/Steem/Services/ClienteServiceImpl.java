@@ -61,4 +61,9 @@ public class ClienteServiceImpl implements ClienteService {
         clienteActual = clienteRepositorio.findByEmail(email);
         return clienteActual;
     }
+
+    @Override
+    public void guardarCliente(Cliente cliente) {
+        clienteRepositorio.save(cliente);
+    }
 }

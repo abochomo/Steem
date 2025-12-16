@@ -3,9 +3,9 @@ package com.es.unex.cum.mdai.Steem.Controller;
 
 import com.es.unex.cum.mdai.Steem.Modelo.*;
 import com.es.unex.cum.mdai.Steem.Services.BibliotecaService;
+import com.es.unex.cum.mdai.Steem.Services.ClienteService;
 import com.es.unex.cum.mdai.Steem.Services.JuegoService;
 import com.es.unex.cum.mdai.Steem.Services.UsuarioService;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Date;
-
 @Controller
 @RequestMapping("/comprar")
 public class CompraController {
@@ -27,7 +25,7 @@ public class CompraController {
     BibliotecaService bibliotecaService;
 
     @Autowired
-    UsuarioService usuarioService;
+    ClienteService clienteService;
 
     @Autowired
     JuegoService juegoService;
@@ -36,8 +34,8 @@ public class CompraController {
     public String comprarJuego(@PathVariable int idJuego, Model model, RedirectAttributes redirectAttributes) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
-        long idUsuario = usuarioService.findUserByEmail(email).getIdUsuario();
-        Usuario user = usuarioService.findUser(idUsuario);
+        Cliente cliente = clienteService.findClienteByEmail(email);
+        long idUsuario = cliente.getIdUsuario();
         Juego juego = juegoService.getJuegoById(idJuego);
         if (juego == null){
             redirectAttributes.addFlashAttribute("error", "El juego no existe.");
@@ -57,7 +55,7 @@ public class CompraController {
     public String mostrarResumenCompra(@PathVariable int idJuego, Model model, RedirectAttributes redirectAttributes) {
         // 1. Obtener usuario autenticado
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Usuario user = usuarioService.findUserByEmail(auth.getName());
+        Usuario user = clienteService.findClienteByEmail(auth.getName());
 
         // Seguridad: Solo clientes pueden comprar
         if (!(user instanceof Cliente)) {
@@ -91,61 +89,5 @@ public class CompraController {
         model.addAttribute("tieneSaldoSuficiente", tieneSaldoSuficiente);
 
         return "resumen_compra"; // Nombre del nuevo HTML
-    }
-
-    @PostMapping("/carrito")
-    public String comprarDesdeCarrito(HttpSession session, RedirectAttributes redirectAttributes) {
-        // 1. Obtención de usuario (Igual que en tus otros métodos)
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = auth.getName();
-        Usuario user = usuarioService.findUserByEmail(email);
-        long idUsuario = user.getIdUsuario();
-
-        // Verificación de seguridad extra (Solo Clientes tienen saldo/carrito)
-        if (!(user instanceof Cliente)) {
-            return "redirect:/";
-        }
-        Cliente cliente = (Cliente) user;
-
-        // 2. Obtener Carrito
-        Carrito carrito = (Carrito) session.getAttribute("carrito");
-        if (carrito == null || carrito.getJuegosEnCarrito().isEmpty()) {
-            redirectAttributes.addFlashAttribute("error", "El carrito está vacío.");
-            return "redirect:/carrito";
-        }
-
-        // 3. Comprobación de Saldo (La parte nueva solicitada)
-        if (cliente.getSaldo() < carrito.getPrecioTotal()) {
-            redirectAttributes.addFlashAttribute("error", "Saldo insuficiente. Total: " + carrito.getPrecioTotal() + "€");
-            return "redirect:/carrito";
-        }
-
-        // 4. Procesamiento (Bucle utilizando tu lógica existente)
-        int juegosProcesados = 0;
-
-        for (Juego juego : carrito.getJuegosEnCarrito()) {
-            int idJuego = (int) juego.getId();
-
-            // Reutilizamos EXACTAMENTE tu lógica de validación
-            boolean yaEnBiblioteca = bibliotecaService.tieneJuego(idUsuario, idJuego);
-
-            if (!yaEnBiblioteca) {
-                // Delegamos la compra al servicio, igual que en comprarJuego
-                bibliotecaService.comprarJuego(idUsuario, idJuego);
-                juegosProcesados++;
-            }
-        }
-
-        // 5. Limpieza y Feedback
-        carrito.vaciarCarrito();
-        session.setAttribute("carrito", carrito);
-
-        if (juegosProcesados > 0) {
-            redirectAttributes.addFlashAttribute("info", "Has comprado " + juegosProcesados + " juegos correctamente.");
-        } else {
-            redirectAttributes.addFlashAttribute("info", "No se realizaron cargos, ya tenías todos los juegos.");
-        }
-
-        return "redirect:/biblioteca";
     }
 }

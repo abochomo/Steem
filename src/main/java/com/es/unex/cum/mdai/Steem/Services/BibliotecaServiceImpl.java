@@ -61,6 +61,7 @@ public class BibliotecaServiceImpl implements BibliotecaService {
     }
 
     @Override
+    @Transactional
     public void reembolsarJuego(long userId, long juegoId) {
         Cliente cliente = clienteRepositorio.findById(userId).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
         Juego juegoReembolsado = juegoRepositorio.findById(juegoId).orElseThrow(() -> new RuntimeException("Juego no encontrado"));
