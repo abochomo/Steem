@@ -135,3 +135,8 @@ Permite al administrador supervisar las bibliotecas de los usuarios. El administ
 En caso que el administrador quite un juego de la biblioteca de un usuario, se le efectuará un reembolso inmediato en saldo al usuario.
 ### Gestión de reseñas
 Permite al administrador revisar y gestionar las reseñas dejadas por los clientes sobre los juegos. El administrador puede eliminar reseñas inapropiadas.
+
+### Credenciales de Administrador
+El administrador por defecto tiene las siguientes credenciales:
+- Email: admin@steem.com
+- Contraseña: admin123
