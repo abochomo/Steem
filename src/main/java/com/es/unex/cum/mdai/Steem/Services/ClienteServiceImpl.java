@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 @Service
 public class ClienteServiceImpl implements ClienteService {
     @Autowired
@@ -37,7 +40,7 @@ public class ClienteServiceImpl implements ClienteService {
         if (this.clienteActual == null) {
             throw new RuntimeException("No hay ningún cliente logueado para cargar saldo");
         }
-        this.clienteActual.setSaldo(this.clienteActual.getSaldo() + cantidad);
+        this.clienteActual.sumarSaldo(cantidad);
         clienteRepositorio.save(this.clienteActual);
     }
 
@@ -46,7 +49,7 @@ public class ClienteServiceImpl implements ClienteService {
         if (this.clienteActual == null) {
             throw new RuntimeException("No hay ningún cliente logueado para cargar saldo");
         }
-        this.clienteActual.setSaldo(this.clienteActual.getSaldo() - cantidad);
+        this.clienteActual.restarSaldo(cantidad);
         clienteRepositorio.save(this.clienteActual);
     }
 

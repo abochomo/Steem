@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface ResenhaRepositorio extends JpaRepository<Resenha, Long> {
 
-    List<Resenha> findByJuegoId(long juegoId);
+    List<Resenha> findByJuego_IdJuego(long juegoId);
 
     // CORRECCIÓN: Cambiamos 'Cliente_IdUsuario' por 'Cliente_Id'
     // Spring busca: Entidad Resenha -> Campo 'cliente' -> Entidad Cliente -> Campo 'id'

@@ -2,6 +2,9 @@
 package com.es.unex.cum.mdai.Steem.Modelo;
 
 import jakarta.persistence.*;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
@@ -51,14 +54,28 @@ public class Cliente extends Usuario {
     }
 
     public void setSaldo(float saldo) {
-        this.saldo = saldo;
+        BigDecimal bd = new BigDecimal(Float.toString(saldo));
+        if (bd.scale() > 2) {
+            bd = bd.setScale(2, RoundingMode.DOWN);
+        }
+        this.saldo = bd.floatValue();
     }
 
     public void restarSaldo(float cantidad) {
-        this.saldo -= cantidad;
+        BigDecimal bd = new BigDecimal(Float.toString(cantidad));
+        if (bd.scale() > 2) {
+            bd = bd.setScale(2, RoundingMode.DOWN);
+        }
+        float cantidadTruncada = bd.floatValue();
+        this.saldo -= cantidadTruncada;
     }
     public void sumarSaldo(float cantidad) {
-        this.saldo += cantidad;
+        BigDecimal bd = new BigDecimal(Float.toString(cantidad));
+        if (bd.scale() > 2) {
+            bd = bd.setScale(2, RoundingMode.DOWN);
+        }
+        float cantidadTruncada = bd.floatValue();
+        this.saldo += cantidadTruncada;
     }
 
 }

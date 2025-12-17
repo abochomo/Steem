@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
+
 @Component
 public class BaseDatosSeeder implements org.springframework.boot.CommandLineRunner {
     @Autowired
@@ -32,7 +34,7 @@ public class BaseDatosSeeder implements org.springframework.boot.CommandLineRunn
         cliente.setEmail("juan@gmail.com");
         cliente.setPassword("juan");
         cliente.setPassword(passwordEncoder.encode(cliente.getPassword()));
-        cliente.setFechaRegistro(new java.util.Date());
+        cliente.setFechaRegistro(new Date());
         cliente.setTipoUsuario(Usuario.TipoUsuario.CLIENTE);
         cliente.setSaldo(150.0F);
         Cliente cliente2 = new Cliente();
@@ -40,7 +42,7 @@ public class BaseDatosSeeder implements org.springframework.boot.CommandLineRunn
         cliente2.setEmail("maria@gmail.com");
         cliente2.setPassword("maria");
         cliente2.setPassword(passwordEncoder.encode(cliente2.getPassword()));
-        cliente2.setFechaRegistro(new java.util.Date());
+        cliente2.setFechaRegistro(new Date());
         cliente2.setTipoUsuario(Usuario.TipoUsuario.CLIENTE);
         cliente2.setSaldo(200.0F);
         clienteRepositorio.save(cliente);
@@ -51,7 +53,7 @@ public class BaseDatosSeeder implements org.springframework.boot.CommandLineRunn
         desarrollador.setEmail("fernandodev@gmail.com");
         desarrollador.setPassword("fernando");
         desarrollador.setPassword(passwordEncoder.encode(desarrollador.getPassword()));
-        desarrollador.setFechaRegistro(new java.util.Date());
+        desarrollador.setFechaRegistro(new Date());
         desarrollador.setTipoUsuario(Usuario.TipoUsuario.DESARROLLADOR);
         desarrollador.setNombreEstudio("Fernando Studios");
         desarrolladorRepositorio.save(desarrollador);
@@ -61,10 +63,20 @@ public class BaseDatosSeeder implements org.springframework.boot.CommandLineRunn
         desarrollador2.setEmail("anagames@gmail.com");
         desarrollador2.setPassword("ana");
         desarrollador2.setPassword(passwordEncoder.encode(desarrollador2.getPassword()));
-        desarrollador2.setFechaRegistro(new java.util.Date());
+        desarrollador2.setFechaRegistro(new Date());
         desarrollador2.setTipoUsuario(Usuario.TipoUsuario.DESARROLLADOR);
         desarrollador2.setNombreEstudio("Ana Games");
         desarrolladorRepositorio.save(desarrollador2);
+
+        Desarrollador desarrollador3 = new Desarrollador();
+        desarrollador3.setNombreUsuario("SandfallInteractive");
+        desarrollador3.setEmail("sandfall@gmail.com");
+        desarrollador3.setPassword("sandfall");
+        desarrollador3.setPassword(passwordEncoder.encode(desarrollador3.getPassword()));
+        desarrollador3.setFechaRegistro(new Date());
+        desarrollador3.setTipoUsuario(Usuario.TipoUsuario.DESARROLLADOR);
+        desarrollador3.setNombreEstudio("Sandfall Interactive");
+        desarrolladorRepositorio.save(desarrollador3);
 
         Juego juego = new Juego();
         juego.setTitulo("Elden Ring");
@@ -110,25 +122,35 @@ public class BaseDatosSeeder implements org.springframework.boot.CommandLineRunn
         juego6.setDesarrollador(desarrollador2);
         juegoRepositorio.save(juego6);
 
+        Juego juego7 = new Juego();
+        juego7.setTitulo("Clair Obscur: Expedition 33");
+        juego7.setDescripcion("GOTY del 2025. Una aventura RPG en un mundo oscuro lleno de maravillas por descubrir.");
+        juego7.setPrecio(44.99F);
+        juego7.setImagenUrl("/images/game-covers/Expedition33.png");
+        juego7.setDesarrollador(desarrollador3);
+        juego7.setCategoria("RPG");
+        juego7.setFechaPublicacion(new Date());
+        juegoRepositorio.save(juego7);
+
         Biblioteca biblioteca = new Biblioteca();
         biblioteca.setCliente(cliente);
         biblioteca.setJuego(juego);
-        biblioteca.setFechaAdquisicion(new java.util.Date());
+        biblioteca.setFechaAdquisicion(new Date());
         bibliotecaRepositorio.save(biblioteca);
         Biblioteca biblioteca2 = new Biblioteca();
         biblioteca2.setCliente(cliente);
         biblioteca2.setJuego(juego3);
-        biblioteca2.setFechaAdquisicion(new java.util.Date());
+        biblioteca2.setFechaAdquisicion(new Date());
         bibliotecaRepositorio.save(biblioteca2);
         Biblioteca biblioteca3 = new Biblioteca();
         biblioteca3.setCliente(cliente2);
         biblioteca3.setJuego(juego2);
-        biblioteca3.setFechaAdquisicion(new java.util.Date());
+        biblioteca3.setFechaAdquisicion(new Date());
         bibliotecaRepositorio.save(biblioteca3);
         Biblioteca biblioteca4 = new Biblioteca();
         biblioteca4.setCliente(cliente2);
         biblioteca4.setJuego(juego5);
-        biblioteca4.setFechaAdquisicion(new java.util.Date());
+        biblioteca4.setFechaAdquisicion(new Date());
         bibliotecaRepositorio.save(biblioteca4);
 
         Resenha resenha = new Resenha();

@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -97,7 +96,7 @@ public class HomeController {
 
         if (juegoOpt.isPresent()) {
             model.addAttribute("juego", juegoOpt.get());
-            List<Resenha> listaResenas = resenhaRepositorio.findByJuegoId(id);
+            List<Resenha> listaResenas = resenhaRepositorio.findByJuego_IdJuego(id);
             // Las pasamos a la vista HTML
             model.addAttribute("listaResenas", listaResenas);
             return "detalles_juego"; // Nombre del nuevo HTML

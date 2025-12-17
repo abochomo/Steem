@@ -112,6 +112,8 @@ La funcionalidad de reseñas de juegos permite a los clientes dejar opiniones y 
 ### IA
 La aplicación integra una funcionalidad de inteligencia artificial que permite a los usuarios preguntarle a la IA sobre recomendaciones de juegos, y obtener el juego más adecuado según sus preferencias.
 
+Esta funcionalidad envía una solicitud a la API de OpenRouter y recibe una respuesta generada por el modelo de razonamiento. No se proporciona acceso directo a un chat con el modelo, sino que se envía la pregunta del usuario y la única respuesta que se recibe es la recomendación del juego más adecuado para su solicitud (en caso de que exista).
+
 ## Desarrollador
 
 ### Subida de juegos
@@ -126,7 +128,7 @@ La funcionalidad de gestión de juegos permite a los desarrolladores administrar
 ### Gestión de usuarios
 Permite al administrador ver, modificar y eliminar usuarios de la plataforma. El administrador puede gestionar tanto clientes como desarrolladores, asegurándose de que se cumplan las políticas de la plataforma.
 ### Gestión de juegos
-Permite al administrador supervisar todos los juegos disponibles en la plataforma. El administrador puede revisar la información del juego, asegurarse de que cumple con las normas de la plataforma y gestionar cualquier problema relacionado con los juegos.
+Permite al administrador supervisar todos los juegos disponibles en la plataforma. El administrador puede revisar la información del juego, modificarlos e incluso eliminarlos en caso de que sea necesario.
 
 También permite al administrador eliminar juegos en caso de que sea necesario. Sin embargo, un juego solo se podrá eliminar en el caso de que no haya sido comprado por ningún usuario. En caso contrario, el juego permanecerá en la base de datos para garantizar el acceso a los usuarios que lo hayan comprado.
 ### Gestión de bibliotecas

@@ -12,7 +12,7 @@ public interface JuegoRepositorio extends JpaRepository<Juego, Long> {
 
     Optional<Juego> findJuegoByTitulo(String titulo);
 
-    Juego findJuegoById(long id);
+    Juego findJuegoByIdJuego(long id);
 
     List<Juego> findByTituloContainingIgnoreCase(String titulo);
 

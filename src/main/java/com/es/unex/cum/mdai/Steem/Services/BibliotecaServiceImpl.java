@@ -65,7 +65,7 @@ public class BibliotecaServiceImpl implements BibliotecaService {
     public void reembolsarJuego(long userId, long juegoId) {
         Cliente cliente = clienteRepositorio.findById(userId).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
         Juego juegoReembolsado = juegoRepositorio.findById(juegoId).orElseThrow(() -> new RuntimeException("Juego no encontrado"));
-        Optional<Biblioteca> entradaBiblioteca = bibliotecaRepositorio.findBibliotecaByClienteIdAndJuegoId(userId, juegoId);
+        Optional<Biblioteca> entradaBiblioteca = bibliotecaRepositorio.findBibliotecaByCliente_IdAndJuego_IdJuego(userId, juegoId);
 
         if (cliente == null || juegoReembolsado == null || !entradaBiblioteca.isPresent()) {
             throw new RuntimeException("Usuario, juego o entrada de biblioteca no encontrado");
@@ -84,7 +84,7 @@ public class BibliotecaServiceImpl implements BibliotecaService {
 
     @Override
     public boolean tieneJuego(long userId, long juegoId) {
-        Optional<Biblioteca> biblioteca = bibliotecaRepositorio.findBibliotecaByClienteIdAndJuegoId(userId, juegoId);
+        Optional<Biblioteca> biblioteca = bibliotecaRepositorio.findBibliotecaByCliente_IdAndJuego_IdJuego(userId, juegoId);
         if (biblioteca.isPresent()) {
             return true;
         } else {
