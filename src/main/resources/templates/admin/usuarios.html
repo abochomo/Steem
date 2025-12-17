@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Usuarios - Admin</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body class="body-login">
+
+<header>
+    <div class="logo-container">
+        <a th:href="@{/admin/panel}" class="btn-back-admin">← Volver al Panel</a>
+    </div>
+    <div class="profile-container">
+        <span style="color: #66c0f4;">Administración: <span th:text="${usuarioAdmin}"></span></span>
+    </div>
+</header>
+
+<main>
+    <div class="admin-header" style="width: 100%; max-width: 1000px;">
+        <h2 class="admin-title">Listado de Usuarios</h2>
+
+        <a th:href="@{/admin/usuarios/nuevo}" class="btn-steam" style="padding: 10px 20px; font-size: 0.8rem; text-decoration: none;">
+            + Nuevo Usuario
+        </a>
+    </div>
+
+    <div class="admin-table-container" style="width: 100%; max-width: 1000px;">
+        <table class="table-admin">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Correo</th>
+                <th>Rol</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${usuarios}">
+                <td th:text="${user.id}">1</td>
+                <td th:text="${user.nombreUsuario}">User</td>
+                <td th:text="${user.email}">email@test.com</td>
+
+                <td th:text="${user.tipoUsuario}">CLIENTE</td>
+
+                <td>
+                    <a th:href="@{/admin/usuarios/editar/{id}(id=${user.id})}" style="color: #66c0f4; margin-right: 10px;">
+                        Editar
+                    </a>
+
+                    <a th:href="@{/admin/usuarios/borrar/{id}(id=${user.id})}"
+                       onclick="return confirm('¿Estás seguro de que quieres eliminar a este usuario? Esta acción no se puede deshacer.');"
+                       style="color: #e74c3c;">
+                        Borrar
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+</body>
+</html>

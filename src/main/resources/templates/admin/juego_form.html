@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${titulo}">Formulario Juego</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* Reutilizamos los estilos Grid del formulario anterior */
+        .admin-form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        .full-width { grid-column: 1 / -1; }
+
+        .label-steem {
+            display: block; margin-bottom: 8px; font-weight: 600; color: #8f98a0; font-size: 0.9rem;
+        }
+        .input-steem { padding: 12px 15px; }
+
+        @media (max-width: 768px) { .admin-form-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body class="body-login">
+
+<header>
+    <div class="logo-container">
+        <a th:href="@{/admin/juegos}" class="btn-back-admin">← Cancelar y Volver</a>
+    </div>
+    <div class="profile-container">
+        <span style="color: #66c0f4;">Admin: <span th:text="${usuarioAdmin}">Admin</span></span>
+    </div>
+</header>
+
+<main>
+    <div class="card-login-steem" style="max-width: 900px; padding: 40px;">
+
+        <h2 class="login-title" th:text="${titulo}" style="margin-bottom: 30px; border-bottom: 1px solid #3d4c53; padding-bottom: 15px;">Gestión de Juego</h2>
+
+        <form th:action="@{/admin/juegos/guardar}" th:object="${juego}" method="post">
+
+            <input type="hidden" th:field="*{idJuego}" />
+
+            <div class="admin-form-grid">
+
+                <div class="form-group full-width">
+                    <label class="label-steem" style="color:#fff;">Título del Juego</label>
+                    <input type="text" class="form-control input-steem" th:field="*{titulo}" required placeholder="Ej: Half-Life 3">
+                </div>
+
+                <div class="form-group">
+                    <label class="label-steem">Precio (€)</label>
+                    <input type="number" step="0.01" class="form-control input-steem" th:field="*{precio}" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="label-steem">Categoría / Género</label>
+                    <input type="text" class="form-control input-steem" th:field="*{categoria}" placeholder="Ej: Acción, RPG, Indie">
+                </div>
+
+                <div class="form-group">
+                    <label class="label-steem" style="color: #66c0f4;">Desarrollador / Estudio</label>
+                    <select name="idDesarrollador" class="form-control input-steem" style="background-color: #1b2838;">
+                        <option value="">-- Seleccionar Estudio --</option>
+                        <option th:each="dev : ${desarrolladores}"
+                                th:value="${dev.id}"
+                                th:text="${dev.nombreEstudio}"
+                                th:selected="${juego.desarrollador != null and juego.desarrollador.id == dev.id}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="label-steem">Fecha de Publicación</label>
+                    <input type="date" class="form-control input-steem" th:field="*{fechaPublicacion}">
+                </div>
+
+                <div class="form-group full-width">
+                    <label class="label-steem">URL de la Imagen (Carátula)</label>
+                    <input type="text" class="form-control input-steem" th:field="*{imagenUrl}" placeholder="https://...">
+                </div>
+
+                <div class="form-group full-width">
+                    <label class="label-steem">Descripción</label>
+                    <textarea class="form-control input-steem" th:field="*{descripcion}" rows="4" style="resize: vertical;"></textarea>
+                </div>
+
+            </div>
+
+            <button type="submit" class="btn-login-steem" style="width: 100%; padding: 15px; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px;">
+                Guardar Juego
+            </button>
+
+        </form>
+    </div>
+</main>
+
+</body>
+</html>

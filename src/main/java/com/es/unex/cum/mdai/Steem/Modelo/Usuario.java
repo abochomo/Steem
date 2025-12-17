@@ -32,6 +32,8 @@ public abstract class Usuario {
         return id;
     }
 
+    public long getId() {return id;}
+
     public void setIdUsuario(long idUsuario) {
         this.id = idUsuario;
     }

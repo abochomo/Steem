@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class ResenhaServiceImpl implements ResenhaService {
@@ -57,5 +58,20 @@ public class ResenhaServiceImpl implements ResenhaService {
 
         // 3. Borramos
         resenhaRepositorio.delete(resenha);
+    }
+
+    @Override
+    public List<Resenha> listarTodas() {
+        return resenhaRepositorio.findAll();
+    }
+
+    // 2. BORRADO DE ADMIN (Sin comprobar el email del dueño)
+    @Override
+    public void borrarResenhaAdmin(Long idResenha) {
+        if (resenhaRepositorio.existsById(idResenha)) {
+            resenhaRepositorio.deleteById(idResenha);
+        } else {
+            throw new RuntimeException("La reseña no existe");
+        }
     }
 }

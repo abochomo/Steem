@@ -9,4 +9,6 @@ public interface BibliotecaService {
     public void reembolsarJuego(long user, long juego);
     public List<Biblioteca> getBiblioteca(long user);
     public boolean tieneJuego(long juego, long user);
+    List<Biblioteca> getAllBibliotecas();
+    void eliminarEntradaYReembolsar(long idBiblioteca);
 }

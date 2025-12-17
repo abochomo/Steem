@@ -3,6 +3,7 @@ package com.es.unex.cum.mdai.Steem.Modelo;
 import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -30,6 +31,7 @@ public class Juego {
     @NotBlank(message = "La descripción es obligatoria")
     @Size(min = 10, max = 300, message = "La descripción debe tener entre 10 y 300 caracteres")
     private String descripcion;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date fechaPublicacion;
     private String imagenUrl;
 

@@ -43,6 +43,7 @@ public class Cliente extends Usuario {
     }
 
     public Cliente () {
+        this.setTipoUsuario(TipoUsuario.CLIENTE);
     }
 
     public float getSaldo() {

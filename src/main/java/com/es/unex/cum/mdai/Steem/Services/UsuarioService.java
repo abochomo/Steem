@@ -3,6 +3,8 @@ package com.es.unex.cum.mdai.Steem.Services;
 import com.es.unex.cum.mdai.Steem.Modelo.Cliente;
 import com.es.unex.cum.mdai.Steem.Modelo.Usuario;
 
+import java.util.List;
+
 public interface UsuarioService {
     public Usuario loginUsuario(String email, String contrasena);
     public void cambiarContrasena(String nuevaContrasena);
@@ -12,4 +14,5 @@ public interface UsuarioService {
     public void eliminarUsuario(long user);
     public Usuario findUserByUsername(String username);
     public void guardarUsuario(Usuario usuario);
+    public List<Usuario> listarTodos();
 }

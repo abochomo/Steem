@@ -121,3 +121,17 @@ La funcionalidad de subida de juegos permite a los desarrolladores cargar nuevos
 ### Gestión de juegos
 
 La funcionalidad de gestión de juegos permite a los desarrolladores administrar los juegos que han subido a la plataforma. Los desarrolladores pueden ver una lista de sus juegos, actualizar la información del juego (como el precio o la descripción).
+
+## Administrador
+### Gestión de usuarios
+Permite al administrador ver, modificar y eliminar usuarios de la plataforma. El administrador puede gestionar tanto clientes como desarrolladores, asegurándose de que se cumplan las políticas de la plataforma.
+### Gestión de juegos
+Permite al administrador supervisar todos los juegos disponibles en la plataforma. El administrador puede revisar la información del juego, asegurarse de que cumple con las normas de la plataforma y gestionar cualquier problema relacionado con los juegos.
+
+También permite al administrador eliminar juegos en caso de que sea necesario. Sin embargo, un juego solo se podrá eliminar en el caso de que no haya sido comprado por ningún usuario. En caso contrario, el juego permanecerá en la base de datos para garantizar el acceso a los usuarios que lo hayan comprado.
+### Gestión de bibliotecas
+Permite al administrador supervisar las bibliotecas de los usuarios. El administrador puede ver qué juegos han comprado los clientes y gestionar cualquier problema relacionado con las bibliotecas de los usuarios.
+
+En caso que el administrador quite un juego de la biblioteca de un usuario, se le efectuará un reembolso inmediato en saldo al usuario.
+### Gestión de reseñas
+Permite al administrador revisar y gestionar las reseñas dejadas por los clientes sobre los juegos. El administrador puede eliminar reseñas inapropiadas.

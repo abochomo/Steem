@@ -17,6 +17,10 @@ public class Desarrollador extends Usuario {
     @OneToMany(mappedBy = "desarrollador", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Juego> juegosPublicados = new ArrayList<>();
 
+    public Desarrollador() {
+        this.setTipoUsuario(TipoUsuario.DESARROLLADOR);
+    }
+
     public String getNombreEstudio() {
         return nombreEstudio;
     }

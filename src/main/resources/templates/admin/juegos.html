@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Juegos - Admin</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body class="body-login">
+
+<header>
+    <div class="logo-container">
+        <a th:href="@{/admin/panel}" class="btn-back-admin">← Volver al Panel</a>
+    </div>
+    <div class="profile-container">
+        <span style="color: #66c0f4;">Admin: <span th:text="${usuarioAdmin}">Admin</span></span>
+    </div>
+</header>
+
+<main>
+    <div class="admin-header" style="width: 100%; max-width: 1100px;">
+        <h2 class="admin-title">Biblioteca Global de Juegos</h2>
+        <a th:href="@{/admin/juegos/nuevo}" class="btn-steam" style="padding: 10px 20px; text-decoration: none;">+ Nuevo Juego</a>
+    </div>
+
+    <div style="width: 100%; max-width: 1100px; margin-bottom: 20px;">
+
+        <div th:if="${mensajeError}"
+             style="background-color: rgba(231, 76, 60, 0.2); border: 1px solid #c0392b; color: #ffcccc; padding: 15px; border-radius: 5px;">
+            ⚠️ <span th:text="${mensajeError}">Error</span>
+        </div>
+
+        <div th:if="${mensajeExito}"
+             style="background-color: rgba(46, 204, 113, 0.2); border: 1px solid #27ae60; color: #d4efdf; padding: 15px; border-radius: 5px;">
+            ✅ <span th:text="${mensajeExito}">Éxito</span>
+        </div>
+    </div>
+
+    <div class="admin-table-container" style="width: 100%; max-width: 1100px;">
+        <table class="table-admin">
+            <thead>
+            <tr>
+                <th>Cover</th>
+                <th>ID</th>
+                <th>Título</th>
+                <th>Precio</th>
+                <th>Categoría</th>
+                <th>Desarrollador</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="juego : ${juegos}">
+                <td style="width: 80px;">
+                    <img th:if="${juego.imagenUrl != null and !juego.imagenUrl.isEmpty()}"
+                         th:src="${juego.imagenUrl}"
+                         style="width: 60px; height: 35px; object-fit: cover; border-radius: 4px; border: 1px solid #444;">
+                    <span th:unless="${juego.imagenUrl != null and !juego.imagenUrl.isEmpty()}" style="font-size: 20px;">🎮</span>
+                </td>
+
+                <td th:text="${juego.idJuego}">1</td>
+                <td th:text="${juego.titulo}" style="color: white; font-weight: bold;">Elden Ring</td>
+                <td th:text="${juego.precio} + ' €'" style="color: #a4d007;">59.99 €</td>
+                <td th:text="${juego.categoria}">RPG</td>
+
+                <td>
+                    <span th:if="${juego.desarrollador != null}" th:text="${juego.desarrollador.nombreEstudio}" style="color: #66c0f4;">FromSoft</span>
+                    <span th:unless="${juego.desarrollador != null}" style="color: #666; font-style: italic;">Sin asignar</span>
+                </td>
+
+                <td>
+                    <a th:href="@{/admin/juegos/editar/{id}(id=${juego.idJuego})}" style="color: #66c0f4; margin-right: 10px; text-decoration: none;">Editar</a>
+                    <a th:href="@{/admin/juegos/eliminar/{id}(id=${juego.idJuego})}"
+                       onclick="return confirm('¿Estás seguro de eliminar este juego?');"
+                       style="color: #ff4d4d; text-decoration: none;">Eliminar</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+</body>
+</html>

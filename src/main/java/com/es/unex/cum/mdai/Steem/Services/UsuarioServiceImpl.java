@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -75,6 +76,10 @@ public class UsuarioServiceImpl implements UsuarioService {
         // Al guardar un 'Usuario' que en realidad es un 'Cliente',
         // JPA lo maneja automáticamente.
         usuarioRepositorio.save(usuario);
+    }
+    @Override
+    public List<Usuario> listarTodos() {
+        return usuarioRepositorio.findAll();
     }
 
 }

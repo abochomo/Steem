@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${titulo}">Formulario Usuario</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* Estilos específicos para este formulario más "Pro" */
+
+        /* Contenedor Grid para aprovechar el ancho */
+        .admin-form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Dos columnas iguales */
+            gap: 25px; /* Más espacio entre campos */
+            margin-bottom: 30px;
+        }
+
+        /* Clase para elementos que deben ocupar todo el ancho (como el título o botones) */
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        /* Estilo para las secciones de rol (cajas con borde sutil) */
+        .role-section {
+            display: none; /* Se maneja con JS */
+            background-color: rgba(255, 255, 255, 0.03);
+            border: 1px solid #2a475e;
+            border-radius: 8px;
+            padding: 25px;
+            margin-top: 10px;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        /* Etiquetas más legibles */
+        .label-steem {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #8f98a0;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        /* Inputs con más aire */
+        .input-steem {
+            padding: 12px 15px;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Responsive: En móviles, volver a 1 columna */
+        @media (max-width: 768px) {
+            .admin-form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="body-login">
+
+<header>
+    <div class="logo-container">
+        <a th:href="@{/admin/usuarios}" class="btn-back-admin">← Cancelar y Volver</a>
+    </div>
+    <div class="profile-container">
+        <span style="color: #66c0f4;">Admin: <span th:text="${usuarioAdmin}">Admin</span></span>
+    </div>
+</header>
+
+<main>
+    <div class="card-login-steem" style="max-width: 900px; padding: 40px;">
+
+        <h2 class="login-title" th:text="${titulo}" style="margin-bottom: 30px; border-bottom: 1px solid #3d4c53; padding-bottom: 15px;">Gestión de Usuario</h2>
+
+        <form th:action="@{/admin/usuarios/guardar}" th:object="${usuario}" method="post">
+
+            <input type="hidden" th:field="*{id}" />
+
+            <div class="admin-form-grid">
+
+                <div class="form-group">
+                    <label class="label-steem">Nombre de Usuario (Nick)</label>
+                    <input type="text" class="form-control input-steem" th:field="*{nombreUsuario}" required placeholder="Ej: gamer123">
+                </div>
+
+                <div class="form-group">
+                    <label class="label-steem">Correo Electrónico</label>
+                    <input type="email" class="form-control input-steem" th:field="*{email}" required placeholder="correo@ejemplo.com">
+                </div>
+
+                <div class="form-group full-width">
+                    <label class="label-steem">Contraseña</label>
+                    <input type="password" class="form-control input-steem" th:field="*{password}" placeholder="Dejar en blanco para mantener la actual (si editas)">
+                    <small style="color: #666; font-style: italic; margin-top: 5px; display: block;">* Solo rellenar si se desea cambiar la contraseña del usuario.</small>
+                </div>
+
+                <div class="form-group full-width">
+                    <label class="label-steem" style="color:#66c0f4;">Tipo de Usuario</label>
+
+                    <select id="rolSelect"
+                            class="form-control input-steem"
+                            th:field="*{tipo}"
+                            onchange="toggleRoleFields()"
+                            style="background-color: #1b2838; border-color: #47bfff;"
+                            th:disabled="${usuario.id > 0}">
+                        <option value="CLIENTE">CLIENTE (Jugador)</option>
+                        <option value="DESARROLLADOR">DESARROLLADOR (Creador)</option>
+                    </select>
+
+                    <input type="hidden" name="tipo" th:value="${usuario.tipo}" th:if="${usuario.id > 0}" />
+                </div>
+
+            </div> <div id="sectionCliente" class="role-section">
+            <h4 style="color: #66c0f4; margin-bottom: 20px; font-weight: 300; text-transform: uppercase; letter-spacing: 2px;">
+                <span style="font-size: 1.5em; vertical-align: middle;">👤</span> Perfil de Jugador
+            </h4>
+
+            <div class="admin-form-grid" style="margin-bottom: 0;">
+                <div>
+                    <label class="label-steem">Fecha de Nacimiento</label>
+                    <input type="date" class="form-control input-steem"
+                           name="fechaNacimiento"
+                           th:value="${cliFechaNacimiento}">
+                </div>
+                <div>
+                    <label class="label-steem">Saldo Inicial (€)</label>
+                    <input type="number" step="0.01" class="form-control input-steem"
+                           name="saldo"
+                           th:value="${cliSaldo}">
+                </div>
+            </div>
+        </div>
+
+
+            <div id="sectionDev" class="role-section">
+                <h4 style="color: #e67e22; margin-bottom: 20px; font-weight: 300; text-transform: uppercase; letter-spacing: 2px;">
+                    <span style="font-size: 1.5em; vertical-align: middle;">🛠️</span> Perfil de Estudio
+                </h4>
+
+                <div class="form-group mb-4">
+                    <label class="label-steem">Nombre del Estudio / Empresa</label>
+                    <input type="text" class="form-control input-steem"
+                           name="nombreEstudio"
+                           th:value="${devNombreEstudio}"
+                           placeholder="Ej: Ubisoft Extremadura">
+                </div>
+
+                <div class="form-check" style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 5px; border: 1px dashed #444;">
+                    <input class="form-check-input" type="checkbox"
+                           name="activo"
+                           id="checkActivo"
+                           th:checked="${devActivo}">
+                    <label class="form-check-label label-steem" for="checkActivo" style="display: inline; margin-left: 10px; color: #fff;">
+                        Cuenta de Desarrollador Activa (Permitir subir juegos)
+                    </label>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-login-steem" style="width: 100%; margin-top: 40px; padding: 15px; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px;">
+                Guardar Cambios
+            </button>
+
+        </form>
+    </div>
+</main>
+
+<script>
+    function toggleRoleFields() {
+        const roleSelect = document.getElementById('rolSelect');
+        const role = roleSelect.value;
+        const sectionCliente = document.getElementById('sectionCliente');
+        const sectionDev = document.getElementById('sectionDev');
+
+        if (role === 'CLIENTE') {
+            sectionCliente.style.display = 'block';
+            sectionDev.style.display = 'none';
+        } else if (role === 'DESARROLLADOR') {
+            sectionCliente.style.display = 'none';
+            sectionDev.style.display = 'block';
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        toggleRoleFields();
+    });
+</script>
+
+</body>
+</html>

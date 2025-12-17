@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de Administración - Steem</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
+</head>
+<body class="body-login"> <header>
+    <div class="logo-container">
+        <a th:href="@{/}">
+            <img th:src="@{/images/steem-logo.png}" alt="Steem Logo" class="logo-img">
+        </a>
+    </div>
+    <div class="profile-container">
+        <span style="color: #66c0f4; margin-right: 15px;">Admin: <span th:text="${usuarioAdmin}">User</span></span>
+        <form th:action="@{/logout}" method="post" style="margin: 0;">
+            <button type="submit" class="btn-profile" title="Cerrar Sesión"
+                    style="border-color: #ff4d4d; color: #ff4d4d; background: transparent; cursor: pointer;">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </form>
+    </div>
+</header>
+
+<main>
+    <div class="admin-header">
+        <h1 class="admin-title">Panel de Control</h1>
+    </div>
+
+    <div class="admin-grid">
+
+        <a th:href="@{/admin/usuarios}" class="admin-card-menu">
+            <div class="admin-icon-placeholder">👥</div>
+            <div class="admin-card-title">Usuarios</div>
+            <div class="admin-card-desc">Administrar cuentas, roles y permisos.</div>
+        </a>
+
+        <a th:href="@{/admin/juegos}" class="admin-card-menu"> <div class="admin-icon-placeholder">🎮</div>
+            <div class="admin-card-title">Juegos</div>
+            <div class="admin-card-desc">Añadir, editar o eliminar títulos de la tienda.</div>
+        </a>
+
+        <a th:href="@{/admin/bibliotecas}" class="admin-card-menu">
+            <div class="admin-icon-placeholder">📚</div>
+            <div class="admin-card-title">Bibliotecas</div>
+            <div class="admin-card-desc">Ver estadísticas y juegos adquiridos.</div>
+        </a>
+
+        <a th:href="@{/admin/resenas}" class="admin-card-menu">
+            <div class="admin-icon-placeholder">⭐</div>
+            <div class="admin-card-title">Reseñas</div>
+            <div class="admin-card-desc">Moderación de comentarios y valoraciones.</div>
+        </a>
+
+    </div>
+</main>
+
+</body>
+</html>

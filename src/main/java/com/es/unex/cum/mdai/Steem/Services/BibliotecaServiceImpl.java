@@ -91,4 +91,31 @@ public class BibliotecaServiceImpl implements BibliotecaService {
             return false;
         }
     }
+    @Override
+    public List<Biblioteca> getAllBibliotecas() {
+        return bibliotecaRepositorio.findAll();
+    }
+
+    @Override
+    @Transactional // Importante para que el saldo y el borrado vayan juntos
+    public void eliminarEntradaYReembolsar(long idBiblioteca) {
+        // 1. Buscamos la entrada concreta
+        Biblioteca entrada = bibliotecaRepositorio.findById(idBiblioteca)
+                .orElseThrow(() -> new RuntimeException("Entrada de biblioteca no encontrada"));
+
+        Cliente cliente = entrada.getCliente();
+        Juego juego = entrada.getJuego();
+
+        // 2. Devolvemos el dinero (Usamos setters estándar por si sumarSaldo no existe en todos los modelos)
+        float saldoActual = cliente.getSaldo();
+        float precioJuego = juego.getPrecio();
+        cliente.setSaldo(saldoActual + precioJuego);
+
+        // 3. Guardamos los cambios del cliente
+        clienteRepositorio.save(cliente); // O usuarioRepositorio según tu herencia
+
+        // 4. Borramos la entrada
+        bibliotecaRepositorio.delete(entrada);
+    }
+
 }

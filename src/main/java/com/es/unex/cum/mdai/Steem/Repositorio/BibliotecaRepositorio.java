@@ -12,4 +12,4 @@ public interface BibliotecaRepositorio extends JpaRepository<Biblioteca, Long> {
     Optional<Biblioteca> findBibliotecaByClienteIdAndJuegoId(Long clienteId, Long juegoId);
     Optional<List<Biblioteca>> findAllByClienteId(Long idUsuario);
     List<Biblioteca> findByCliente_Id(Long idCliente);
-}
+    boolean existsByJuego_IdJuego(long idJuego);}

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Moderación de Reseñas - Admin</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body class="body-login">
+
+<header>
+    <div class="logo-container">
+        <a th:href="@{/admin/panel}" class="btn-back-admin">← Volver al Panel</a>
+    </div>
+    <div class="profile-container">
+        <span style="color: #66c0f4;">Admin: <span th:text="${usuarioAdmin}">Admin</span></span>
+    </div>
+</header>
+
+<main>
+    <div class="admin-header" style="width: 100%; max-width: 1200px;">
+        <h2 class="admin-title">Moderación de Reseñas</h2>
+    </div>
+
+    <div style="width: 100%; max-width: 1200px; margin-bottom: 20px;">
+        <div th:if="${mensajeError}" style="background-color: rgba(231, 76, 60, 0.2); border: 1px solid #c0392b; color: #ffcccc; padding: 15px; border-radius: 5px;">
+            ⚠️ <span th:text="${mensajeError}">Error</span>
+        </div>
+        <div th:if="${mensajeExito}" style="background-color: rgba(46, 204, 113, 0.2); border: 1px solid #27ae60; color: #d4efdf; padding: 15px; border-radius: 5px;">
+            🛡️ <span th:text="${mensajeExito}">Éxito</span>
+        </div>
+    </div>
+
+    <div class="admin-table-container" style="width: 100%; max-width: 1200px;">
+        <table class="table-admin">
+            <thead>
+            <tr>
+                <th style="width: 50px;">ID</th>
+                <th style="width: 150px;">Usuario</th>
+                <th style="width: 150px;">Juego</th>
+                <th style="width: 100px; text-align: center;">Voto</th>
+                <th>Comentario</th> <th style="width: 120px;">Fecha</th>
+                <th style="width: 100px;">Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="res : ${resenas}">
+                <td th:text="${res.id}">1</td>
+
+                <td style="color: #66c0f4;" th:text="${res.cliente.nombreUsuario}">User</td>
+
+                <td style="font-weight: bold; color: white;" th:text="${res.juego.titulo}">Elden Ring</td>
+
+                <td style="text-align: center; font-size: 1.2rem;">
+                    <span th:if="${res.recomendado}" title="Recomendado">👍</span>
+                    <span th:unless="${res.recomendado}" title="No Recomendado">👎</span>
+                </td>
+
+                <td style="color: #ccc; font-style: italic;">
+                    "
+                    <span th:text="${#strings.abbreviate(res.texto, 80)}">Texto de la reseña...</span>
+                    "
+                </td>
+
+                <td th:text="${#dates.format(res.fechaPublicacion, 'dd/MM/yyyy')}">01/01/2024</td>
+
+                <td>
+                    <a th:href="@{/admin/resenas/eliminar/{id}(id=${res.id})}"
+                       onclick="return confirm('¿Estás seguro de eliminar esta reseña por moderación?');"
+                       style="color: #e74c3c; text-decoration: none; font-weight: bold;">
+                        🗑️ Borrar
+                    </a>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(resenas)}">
+                <td colspan="7" style="text-align: center; padding: 20px; color: #888;">No hay reseñas publicadas.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+</body>
+</html>
+
+
+

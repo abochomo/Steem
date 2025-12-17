@@ -22,4 +22,5 @@ public interface JuegoService {
     List<Juego> getJuegosByDesarrollador(Long idDesarrollador);
 
 
+    boolean eliminarJuegoSeguro(long idJuego);
 }

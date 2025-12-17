@@ -20,10 +20,14 @@
     <nav class="nav-links">
         <a th:href="@{/}" class="btn-nav">Tienda</a>
 
-        <a th:href="@{/biblioteca}" class="btn-nav" sec:authorize="isAuthenticated()">
+        <a th:href="@{/biblioteca}" class="btn-nav" sec:authorize="hasAnyRole('CLIENTE','DESARROLLADOR')">
             <span sec:authorize="hasRole('DESARROLLADOR')">Dashboard</span>
 
             <span sec:authorize="hasRole('CLIENTE')">Biblioteca</span>
+        </a>
+
+        <a th:href="@{/admin/panel}" class="btn-nav" sec:authorize="hasRole('ADMIN')">
+            <span>ADMINISTRACIÓN</span>
         </a>
     </nav>
 

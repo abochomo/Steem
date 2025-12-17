@@ -1,6 +1,7 @@
 package com.es.unex.cum.mdai.Steem.Services;
 
 import com.es.unex.cum.mdai.Steem.Modelo.Juego;
+import com.es.unex.cum.mdai.Steem.Repositorio.BibliotecaRepositorio;
 import com.es.unex.cum.mdai.Steem.Repositorio.JuegoRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,9 @@ public class JuegoServiceImpl implements JuegoService {
 
     @Autowired
     private JuegoRepositorio juegoRepositorio;
+
+    @Autowired
+    private BibliotecaRepositorio bibliotecaRepositorio;
 
     private Juego juego;
 
@@ -83,6 +87,18 @@ public class JuegoServiceImpl implements JuegoService {
     public List<Juego> getJuegosByDesarrollador(Long idDesarrollador) {
         // ACTUALIZACIÓN: Llamamos al nuevo nombre del método
         return juegoRepositorio.findByDesarrollador_Id(idDesarrollador);
+    }
+
+    @Override
+    public boolean eliminarJuegoSeguro(long idJuego) {
+        // Comprobamos si alguien lo tiene comprado
+        if (bibliotecaRepositorio.existsByJuego_IdJuego(idJuego)) {
+            return false; // NO se borra porque existen referencias
+        }
+
+        // Si nadie lo tiene, procedemos a borrar
+        juegoRepositorio.deleteById(idJuego);
+        return true; // Borrado con éxito
     }
 
 }
